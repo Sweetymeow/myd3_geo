@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>d3 Geo Sample : Miller Project World Map </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <style>
+            svg{
+                background: #eee;
+            }
+            .overlay {
+              fill: none;
+              pointer-events: all;
+            }
+
+            .land {
+              fill: #000;
+            }
+
+            .boundary {
+                fill: none;
+                stroke: #fff;
+                stroke-width: .8px;
+                stroke-linejoin: round;
+                stroke-linecap: round;
+            }
+
+        </style>
+	</head>
+
+    <body>
+        <div class="header">
+            <h1> Patterson Cylindrical Projection</h1>
+            <p>The <a href="http://shadedrelief.com/patterson/">
+                Patterson cylindrical projection</a> 
+                “falls between the popular 
+                <a href="http://bl.ocks.org/mbostock/3734333">Miller 1</a>
+                , which excessively exaggerates the size of polar areas, and the 
+                <a href="http://bl.ocks.org/mbostock/3757119">Plate Carrée</a>
+                , which compressess the north-south dimension of mid latitudes.”
+            </p>
+        </div>
+        <div class="map">
+        </div>
+        <script>
+
+        var width = 960,
+            height = 547;
+
+        var projection = d3.geo.patterson()
+            .scale(153)
+            .translate([0, 0])
+            .precision(.1);
+            
+        var zoom = d3.behavior.zoom()
+            .scaleExtent([1, 8])
+            .on("zoom", move);
+        
+        // https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors
+        // Constructs a new ordinal scale with a range of twenty categorical colors
+        var color = d3.scale.category20c(),
+            graticule = d3.geo.graticule(); 
+        // 经纬线 https://github.com/mbostock/d3/wiki/Geo-Paths#shape-generators
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+        var svg = d3.select("div.map").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+            .call(zoom);
+        
+        var g = svg.append("g");
+
+        svg.append("rect")
+            .attr("class", "overlay")
+            .attr("x", -width / 2)
+            .attr("y", -height / 2)
+            .attr("width", width)
+            .attr("height", height);
+
+//        svg.append("path")
+//            .datum(graticule)
+//            .attr("class", "graticule")
+//            .attr("d", path);
+//
+//        svg.append("path")
+//            .datum(graticule.outline)
+//            .attr("class", "graticule outline")
+//            .attr("d", path);
+
+        d3.json("../jsons/color-world.json", function(error, world) {
+            var countries = topojson.feature(world, world.objects.countries).features,
+                neighbors = topojson.neighbors(world.objects.countries.geometries);
+
+//            svg.selectAll(".country") // "country" should be one kind of key name inside of json
+//                .data(countries)
+//                .enter().insert("path", ".graticule")
+//                .attr("class", "country")
+//                .attr("d", path)
+//                .style("fill", function(d, i) { 
+//                    return color(d.color = d3.max(neighbors[i], function(n) { 
+//                        return countries[n].color; 
+//                    }) + 1 | 0); 
+//                });
+            
+              g.append("path")
+                  .datum(topojson.feature(world, world.objects.countries))
+                  .attr("class", "country")
+                  .attr("d", path)
+                  .style("fill", function(d, i) { 
+                    return color(d.color = d3.max(neighbors[i], function(n) { 
+                        return countries[n].color; 
+                    }) + 1 | 0); 
+                });
+                  
+              g.append("path")
+                  .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+                  .attr("class", "boundary")
+                  .attr("d", path);
+        });
+            
+        function move() {
+          var t = d3.event.translate,
+              s = d3.event.scale;
+          t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
+          t[1] = Math.min(height / 2 * (s - 1) + 230 * s, Math.max(height / 2 * (1 - s) - 230 * s, t[1]));
+          zoom.translate(t);
+          g.style("stroke-width", 1 / s).attr("transform", "translate(" + t + ")scale(" + s + ")");
+        }
+        </script>
+    </body>
+</html>

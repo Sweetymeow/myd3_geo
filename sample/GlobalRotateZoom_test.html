@@ -1,0 +1,383 @@
+<!-- http://www.jasondavies.com/maps/zoom/  -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rotate the World </title>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="js/topojson.min.js"></script>
+        <script src="js/d3.geo.zoom.js"></script>
+    
+        <link href="css/animatedWZ.css" />
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding:0 0.8em 0 0.8em;
+                text-align: center;
+            }
+            body {
+                margin-top: 0;
+                font-family: 'JabanaExBold', 'PT Sans', serif;
+            }
+            @font-face {
+                font-family: 'JabanaExBold';
+                src:url('fonts/Nils Types - Jabana Alt Extended Bold Bold') 
+                    format('opentype');
+            }
+            h1{
+                font-family: 'JabanaExBold', serif;
+                color: white;
+                font-size: 4em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            h2{ 
+                font-family: 'PT Sans';
+                font-size: 2em;
+            }
+            p{
+                font-family: 'PT Sans';
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                -webkit-margin-end: 1em;
+                border: 1px solid #DEDEDE;
+            }
+
+            #map {
+              width: 1000px;
+              margin: 0 auto;
+            }
+
+            #map h1 {
+              position: absolute;
+              width: 1000px;
+            }
+
+            .foreground {
+              fill: none;
+              stroke: #000;
+              stroke-width: 1px;
+              pointer-events: all;
+              cursor: -webkit-grab;
+              cursor: -moz-grab;
+            }
+
+            .foreground.zooming {
+              cursor: -webkit-grabbing;
+              cursor: -moz-grabbing;
+            }
+
+            .graticule {
+              fill: none;
+              stroke: #636B62;
+              stroke-width: .5px;
+              stroke-dasharray: 2,2;
+            }
+
+            .land {
+                /*fill: #69D2E7;*/
+                fill: #E91E63;
+                stroke: none;
+            }
+
+            .mesh {
+              stroke: #50576A;
+              stroke-width: .5px;
+              fill: none;
+            }
+
+            .point {
+              fill: #eee;
+            }
+            .caption{
+                font-family: 'PT Sans', serif;
+                text-align: center;
+                color: lightgray;
+                font-style: italic;
+            }
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1 class="">Rotate the World</h1>
+                <div id="map">
+                    </div>
+                    <p class="caption">Drag to rotate the world.  Scroll or pinch to zoom.
+
+                    <div class="wrapper">
+                    <p><a href="http://d3js.org">D3</a>’s geographic projections allow features to be rotated about <a href="http://bl.ocks.org/mbostock/4282586">three axes</a>.
+                    The three angles used are called <a href="http://en.wikipedia.org/wiki/Euler_angles">Euler angles</a>, and in D3 they specify the following sequence of rotations:
+                    </div>
+
+                    <div id="rotations"></div>
+
+                    <div class="wrapper">
+                    <p>This sequence is convenient, since if we approximate the globe as a sphere, the first two angles can be used to specify a central meridian λ<sub>0</sub> and central meridian φ<sub>0</sub> by simple negation: <code>[-λ<sub>0</sub>, -φ<sub>0</sub>]</code>, and the third angle allows <a href="http://www.progonos.com/furuti/MapProj/Normal/ProjObl/projObl.html">oblique projections</a>.
+                    </div>
+
+                    <div class="wrapper">
+                    <h2>Interactive Rotations</h2>
+                    <p>A naïve implementation simply takes the x- and y-coordinates in 2D screen space and uses them directly as the first two Euler angles mentioned above.
+                    <p>However, the geographic start point of the gesture often moves at a different speed to the cursor, making it difficult to control.
+                    <p>Moreover, since only two angles of rotation are being controlled, it is impossible to interactively specify the third angle using this method.</p>
+                        <p>一个天真的实现只需要在2D屏幕空间的X和Y坐标，并直接使用他们作为前两个欧拉上面提到的角度。然而，手势的地理开始点时常移动以不同的速度在光标，使它难以控制。此外，由于只有两个角度旋转被控制，这是不可能使用这种方法以交互指定第三个角。</p>
+                    </div>
+
+                    <div id="comparison"></div>
+                    <p class="caption">Naïve implementation (left) and improved version (right).
+
+                    <div class="wrapper">
+                    <p>An improved implementation ensures the geographic start point remains under the cursor where possible.
+                    If the gesture goes outside the projection range, it adjusts the third Euler angle (the oblique projection angle).
+                    <p>It also incrementally rotates the world about an axis perpendicular to the incremental direction in spherical coordinates.
+                    This allows all three angles of rotation to be adjusted by dragging, and it works for arbitrary map projections, such as Eisenlohr’s projection below.
+                    <p>改进的实施保证了地理起点始终处于光标在可能的情况。如果手势去外面的投影范围，它调整第三欧拉角（倾斜投射角）。它还增量旋转世界约垂直于球面坐标的增量方向的轴。这使得旋转的三个角度通过拖动来调整，它适用于任意地图投影，如下面Eisenlohr的预测。</p>
+                    </div>
+
+                    <p class="caption">Drag to rotate Eisenlohr’s projection.
+                    <div id="eisenlohr"></div>
+
+                    <div class="wrapper">
+                    <h2>Animated Zooming</h2>
+                    <p>See <a href="../zoom/">Animated World Zoom</a>.
+
+                    <h2>Notes</h2>
+                    <p>I used <a href="http://en.wikipedia.org/wiki/Versor">versors</a> (unit quaternions) to accumulate the 3D rotation during a gesture, as they can be easily converted to and from <a href="http://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation">axis-angle representations</a>.
+                    <p>The code is available as a reusable helper, <a href="../d3.geo.zoom.js">d3.geo.zoom</a>, which wraps <a href="https://github.com/mbostock/d3/wiki/Zoom-Behavior">d3.behavior.zoom</a> and updates a projection’s rotation during the gesture.
+                    <p class="caption">Data: Natural Earth <a href="http://www.naturalearthdata.com/downloads/110m-cultural-vectors/">1:110m Cultural Vectors</a>
+                    </div>
+            </div>
+        </div>
+        <script>  
+
+            var degrees = 180 / Math.PI,
+                width = 1000,
+                height = 700;
+
+            var loader = d3.dispatch("world"), id = -1;
+
+            d3.selectAll("#map, #eisenlohr")
+                .data([
+                  orthographicProjection(width, height)
+                      .scale(300)
+                      .translate([width / 2, height * .46]),
+                  d3.geo.eisenlohr()
+                      .precision(.1)
+                      .clipExtent([[-1, -1], [width + 1, height + 1]])
+                      .translate([width / 2, height / 2])
+                      .scale(75)
+                      .rotate([0, -30])
+                ])
+              .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .each(function(projection) {
+                  var path = d3.geo.path().projection(projection),
+                      svg = d3.select(this).call(drawMap, path, true);
+                  svg.selectAll(".foreground")
+                      .call(d3.geo.zoom().projection(projection)
+                        .scaleExtent([projection.scale() * .7, projection.scale() * 10])
+                        .on("zoom.redraw", function() {
+                          if (d3.event.sourceEvent.preventDefault) d3.event.sourceEvent.preventDefault();
+                          svg.selectAll("path").attr("d", path);
+                        }));
+                  loader.on("world." + ++id, function() { svg.selectAll("path").attr("d", path); });
+                })
+            .append("g");
+            
+            // 对比
+            (function() {
+              var width = 350, height = 350,
+                  projection0 = orthographicProjection(width, height),
+                  projection1 = orthographicProjection(width, height),
+                  path0 = d3.geo.path().projection(projection0),
+                  path1 = d3.geo.path().projection(projection1);
+
+              var comparison0 = d3.select("#comparison").append("svg")
+                  .attr("width", width)
+                  .attr("height", height)
+                  .call(drawMap, path0, true);
+              comparison0.selectAll(".foreground")
+                  .call(d3.behavior.drag()
+                    .origin(function() { var r = projection0.rotate(); return {x: r[0], y: -r[1]}; })
+                    .on("drag", function() {
+                      projection0.rotate([d3.event.x, -d3.event.y]);
+                      comparison0.selectAll("path").attr("d", path0);
+                    }));
+
+              var comparison1 = d3.select("#comparison").append("svg")
+                  .attr("width", width)
+                  .attr("height", height)
+                  .call(drawMap, path1, true);
+              comparison1.selectAll(".foreground")
+                  .call(d3.geo.zoom().projection(projection1)
+                    .on("zoom", redrawComparison1));
+
+              loader.on("world.comparison0", function() { comparison0.selectAll("path").attr("d", path0); });
+              loader.on("world.comparison1", redrawComparison1);
+
+              function redrawComparison1() { comparison1.selectAll("path").attr("d", path1); }
+            })();
+
+            // 页面的第二部分，只能进行一个方向旋转的地球
+            (function() {
+              var projections = [],
+                  width = 220,
+                  height = 220,
+                  format = d3.format(".1f");
+
+              rotationMap("γ", function(rotate) {
+                var x1 = d3.event.x - width / 2,
+                    y1 = height / 2 - d3.event.y;
+                return rotate[2] += (Math.atan2(y1, x1) - Math.atan2(y1 + d3.event.dy, x1 - d3.event.dx)) * degrees;
+              });
+                
+              rotationMap("φ", function(rotate) { return rotate[1] = -d3.event.y; }, function(rotate) { return {y: -rotate[1]}; });
+              rotationMap("λ", function(rotate) { return rotate[0] = d3.event.x; }, function(rotate) { return {x: rotate[0]}; });
+
+              function rotationMap(symbol, update, origin) {
+                var projection = orthographicProjection(width, height).rotate([0, 0]),
+                    path = d3.geo.path().projection(projection);
+
+                projections.push(projection);
+
+                var projections_ = projections.slice();
+
+                var svg = d3.select("#rotations").insert("svg", "*")
+                    .datum({path: path})
+                    .attr("width", width)
+                    .attr("height", height + 20)
+                    .call(drawMap, path);
+
+                var text = svg.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height + 10)
+                    .attr("text-anchor", "middle")
+                    .text(symbol + "=0°");
+
+                loader.on("world." + ++id, function() { svg.selectAll("path").attr("d", path); });
+
+                var drag = d3.behavior.drag()
+                    .on("drag", function() {
+                      for (var i = 0; i < projections_.length; ++i) {
+                        var projection = projections_[i],
+                            angle = rotate(projection.rotate());
+                        projection.rotate(angle.rotate);
+                      }
+                      text.text(symbol + "=" + format(angle.angle) + "°")
+                      d3.select("#rotations").selectAll("svg").each(function(d) {
+                        d3.select(this).selectAll("path").attr("d", d.path);
+                      });
+                    });
+
+                if (origin) drag.origin(function() { return origin(projection.rotate()); });
+
+                svg.selectAll(".foreground").call(drag);
+
+                function rotate(rotate) { var angle = update(rotate); return {angle: angle, rotate: rotate}; }
+              }
+            })();
+
+            d3.json("jsons/world-110m.json", function(error, world) {
+              d3.selectAll("svg").insert("path", ".foreground")
+                  .datum(topojson.feature(world, world.objects.land))
+                  .attr("class", "land");
+              d3.selectAll("svg").insert("path", ".foreground")
+                  .datum(topojson.mesh(world, world.objects.countries))
+                  .attr("class", "mesh");
+              loader.world();
+            });
+            
+            //EXAMPLE: adding some capitals from external CSV file
+            d3.csv("jsons/country-capitals.csv", function(err, capitals) {
+                capitals.forEach(function(i){
+                  addpoint(i.CapitalLongitude, i.CapitalLatitude, i.CapitalName );
+                });
+            });
+            //function to add points and text to the map (used in plotting capitals)
+            function addpoint(lat,lon,text) {
+
+              var gpoint = g.append("g").attr("class", "gpoint");
+              var x = projection([lat,lon])[0];
+              var y = projection([lat,lon])[1];
+
+              gpoint.append("svg:circle")
+                    .attr("cx", x)
+                    .attr("cy", y)
+                    .attr("class","point")
+                    .attr("r", 1.5);
+
+              //conditional in case a point has no associated text
+              if(text.length>0){
+
+                gpoint.append("text")
+                      .attr("x", x+2)
+                      .attr("y", y+2)
+                      .attr("class","text")
+                      .text(text);
+              }
+
+            }
+
+            function drawMap(svg, path, mousePoint) {
+              var projection = path.projection();
+
+              svg.append("path")
+                  .datum(d3.geo.graticule())
+                  .attr("class", "graticule")
+                  .attr("d", path);
+
+              svg.append("path")
+                  .datum({type: "Sphere"})
+                  .attr("class", "foreground")
+                  .attr("d", path)
+                  .on("mousedown.grab", function() {
+                    var point;
+                    if (mousePoint) point = svg.insert("path", ".foreground")
+                        .datum({type: "Point", coordinates: projection.invert(d3.mouse(this))})
+                        .attr("class", "point")
+                        .attr("d", path);
+                    var path = d3.select(this).classed("zooming", true),
+                        w = d3.select(window).on("mouseup.grab", function() {
+                          path.classed("zooming", false);
+                          w.on("mouseup.grab", null);
+                          if (mousePoint) point.remove();
+                        });
+                  });
+            }
+
+            function orthographicProjection(width, height) {
+              return d3.geo.orthographic()
+                  .precision(.5)
+                  .clipAngle(90)
+                  .clipExtent([[-1, -1], [width + 1, height + 1]])
+                  .translate([width / 2, height / 2])
+                  .scale(width / 2 - 10)
+                  .rotate([0, -30]);
+            }
+
+
+        </script>
+    </body>
+</html>

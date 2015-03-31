@@ -1,0 +1,124 @@
+<!-- http://mbostock.github.io/protovis/ex/segmented.html -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Rainbow Worm </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        
+        <script type="text/javascript" src="js/protovis-r3.2.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+                font-weight: 400;
+            }
+            a{
+                color: aquamarine;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+               /* border: 1px solid #DEDEDE;*/
+            }
+            
+            body {
+              background: #222;
+              color: #eee;
+            }
+
+            #fig {
+              width: 700px;
+              height: 430px;
+            }
+            
+            body {
+              margin: 0;
+              display: table;
+              height: 100%;
+              width: 100%;
+              font: 14px/134% Helvetica Neue, sans-serif;
+            }
+
+            #center {
+              display: table-cell;
+              vertical-align: middle;
+                text-align: center;
+            }
+
+            #fig {
+              position: relative;
+              margin: auto;
+            }
+
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1> Rainbow Worm </h1>
+                <h2>其实，这例子没有看懂…………</h2>
+                <p> This psychedelic example, reminiscent of an earthworm, demonstrates the difference between a segmented and unsegmented line. Normally, the line width and stroke style of a line are fixed properties: they are evaluated once, and the line is rendered with the given width and color. However, in some visualizations—such as 
+                    <a href="http://mbostock.github.io/protovis/ex/napoleon.html">flow maps</a>
+                    —it is desirable to use a variable width and color to encode additional dimensions of data.</p>
+                <p>Segmented areas are also possible, allowing the fill color and title tooltip to vary across the area. </p>
+                <div class="l-box" id="center"><div id="fig">
+                <script type="text/javascript+protovis">
+                    var o = 0, vis = new pv.Panel()
+                        .width(500)
+                        .height(200)
+                        .top(100)
+                        .bottom(100)
+                        .left(400)
+                        .right(100);
+
+                    vis.add(pv.Line)
+                        .segmented(true)
+                        .data(function() pv.range(0, 6, .1).map(function(d) Math.sin(d + o)))
+                        .left(function() this.index / 59 * 500)
+                        .bottom(function(d) (d + 1) / 2 * 200)
+                        .strokeStyle(function(d) "hsl(" + (d + 1) * 180 + ",60%,50%)")
+                        .lineWidth(function(d) 50 * (d * d) + 10);
+
+                    setInterval(function() { o += 0.02; vis.render(); }, 20);
+                </script>
+                <p><input checked id="l" onchange="vis.children[0].segmented(this.value)"
+                          type="checkbox"><label for="l">segmented</label></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       
+    </body>
+</html>

@@ -1,0 +1,144 @@
+<!-- http://bl.ocks.org/mbostock/7833311#index.html -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Dynamic Hexbin </title>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.hexbin.v0.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+             body {
+                font-family: 'PT Sans', serif;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                -webkit-margin-end: 1em;
+                border: 1px solid #DEDEDE;
+            }
+            
+            .hexagon {
+              fill: none;
+              stroke: #000;
+              stroke-width: .5px;
+            }
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>D3 Sample</h1>
+                <p>Computing hexbins from a constantly-fluctuating sample of 2,000 random points.</p>
+                <p>我在尝试加入第二组动态点，但是还没有实现</p>
+                <div class="map"></div>
+            </div>
+        </div>
+        <script>
+
+        var width = 960,
+            height = 500,
+            i = -1,
+            θ = 0,
+            δθ = .03,
+            n = 2000,
+            k = 20; // samples to replace per frame
+
+        var randomX = d3.random.normal(width / 2, 80),
+            randomY = d3.random.normal(height / 2, 80),
+            points = d3.range(n).map(function() { return [randomX(), randomY()]; });
+            points2 = d3.range(n).map(function() { return [randomX(), randomY()]; });
+
+        var color = d3.scale.linear()
+            .domain([0,20])
+            .range(["white", "pink"])
+            .interpolate(d3.interpolateLab);
+        var color2 = d3.scale.linear()
+            .domain([0,20])
+            .range(["white", "steelblue"])
+            .interpolate(d3.interpolateLab);
+
+        var hexbin = d3.hexbin()
+            .size([width, height])
+            .radius(20);
+
+        var svg = d3.select("div.map").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        var hexagon = svg.append("g")
+            .attr("class", "hexagons")
+            .selectAll("path")
+            .data(hexbin(points))
+            .enter().append("path")
+            .attr("d", hexbin.hexagon(19.5))
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+            .style("fill", function(d) { return color(d.length); });
+        
+        var hexagon = svg.append("g")
+            .attr("class", "hexagons")
+            .selectAll("path")
+            .data(hexbin(points2))
+            .enter().append("path")
+            .attr("d", hexbin.hexagon(19.5))
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+            .style("fill", function(d) { return color2(d.length); });
+
+        d3.timer(function() {
+          θ += δθ;
+          randomX = d3.random.normal(width / 2 + 80 * Math.cos(θ), 80),
+          randomY = d3.random.normal(height / 2 + 80 * Math.sin(θ), 80);
+
+          for (var j = 0; j < k; ++j) {
+            i = (i + 1) % n;
+            points[i][0] = randomX();
+            points[i][1] = randomY();
+          }
+
+          hexagon = hexagon
+              .data(hexbin(points), function(d) { return d.i + "," + d.j; });
+          
+        // for points2
+
+          hexagon.exit().remove();
+
+          hexagon.enter().append("path")
+              .attr("d", hexbin.hexagon(19.5))
+              .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+          hexagon
+              .style("fill", function(d) { return color(d.length); });
+        });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!-- http://bl.ocks.org/mbostock/1062383 -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Wendy d3 Map: Force-Directed Symbols </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <!-- style sheet -->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css" />
+       <!--Pure grid Responsive Grids & Mobile-first-->
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+           .node {
+              stroke: #fff;
+              stroke-width: 1.5px;
+            }
+
+            .link {
+              stroke: #999;
+              stroke-opacity: .6;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="l-box">
+            <h1> Force-Directed Symbols </h1>
+            <p>This simple force-directed graph shows character co-occurence in Les Misérables. A physical simulation of charged particles and springs places related characters in closer proximity, while unrelated characters are farther apart. Layout algorithm inspired by 
+             <a href="http://www.csse.monash.edu.au/~tdwyer/">Tim Dwyer</a> and 
+                <a href="http://www.teknikus.dk/tj/gdc2001.htm">
+                    Thomas Jakobsen</a>. 
+                Data based on character coappearence in Victor Hugo's Les Misérables, compiled by <a href="http://www-cs-faculty.stanford.edu/~uno/sgb.html">Donald Knuth.</a></p>
+            <p>Compare this display to a force layout with 
+                <a href="http://bl.ocks.org/mbostock/4600693">curved links</a>
+                , a force layout with <a href="http://bost.ocks.org/mike/fisheye/">fisheye distortion</a> and a  <a href="http://bost.ocks.org/mike/miserables/">matrix diagram.</a></p>
+            <div class="map">
+            </div>
+            </div>
+        <script>
+            var width = 960,
+                height = 500;
+
+            var color = d3.scale.category20();
+
+            var force = d3.layout.force()
+                .charge(-120)
+                .linkDistance(30)
+                .size([width, height]);
+
+            var svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            d3.json("../jsons/miserables.json", function(error, graph) {
+              force
+                  .nodes(graph.nodes)
+                  .links(graph.links)
+                  .start();
+
+              var link = svg.selectAll(".link")
+                  .data(graph.links)
+                .enter().append("line")
+                  .attr("class", "link")
+                  .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+              var node = svg.selectAll(".node")
+                  .data(graph.nodes)
+                .enter().append("circle")
+                  .attr("class", "node")
+                  .attr("r", 5)
+                  .style("fill", function(d) { return color(d.group); })
+                  .call(force.drag);
+
+              node.append("title")
+                  .text(function(d) { return d.name; });
+
+              force.on("tick", function() {
+                link.attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; });
+
+                node.attr("cx", function(d) { return d.x; })
+                    .attr("cy", function(d) { return d.y; });
+              });
+            });
+
+        </script>
+        
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

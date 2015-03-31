@@ -1,0 +1,98 @@
+<!-- http://bl.ocks.org/mbostock/1747543 -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Custom Cartesian Projection </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="http://d3js.org/topojson.v0.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css" />
+       <!--Pure grid Responsive Grids & Mobile-first-->
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                text-align: center;
+            }
+            body {
+                font-family: 'PT Sans', serif;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5dem 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+            }
+            .lot {
+              fill: lightgray;
+              stroke: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pure-u-1 l-box">
+        <h1>Clustered Force Layout I</h1>
+            <p>This example demonstrates how to create a <a href="http://bl.ocks.org/mbostock/5663666">custom Cartesian projection</a> by implementing a <a href="https://github.com/mbostock/d3/wiki/Geo-Streams">geometry stream</a> on top of two <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales">linear scales</a>; the geometry stream is then used instead of a <a href="https://github.com/mbostock/d3/wiki/Geo-Projections">geographic projection</a>, which are intended for spherical coordinates.</p>
+            <p>这个例子演示了如何通过实现对两个线性刻度顶部的几何流来创建一个自定义的笛卡尔投影;几何流然后用来代替地理投影，其旨在为球面坐标。</p>
+            <div class="map pure-u-1"></div>
+        </div>
+        <script>
+
+            var width = 960,
+                height = 500;
+
+            var x = d3.scale.linear()
+                .range([0, width]);
+
+            var y = d3.scale.linear()
+                .range([0, height]);
+
+            var projection = d3.geo.transform({
+              point: function(px, py) { this.stream.point(x(px), y(py)); }
+            });
+
+            var path = d3.geo.path()
+                .projection(projection);
+
+            var svg = d3.select("div.map").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            d3.json("../mymap/jsons/geo.json", function(error, geo) {
+              x.domain(d3.extent(geo.features, function(d) { return d.properties.Easting; }));
+              y.domain(d3.extent(geo.features, function(d) { return d.properties.Northing; }));
+
+              svg.append("path")
+                  .datum(geo)
+                  .attr("class", "lot")
+                  .attr("d", path);
+            });
+
+
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,226 @@
+<!-- HTML Sample -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Stacked Radial Area </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+                font-weight: 400;
+            }
+            h1{
+				margin-top: 0;
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+			li{ text-align: left; padding: 0.5em 1.5em 0.5em 1.5em;}
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+            }
+			.axis line { stroke: #ddd;}
+			.axis path {  fill: none; stroke: #ddd;}
+			.axis + .axis g text { display: none; }
+			text{ font-size: 0.8em; }
+			
+			#tooltip{ 
+				position: absolute;
+				widows: 120px;
+				height: 40px;
+				padding: 10px;
+				background-color: lightgrey;
+				opacity: 0.7;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 6px;
+				-webkit-box-shadeow: 4px 4px 10px rbg(0,0,0,0.4);
+				-moz-box-shadeow: 4px 4px 10px rbg(0,0,0,0.4);
+				box-shadeow: 4px 4px 10px rbg(0,0,0,0.4);
+				pointer-events: none;
+			}
+			#tooltip.hidden{ display: none; }
+			#tooltip.p{ margin: 0; font-family: sans-serif; font-size: 16px; line-height: 20px; }
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>Stacked Radial Area</h1>
+                <div class="map">
+					<div id="tooltip">
+						<p><strong>Year: </strong><span id="year">2014</span></p>
+					</div>
+				</div>
+            </div>
+			<div class="pure-u-1 l-box intro">
+				<p>This plot might be suitable for showing cyclical trends, though I'm not sure it’s a great idea as the radial display has a number of limitations:</p>
+				<ul>
+					<li>The underlying data goes from Sunday to Saturday, but the chart shows continuity from Saturday through to the previous Sunday. Time does not flow backwards, so you might instead prefer to plot two values for Sunday; this would show a discontinuity on opposite sides of the Sunday axis.</li>
+
+					<li>Displaying the discontinuity requires an 
+						<a href="https://github.com/mbostock/d3/wiki/SVG-Shapes#wiki-line_interpolate">open interpolator</a>, rather than cardinal-closed as used here. However, this causes the tangents of the incoming and outgoing lines to no longer be orthogonal to the axis. To display the discontinuity properly, you’d need to write a custom interpolator to generate the correct tangents.</li>
+					<li>Due to the interpolation taking place in Cartesian (rather than polar) coordinates, the intermediate values of the lines do not have the correct radial values: if you tried to measure the intermediate values using the radius, they would be wrong. The only way to fix this is to interpolate in polar coordinates, which requires plotting the intermediate values as Archimedian spirals. There is no native representation for spirals in SVG, so you must resample the spirals as piecewise Bézier curves. Needless to say, this is a fair amount of work, but it might be something D3 supports in the future.</li>
+				</ul>
+				<p>Polar charts are pretty. But when in doubt, it’s probably best to stick to Cartesian coordinates. </p>
+			</div>
+        </div>
+        
+<script>
+	var textarray = ["Labour", "Wage", "Estimated","Legislators","Professional", "Literacy", "primary edu", ],
+		formatDay = function(d){ return textarray[d] },
+		titlearray = ["Labour force participation",
+                      "Wage equality for similar work (survey)",
+                      "Estimated earned income (PPP US$)",
+                      "Legislators senior officials & managers",
+                      "Professional and technical workers",
+                      "Literacy rate","Enrollment in primary education",
+                      "Enrollment in secondary education",
+                      "Enrollment in tertiary education",
+                      "Sex ratio at birth (female/male)",
+                      "Healthy life expectancy",
+                      "Women in parliament",
+                      "Women in ministerial positions",
+                      "Years with female head of state(last 50) "];
+	// ["Labour force participation", "Wage equality for similar work (survey)", "Estimated earned income (PPP US$)", "Legislators senior officials & managers", "Professional and technical workers","Literacy rate","Enrollment in primary education", "Enrollment in secondary education", "Enrollment in tertiary education","Sex ratio at birth (female/male)", "Healthy life expectancy", "Women in parliament", "Women in ministerial positions", "Years with female head of state(last 50) "];
+	
+//	var formatDate = d3.time.format("%a"),
+//		formatDay = function(d, i) { console.log(formatDate(new Date(2007, 0, d))); return formatDate(new Date(2007, 0, d)); };
+
+	var width = 960,
+		height = 700,
+		outerRadius = height/2 -40,
+		innerRadius = 120;
+	
+	var margin = {top: 20, right: 20, bottom: 30, left: 50};
+
+	var angle = d3.time.scale()
+		.range([Math.PI/2, 2 * Math.PI+Math.PI/2]);
+
+	var radius = d3.scale.linear()
+		.range([innerRadius, outerRadius]);
+
+	var color = d3.scale.ordinal()
+			.domain([0,2])
+			.range([ "#F50057", "#FF80AB", "#FF4081"]);
+	//var color = d3.scale.category20c();
+
+	var stack = d3.layout.stack()
+		.offset("zero")
+		.values(function(d) { return d.values; })
+		.x(function(d) { return d.time; })
+		.y(function(d) { return d.value; });
+
+	var nest = d3.nest()
+		.key(function(d) { return d.key; });
+
+	var line = d3.svg.line.radial()
+		.interpolate("cardinal-closed")
+		.angle(function(d) { return angle(d.time); })
+		.radius(function(d) { return radius(d.y0 + d.y); });
+
+	var area = d3.svg.area.radial()
+		.interpolate("cardinal-closed")
+		.angle(function(d) { return angle(d.time); })
+		.innerRadius(function(d) { return radius(d.y0); })
+		.outerRadius(function(d) { return radius(d.y0 + d.y); });
+
+	var svg = d3.select("div.map").append("svg")
+			.attr("width", width)
+			.attr("height", height)
+			.append("g")
+			.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+	d3.csv("../jsons/gg_ic.csv", type, function(error, data) {
+		// console.log(data);
+		var layers = stack(nest.entries(data));
+
+		// Extend the domain slightly to match the range of [0, 2π].
+		angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
+		radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+
+		var layers = svg.selectAll(".layer")
+						  .data(layers)
+						  .enter().append("path")
+						  .attr("class", "layer")
+						  .attr("d", function(d) { return area(d.values); })
+						  .style("fill", function(d, i) { return color(i); });
+
+		svg.selectAll(".axis")
+			.data(d3.range(angle.domain()[1]))
+			.enter().append("g")
+			.attr("class", "axis")
+			.attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
+			.call(d3.svg.axis()
+				.scale(radius.copy().range([-innerRadius, -outerRadius]))
+				.orient("left"))
+			.append("text")
+			.attr("y", -innerRadius + 6)
+			.attr("dy", "-16em")
+			.attr("text-anchor", "middle")
+			.text(function(d) { return formatDay(d); });
+		
+
+		
+		layers.on("mouseover", function(data,i){
+			console.log(data);
+			var m = d3.mouse(this);
+			
+			svg.selectAll(".layer").transition()
+                          .duration(250)
+                          .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
+			
+			d3.select('#tooptip')
+      			.style('left', m[0]+'px')
+				.style('top', m[1]+'px')
+				.select('#year')
+				.text(data.key)
+				.classed('hidden', false);
+		})
+		.on("mouseout", function(){
+			d3.select('#tooptip').classed('hidden', true);
+			svg.selectAll(".layer").transition()
+                          .duration(250)
+                          .attr("opacity", 1);
+		});
+	}); // d3.csv
+
+	function type(d) {
+	  d.time = +d.time;
+	  d.value = +d.value;
+	  return d;
+	}
+</script>
+    </body>
+</html>

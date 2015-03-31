@@ -1,0 +1,149 @@
+<!-- http://bl.ocks.org/mbostock/1305337 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pie Multiples with Nesting </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+                font-weight: 400;
+				text-align: center;
+            }
+            h1{
+				margin-top: 0;
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+				 font: 10px sans-serif;
+            }
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>Pie Multiples with Nesting</h1>
+                <p>An example of multiple pie (donut) charts created with D3. The data is represented as a tabular array of objects; each row in the table is mapped to an arc, and rows are grouped into pie charts using d3.nest. </p>
+				<p>与D3创建多个饼图（圆环）图表的例子。数据被表示为对象表阵;表中的每一行被映射到的电弧，和行使用d3.nest分为饼图</p>
+				<h3>数据已经改为使用us_0614test.csv，<em>问题：应该出现四个环图，为什么只有一个？</em></h3>
+				<p>解决： svg读入 div.map就解决了 </p>
+                <div class="map"></div>
+            </div>
+        </div>
+        
+<script>
+
+	// Load the flight data asynchronously.
+	d3.csv("../jsons/us_0614test.csv", function(flights) {
+
+	  // Define the margin, radius, and color scale. Colors are assigned lazily, so
+	  // if you want deterministic behavior, define a domain for the color scale.
+	  var m = 10,
+		  r = 100,
+		  z = d3.scale.category20c();
+
+	  // Define a pie layout: the pie angle encodes the count of flights. Since our
+	  // data is stored in CSV, the values are strings which we coerce to numbers.
+	  var pie = d3.layout.pie()
+		  .value(function(d) { return +d.values; })
+		  .sort(function(a, b) { return b.values - a.values; });
+
+	  // Define an arc generator. Note the radius is specified here, not the layout.
+	  var arc = d3.svg.arc()
+		  .innerRadius(r / 2)
+		  .outerRadius(r);
+
+	  // Nest the flight data by originating airport. Our data has the counts per
+	  // airport and carrier, but we want to group counts by aiport.
+	  var airports = d3.nest()
+		  .key(function(d) { return d.key; })
+		  .entries(flights);
+		
+		console.log(airports);
+
+	  // Insert an svg element (with margin) for each airport in our dataset. A
+	  // child g element translates the origin to the pie center.
+	  var svg = d3.select("div.map").selectAll("div")
+				.data(airports)
+				.enter().append("div") // http://code.google.com/p/chromium/issues/detail?id=98951
+				.style("display", "inline-block")
+				.style("width", (r + m) * 2 + "px")
+				.style("height", (r + m) * 2 + "px")
+				.append("svg:svg")
+				.attr("width", (r + m) * 2)
+				.attr("height", (r + m) * 2)
+				.append("svg:g")
+				.attr("transform", "translate(" + (r + m) + "," + (r + m) + ")");
+
+	  // Add a label for the airport. The `key` comes from the nest operator.
+	  svg.append("svg:text")
+		  .attr("dy", ".35em")
+		  .attr("text-anchor", "middle")
+		  .text(function(d) { return d.key; });
+
+	  // Pass the nested per-airport values to the pie layout. The layout computes
+	  // the angles for each arc. Another g element will hold the arc and its label.
+	  var g = svg.selectAll("g")
+		  .data(function(d) { return pie(d.values); })
+		  .enter().append("svg:g");
+
+	  // Add a colored arc path, with a mouseover title showing the count.
+	  g.append("svg:path")
+		  .attr("d", arc)
+		  .style("fill", function(d) { return z(d.data.date); })
+			.append("svg:title")
+		  .text(function(d) { return d.data.date + ": " + d.data.values; });
+
+	  // Add a label to the larger arcs, translated to the arc centroid and rotated.
+	  g.filter(function(d) { return d.endAngle - d.startAngle > .2; }).append("svg:text")
+		  .attr("dy", ".35em")
+		  .attr("text-anchor", "middle")
+		  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")"; })
+		  .text(function(d) { return d.data.date; });
+
+	  // Computes the label angle of an arc, converting from radians to degrees.
+	  function angle(d) {
+		var a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90;
+		return a > 90 ? a - 180 : a;
+	  }
+	});
+
+
+</script>
+    </body>
+</html>

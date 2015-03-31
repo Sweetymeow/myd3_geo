@@ -1,0 +1,44 @@
+<!-- HTML Sample -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>d3 Geo Sample </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1 class="">GDP per capita (current US$)</h1>
+                <p>GDP per capita is product divided by midyear population. GDP is the sum of gross value added by all resident producers in the economy plus any product taxes and minus any subsidies not included in the value of the products. It is calculated without making deductions for depreciation of fabricated assets or for depletion and degradation of natural resources. Data are in current U.S. dollars.<a href="https://www.google.com/url?q=http://data.worldbank.org/indicator/NY.GDP.PCAP.CD%3Fcid%3DGPD_31&sa=D&usg=AFQjCNHl2GfFQ4W7hGANo0sBYdFSHSGNGg">More info.</a></p>
+                <p>Open in <a href="http://www.google.com/publicdata/explore?ds=d5bncppjof8f9_&ctype=l&strail=false&bcs=d&nselm=h&met_y=ny_gdp_pcap_cd&scale_y=lin&ind_y=false&rdim=country&idim=country:USA:CHN:NZL:JPN:CHL:FRA:ISL:PHL:ZAF:UGA:GBR&ifdim=country&tstart=1140757200000&tend=1361682000000&hl=en&dl=en&ind=false&icfg">Google Public Data</a> to edit. </p>
+            </div>
+            <div class="map">
+            </div>
+            <div class="googleData l-box">
+            <iframe width="960" height="600" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" src="http://www.google.com/publicdata/embed?ds=d5bncppjof8f9_&amp;ctype=l&amp;strail=false&amp;bcs=d&amp;nselm=h&amp;met_y=ny_gdp_pcap_cd&amp;scale_y=lin&amp;ind_y=false&amp;rdim=country&amp;idim=country:USA:CHN:NZL:JPN:CHL:FRA:ISL:PHL:ZAF:UGA:GBR&amp;ifdim=country&amp;tstart=1140757200000&amp;tend=1361682000000&amp;hl=en_US&amp;dl=en&amp;ind=false&amp;icfg"></iframe>
+        </div>
+        </div>
+        
+        <script>
+        </script>
+    </body>
+</html>

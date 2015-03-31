@@ -1,0 +1,209 @@
+Country,Region,Income group,GDP per capita ($US),Share of world GDP %,Wealth per capita ($US),Share of world wealth %,Wealth per adult 2000 ($US),Wealth per adult 2011 ($US),Wealth data quality,Country code
+AFGHANISTAN,Asia-Pacific,Low income,590,0.03,,,,,n.a.,AF
+ALBANIA,Europe,Lower middle income,"4,050",0.02,"7,242",0.01,"3,084","10,628",Poor,AL
+ALGERIA,Africa,Lower middle income,"5,245",0.27,"6,536",0.1,"5,944","10,271",Poor,DZ
+AMERICAN SAMOA,Asia-Pacific,Upper middle income,0,,,,,,n.a.,AS
+ANDORRA,Europe,High income,0,,,,,,n.a.,AD
+ANGOLA,Africa,Low income,"5,608",0.16,,,,,n.a.,AO
+ANTIGUA AND BARBUDA,Latin America,High income,"13,508",0,,,,,n.a.,AG
+ARGENTINA,Latin America,Upper middle income,"11,169",0.66,"14,499",0.26,"24,753","21,641",Poor,AR
+ARMENIA,Asia-Pacific,Lower middle income,"2,959",0.01,"4,150",0.01,"1,909","5,784",Poor,AM
+ARUBA,Latin America,High income,0,,,,,,n.a.,AW
+AUSTRALIA,Asia-Pacific,High income,64351,2.02,"295,870",2.79,"103,151","396,745",Good,AU
+AUSTRIA,Europe,High income,"48,350",0.59,"154,469",0.56,"91,321","194,207",Satisfactory,AT
+AZERBAIJAN,Asia-Pacific,Low income,"7,914",0.1,"11,538",0.05,"2,983","17,260",Poor,AZ
+BAHAMAS,Latin America,High income,"22,353",0.01,"24,724",0,"36,363","37,151",Poor,BS
+BAHRAIN,Asia-Pacific,High income,"23,466",0.03,"27,231",0.01,"36,363","41,466",Poor,BH
+BANGLADESH,Asia-Pacific,Low income,692,0.17,"1,148",0.08,"1,035","1,924",Poor,BD
+BARBADOS,Latin America,High income,"15,234",0.01,"14,973",0,"16,922","19,555",Poor,BB
+BELARUS,Europe,Lower middle income,"7,092",0.1,"3,687",0.02,"2,219","4,646",Poor,BY
+BELGIUM,Europe,High income,"45,367",0.7,"213,142",0.99,"147,824","275,524",Satisfactory,BE
+BELIZE,Latin America,Upper middle income,"4,276",0,"5,193",0,"8,591","9,414",Poor,BZ
+BENIN,Africa,Low income,739,0.01,"1,447",0.01,"1,161","3,100",Very poor,BJ
+BERMUDA,North America,High income,0,,,,,,n.a.,BM
+BHUTAN,Asia-Pacific,Low income,"2,042",0,,,,,n.a.,BT
+BOLIVIA,Latin America,Lower middle income,"2,143",0.03,"2,078",0.01,"2,067","3,849",Poor,BO
+BOSNIA AND HERZEGOVINA,Europe,Lower middle income,"4,703",0.03,"10,042",0.02,"3,896","12,675",Poor,BA
+BOTSWANA,Africa,Upper middle income,"8,179",0.02,"8,298",0.01,"4,221","14,656",Poor,BW
+BRAZIL,Latin America,Upper middle income,"12,423",3.54,"22,946",1.96,"8,300","34,439",Poor,BR
+BRUNEI DARUSSALAM,Asia-Pacific,High income,"38,192",0.02,"33,745",0.01,"23,953","51,529",Very poor,BN
+BULGARIA,Europe,Lower middle income,"7,073",0.08,"12,241",0.04,"3,963","15,055",Satisfactory,BG
+BURKINA FASO,Africa,Low income,639,0.02,540,0,462,"1,256",Very poor,BF
+BURUNDI,Africa,Low income,196,0,114,0,164,222,Very poor,BI
+CAMBODIA,Asia-Pacific,Low income,901,0.02,"1,362",0.01,953,"2,429",Poor,KH
+CAMEROON,Africa,Low income,"1,196",0.04,"1,399",0.01,"1,637","2,883",Poor,CM
+CANADA,North America,High income,"50,265",2.49,"189,929",2.82,"108,464","245,455",Good,CA
+CAPE VERDE,Africa,Lower middle income,"3,470",0,"8,831",0,"9,582","16,486",Poor,CV
+CAYMAN ISLANDS,Latin America,High income,0,,,,,,n.a.,KY
+CENTRAL AFRICAN REPUBLIC,Africa,Low income,470,0,442,0,543,898,Poor,CF
+CHAD,Africa,Low income,910,0.02,539,0,379,"1,231",Poor,TD
+CHILE,Latin America,Upper middle income,"13,294",0.33,"22,497",0.17,"10,548","32,311",Fair,CL
+CHINA,China,Lower middle income,"4,833",9.36,"15,078",8.75,"5,672","20,711",Fair,CN
+COLOMBIA,Latin America,Lower middle income,"6,685",0.45,"13,786",0.28,"6,610","22,135",Satisfactory,CO
+COMOROS,Africa,Low income,817,0,"1,534",0,"1,404","2,938",Poor,KM
+"CONGO, REP.",Africa,Low income,"4,084",0.02,"2,308",0,"1,045","4,688",Poor,CG
+"CONGO, THE DEMOCRATIC REPUBLIC OF THE",Africa,Low income,208,0.02,119,0,153,278,Poor,CD
+COSTA RICA,Latin America,Upper middle income,"8,711",0.06,"16,363",0.03,"10,572","24,783",Poor,CR
+COTE D'IVOIRE,Africa,Low income,0,,"1,562",0.01,"2,014","3,179",Poor,CI
+CROATIA,Europe,Upper middle income,"14,750",0.09,"21,302",0.04,"8,586","26,832",Satisfactory,HR
+CUBA,Latin America,Lower middle income,0,,,,,,n.a.,CU
+CYPRUS,Europe,High income,"30,003",0.04,"98,449",0.04,"86,007","130,152",Fair,CY
+CZECH REPUBLIC,Europe,Upper middle income,"20,738",0.31,"32,750",0.15,"11,775","40,817",Good,CZ
+DENMARK,Europe,High income,"60,962",0.48,"180,849",0.43,"104,865","239,057",Good,DK
+DJIBOUTI,Africa,Lower middle income,"1,479",0,"1,712",0,"2,688","3,187",Poor,DJ
+DOMINICA,Latin America,Upper middle income,"5,379",0,"11,454",0,"8,448","17,794",Very poor,DM
+DOMINICAN REPUBLIC,Latin America,Lower middle income,"5,463",0.08,,,,,n.a.,DO
+ECUADOR,Latin America,Lower middle income,"4,334",0.09,"7,331",0.04,"3,578","12,189",Poor,EC
+EGYPT,Africa,Lower middle income,"2,892",0.36,"6,119",0.23,"7,078","10,421",Poor,EG
+EL SALVADOR,Latin America,Lower middle income,"3,924",0.04,"6,501",0.02,"6,337","11,232",Poor,SV
+EQUATORIAL GUINEA,Africa,Lower middle income,"14,342",0.01,"9,157",0,"1,132","18,831",Poor,GQ
+ERITREA,Africa,Low income,472,0,743,0,386,"1,537",Poor,ER
+ESTONIA,Europe,Upper middle income,"15,273",0.03,"27,354",0.02,"7,324","34,621",Fair,EE
+ETHIOPIA,Africa,Low income,342,0.04,196,0.01,178,426,Poor,ET
+FIJI,Asia-Pacific,Lower middle income,"3,681",0,"3,364",0,"4,456","5,664",Poor,FJ
+FINLAND,Europe,High income,"48,188",0.37,"135,274",0.31,"78,532","174,895",Good,FI
+FRANCE,Europe,High income,"43,491",3.96,"222,446",6.06,"103,619","293,685",Good,FR
+FRENCH GUIANA,Latin America,Upper middle income,0,,,,,,n.a.,GF
+FRENCH POLYNESIA,Asia-Pacific,High income,0,,,,,,n.a.,PF
+GABON,Africa,Upper middle income,"11,046",0.02,"12,401",0.01,"9,650","23,124",Poor,GA
+GAMBIA,Africa,Low income,639,0,621,0,762,"1,304",Poor,GM
+GEORGIA,Asia-Pacific,Low income,"2,927",0.02,"12,624",0.02,"4,252","16,623",Poor,GE
+GERMANY,Europe,High income,"43,205",5.12,"163,262",5.8,"89,770","199,783",Good,DE
+GHANA,Africa,Low income,"1,542",0.06,"1,832",0.02,"1,050","3,558",Very poor,GH
+GREECE,Europe,High income,"27,716",0.45,"85,622",0.42,"57,716","105,843",Satisfactory,GR
+GREENLAND,North America,High income,0,,,,,,n.a.,GL
+GRENADA,Latin America,Upper middle income,"7,066",0,"7,624",0,"5,709","12,179",Poor,GD
+GUADELOUPE,Latin America,High income,0,,,,,,n.a.,GP
+GUAM,Asia-Pacific,High income,0,,,,,,n.a.,GU
+GUATEMALA,Latin America,Lower middle income,"3,154",0.07,,,,,n.a.,GT
+GUINEA,Africa,Low income,440,0.01,483,0,867,"1,029",Very poor,GN
+GUINEA-BISSAU,Africa,Low income,537,0,209,0,302,442,Poor,GW
+GUYANA,Latin America,Lower middle income,"3,094",0,"2,026",0,"1,084","3,278",Poor,GY
+HAITI,Latin America,Low income,771,0.01,,,,,n.a.,HT
+HONDURAS,Latin America,Lower middle income,"2,191",0.02,,,,,n.a.,HN
+HONG KONG,Asia-Pacific,High income,"34,058",0.35,"114,929",0.35,"117,469","139,507",Poor,HK
+HUNGARY,Europe,Upper middle income,"13,370",0.19,"24,524",0.11,"9,292","30,860",Satisfactory,HU
+ICELAND,Europe,High income,"42,373",0.02,"159,978",0.02,"235,036","219,711",Very poor,IS
+INDIA,India,Low income,"1,382",2.46,"3,313",1.77,"2,036","5,548",Fair,IN
+INDONESIA,Asia-Pacific,Low income,"3,465",1.18,"7,868",0.8,"2,502","12,109",Fair,ID
+IRAN,Asia-Pacific,Lower middle income,"5,493",0.6,"5,802",0.19,"2,816","8,617",Poor,IR
+IRAQ,Asia-Pacific,Lower middle income,"3,301",0.15,,,,,n.a.,IQ
+IRELAND,Europe,High income,"47,751",0.32,"132,578",0.27,"91,362","181,434",Satisfactory,IE
+ISLE OF MAN,Europe,High income,0,,,,,,n.a.,IM
+ISRAEL,Asia-Pacific,High income,"30,934",0.33,"126,714",0.41,"92,501","195,953",Good,IL
+ITALY,Europe,High income,"35,985",3.14,"210,565",5.5,"119,773","259,826",Good,IT
+JAMAICA,Latin America,Lower middle income,"5,473",0.02,"8,407",0.01,"8,671","13,762",Poor,JM
+JAPAN,Asia-Pacific,High income,"45,659",8.37,"204,538",11.24,"191,877","248,770",Good,JP
+JORDAN,Asia-Pacific,Lower middle income,"4,788",0.05,"10,582",0.03,"8,195","18,867",Poor,JO
+KAZAKHSTAN,Asia-Pacific,Lower middle income,"10,820",0.25,"5,748",0.04,"2,348","8,488",Fair,KZ
+KENYA,Africa,Low income,875,0.05,768,0.01,"1,020","1,645",Poor,KE
+KIRIBATI,Asia-Pacific,Lower middle income,"1,636",0,,,,,n.a.,KI
+"KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF",Asia-Pacific,Low income,0,,,,,,n.a.,KP
+"KOREA, REPUBLIC OF",Asia-Pacific,High income,"22,961",1.62,"59,152",1.25,"32,969","76,621",Satisfactory,KR
+KUWAIT,Asia-Pacific,High income,"46,970",0.21,"94,453",0.13,"52,249","134,592",Poor,KW
+KYRGYZSTAN,Asia-Pacific,Low income,942,0.01,"2,758",0.01,"1,209","4,518",Poor,KG
+"LAO, PEOPLE'S DEMOCRATIC REPUBLIC OF",Asia-Pacific,Low income,"1,058",0.01,"2,135",0.01,"1,208","4,107",Poor,LA
+LATVIA,Europe,Upper middle income,"11,662",0.04,"18,160",0.02,"5,261","22,558",Poor,LV
+LEBANON,Asia-Pacific,Upper middle income,10747,0.07,25197,0.05,20370,37795,Poor,LB
+LESOTHO,Africa,Low income,932,0,1728,0,926,3468,Poor,LS
+LIBERIA,Africa,Low income,260,0,750,0,819,1594,Poor,LR
+LIBYAN ARAB JAMAHIRIYA,Africa,Upper middle income,0,,17368,0.05,33893,28125,Poor,LY
+LIECHTENSTEIN,Europe,High income,0,,,,,,n.a.,LI
+LITHUANIA,Europe,Upper middle income,12323,0.06,19912,0.03,6303,25239,Satisfactory,LT
+LUXEMBOURG,Europe,High income,120060,0.09,238996,0.05,184560,313162,Poor,LU
+MACAU,Asia-Pacific,High income,0,,,,,,n.a.,MO
+MACEDONIA,Europe,Lower middle income,4912,0.01,10573,0.01,5107,14017,Poor,MK
+MADAGASCAR,Africa,Low income,387,0.01,189,0,656,404,Poor,MG
+MALAWI,Africa,Low income,349,0.01,193,0,409,450,Poor,MW
+MALAYSIA,Asia-Pacific,Upper middle income,8624,0.35,18173,0.22,8088,29363,Poor,MY
+MALDIVES,Asia-Pacific,Lower middle income,6336,0,3464,0,1829,5596,Very poor,MV
+MALI,Africa,Low income,777,0.02,544,0,440,1212,Poor,ML
+MALTA,Europe,High income,21240,0.01,66406,0.01,53636,84296,Poor,MT
+MARSHALL ISLANDS,Asia-Pacific,Lower middle income,0,,,,,,,MH
+MARTINIQUE,Latin America,High income,0,,,,,,n.a.,MQ
+MAURITANIA,Africa,Low income,1352,0.01,1204,0,1429,2385,Very poor,MR
+MAURITIUS,Africa,Upper middle income,7990,0.02,24801,0.01,14513,35536,Poor,MU
+MAYOTTE,Africa,Low income,0,,,,,,n.a.,YT
+MEXICO,Latin America,Upper middle income,10638,1.72,23066,1.12,17484,36467,Satisfactory,MX
+"MICRONESIA, FEDERATED STATES OF",Asia-Pacific,Lower middle income,0,,,,,,,FM
+"MOLDOVA, REPUBLIC OF",Europe,Lower middle income,1860,0.01,2642,0,658,3481,Very poor,MD
+MONACO,Europe,High income,0,,,,,,n.a.,MC
+MONGOLIA,Asia-Pacific,Low income,3174,0.01,7657,0.01,2816,11770,Poor,MN
+MOROCCO,Africa,Lower middle income,3117,0.15,7905,0.11,6061,12610,Poor,MA
+MOZAMBIQUE,Africa,Low income,530,0.02,292,0,412,640,Poor,MZ
+MYANMAR,Asia-Pacific,Low income,0,,,,821,0.06,n.a.,MM
+NAMIBIA,Africa,Lower middle income,6364,0.02,15560,0.02,6193,29502,Poor,NA
+NEPAL,Asia-Pacific,Low income,640,0.03,1326,0.02,752,2471,Poor,NP
+NETHERLANDS,Europe,High income,49950,1.21,142495,1.03,106872,186449,Good,NL
+NETHERLANDS ANTILLES,Latin America,High income,0,,,,,,n.a.,AN
+NEW CALEDONIA,Asia-Pacific,High income,0,,,,,,n.a.,NC
+NEW ZEALAND,Asia-Pacific,High income,34701,0.22,122032,0.23,47748,167957,Good,NZ
+NICARAGUA,Latin America,Low income,1197,0.01,1856,0,2332,3388,Poor,NI
+NIGER,Africa,Low income,417,0.01,341,0,322,860,Very poor,NE
+NIGERIA,Africa,Low income,0,,,,1670,0.39,n.a.,NG
+NORTHERN MARIANA ISLANDS,Asia-Pacific,Upper middle income,0,,,,,,,MP
+NORWAY,Europe,High income,96811,0.69,265804,0.56,110805,355925,Satisfactory,NO
+OMAN,Asia-Pacific,Upper middle income,21421,0.09,24084,0.03,22188,40330,Poor,OM
+PAKISTAN,Asia-Pacific,Low income,1197,0.33,2705,0.22,2347,5094,Poor,PK
+PALAU,Asia-Pacific,Upper middle income,0,,,,,,,PW
+PANAMA,Latin America,Upper middle income,8300,0.04,11342,0.02,8384,18116,Poor,PA
+PAPUA NEW GUINEA,Asia-Pacific,Low income,1649,0.02,2803,0.01,1567,5568,Very poor,PG
+PARAGUAY,Latin America,Lower middle income,3391,0.03,5645,0.02,4298,9984,Very poor,PY
+PERU,Latin America,Lower middle income,5593,0.24,10432,0.13,6471,17163,Poor,PE
+PHILIPPINES,Asia-Pacific,Lower middle income,2117,0.29,3629,0.15,2738,6411,Poor,PH
+POLAND,Europe,Upper middle income,13079,0.72,21705,0.36,8871,27410,Satisfactory,PL
+PORTUGAL,Europe,High income,22157,0.34,74148,0.35,48008,93043,Satisfactory,PT
+PUERTO RICO,Latin America,High income,0,,,,,,n.a.,PR
+QATAR,Asia-Pacific,High income,109881,0.25,114897,0.08,26381,146623,Poor,QA
+REUNION,Africa,Upper middle income,0,,,,,,n.a.,RE
+ROMANIA,Europe,Lower middle income,8157,0.25,13987,0.13,3840,17599,Satisfactory,RO
+RUSSIAN FEDERATION,Europe,Upper middle income,13543,2.74,8667,0.53,1708,10911,Fair,RU
+RWANDA,Africa,Low income,593,0.01,330,0,361,694,Very poor,RW
+SAINT KITTS AND NEVIS,Latin America,Upper middle income,9918,0,11640,0,18018,10872,Very poor,KN
+SAINT LUCIA,Latin America,Upper middle income,"5,932",0,"6,361",0,"5,491","9,783",Very poor,LC
+SAINT VINCENT AND THE GRENADINES,Latin America,Lower middle income,"5,523",0,"5,342",0,"4,667","8,314",Poor,VC
+SAN MARINO,Europe,High income,0,,,,,,n.a.,SM
+SAO TOME AND PRINCIPE,Africa,Low income,"1,282",0,,,,,n.a.,ST
+SAUDI ARABIA,Asia-Pacific,Upper middle income,"21,685",0.84,"21,153",0.25,"23,054","35,959",Poor,SA
+SENEGAL,Africa,Low income,1031,0.02,1281,0.01,1394,2804,Poor,SN
+SEYCHELLES,Africa,Upper middle income,"10,971",0,37846,0,34539,63503,Poor,SC
+SIERRA LEONE,Africa,Low income,367,0,207,0,253,447,Poor,SL
+SINGAPORE,Asia-Pacific,High income,"48,286",0.34,"220,591",0.47,"112,755","284,692",Good,SG
+SLOVAKIA,Europe,Upper middle income,"17,509",0.14,"19,464",0.05,"9,547","24,771",Satisfactory,SK
+SLOVENIA,Europe,High income,"25,082",0.07,"54,311",0.05,"33,259","66,942",Satisfactory,SI
+SOLOMON ISLANDS,Asia-Pacific,Low income,1414,0,3639,0,6643,7129,Very poor,SB
+SOMALIA,Africa,Low income,0,,,,,,n.a.,SO
+SOUTH AFRICA,Africa,Upper middle income,"7,585",0.56,"20,599",0.45,"8,434","34,288",Fair,ZA
+SPAIN,Europe,High income,"32,176",2.13,"104,337",2.07,"64,521","130,179",Good,ES
+SRI LANKA,Asia-Pacific,Lower middle income,"2,824",0.08,"3,188",0.03,"1,225","4,670",Poor,LK
+SUDAN,Africa,Low income,"1,824",0.12,"1,323",0.03,888,"2,598",Poor,SD
+SURINAME,Latin America,Lower middle income,"7,281",0.01,"7,867",0,4756,"12,410",Very poor,SR
+SWAZILAND,Africa,Lower middle income,"3,109",0.01,"2,948",0,"3,715","6,033",Poor,SZ
+SWEDEN,Europe,High income,"58,228",0.79,"218,831",0.89,"126,304","284,146",Satisfactory,SE
+SWITZERLAND,Europe,High income,"75,836",0.84,"426,773",1.41,"232,548","540,010",Good,CH
+SYRIAN REPUBLIC,Asia-Pacific,Lower middle income,"3,235",0.11,"3,804",0.04,"3,433","6,832",Poor,SY
+"TAIWAN, PROVINCE OF CHINA",Asia-Pacific,High income,"21,410",0.71,"127,366",1.27,"105,383","160,882",Satisfactory,TW
+TAJIKISTAN,Asia-Pacific,Low income,879,0.01,"1,648",0.01,648,"3,145",Poor,TJ
+"TANZANIA, UNITED REPUBLIC OF",Africa,Low income,552,0.04,389,0.01,511,870,Very poor,TZ
+THAILAND,Asia-Pacific,Lower middle income,5174,0.51,5222,0.16,2527,7351,Fair,TH
+TIMOR-LESTE,Asia-Pacific,Low income,649,0,,,,,n.a.,TL
+TOGO,Africa,Low income,501,0.01,1220,0,1001,2440,Very poor,TG
+TONGA,Asia-Pacific,Lower middle income,3648,0,"6,420",0,"4,864","12,312",Poor,TO
+TRINIDAD AND TOBAGO,Latin America,Upper middle income,0,,"7,445",0,"5,525","10,325",Poor,TT
+TUNISIA,Africa,Lower middle income,4376,0.07,"13,758",0.06,"11,429","20,049",Poor,TN
+TURKEY,Asia-Pacific,Lower middle income,"11,054",1.22,"16,510",0.55,"12,309","25,374",Poor,TR
+TURKMENISTAN,Asia-Pacific,Lower middle income,"4,993",0.04,,,,,n.a.,TM
+UGANDA,Africa,Low income,466,0.02,263,0,376,656,Very poor,UG
+UKRAINE,Europe,Lower middle income,3483,0.23,2713,0.05,929,3384,Poor,UA
+UNITED ARAB EMIRATES,Asia-Pacific,High income,"69,872",0.49,"87,704",0.18,56777,"115,774",Poor,AE
+UNITED KINGDOM,Europe,High income,"39,459",3.55,"196,995",5.31,"162,999","257,881",Good,GB
+UNITED STATES,North America,High income,"48,666",22.57,"181,083",25.16,"192,399","248,395",Good,US
+URUGUAY,Latin America,Upper middle income,"12,844",0.06,"29,062",0.04,"20,326","41,590",Poor,UY
+UZBEKISTAN,Asia-Pacific,Low income,"1,514",0.06,,,,,n.a.,UZ
+VANUATU,Asia-Pacific,Lower middle income,"3,133",0,3021,0,2313,5877,Poor,VU
+"VENEZUELA, BOLIVARIAN REPUBLIC OF",Latin America,Upper middle income,"9,886",0.42,"5,610",0.07,"9,768","9,108",Very poor,VE
+VIETNAM,Asia-Pacific,Low income,"1,327",0.17,"2,977",0.12,"1,701","4,535",Poor,VN
+"VIRGIN ISLANDS, U.S.",Latin America,High income,0,,,,,,n.a.,VI
+YEMEN,Asia-Pacific,Low income,"1,522",0.05,"2,365",0.03,"1,597","5,226",Very poor,YE
+ZAMBIA,Africa,Low income,"1,405",0.03,848,0,656,"1,974",Poor,ZM
+ZIMBABWE,Africa,Low income,725,0.01,"1,058",0.01,"1,028","2,195",Very poor,ZW

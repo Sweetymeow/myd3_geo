@@ -1,0 +1,86 @@
+<!-- HTML Sample -->
+<!-- http://bl.ocks.org/mbostock/2206340 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> d3 Geo Sample: mousewheel-zoom + click-to-center </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+           .background { fill: none;  pointer-events: all; }
+
+            #states { fill: #aaa; }
+
+            #state-borders {
+              fill: none;
+              stroke: #fff;
+              stroke-width: 1.5px;
+              stroke-linejoin: round;
+              stroke-linecap: round;
+              pointer-events: none;
+            }
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>mousewheel-zoom + click-to-center</h1>
+                <p>Part of a series of examples. See:</p>
+                <div  class="pure-u-1 l-box">
+                    <p class="pure-u-1 pure-u-lg-1-4">
+                        <a href="http://bl.ocks.org/2206340">
+                        mousewheel-zoom + click-to-center via projection</a></ol>
+                    <p class="pure-u-1 pure-u-lg-1-4">
+                        <a href="http://bl.ocks.org/2206489">
+                        click-to-center via projection</a></ol>
+                    <p class="pure-u-1 pure-u-lg-1-4">
+                        <a href="http://bl.ocks.org/2206529">
+                        click-to-center via transform</a></ol>
+                    <p class="pure-u-1 pure-u-lg-1-4">
+                        <a href="http://bl.ocks.org/2206590">
+                        click-to-zoom via transform</a></ol>
+                </ul>
+            </div>
+            <div class="map">
+            </div>
+        </div>
+        <script>
+            var width = 960,
+                height = 500;
+
+            var projection = d3.geo.albersUsa()
+                .scale(1070)
+                .translate([width / 2, height / 2]);
+
+            var path = d3.geo.path()
+                .projection(projection);
+            
+            var zoom = d3.behavior.zoom()
+                .translate(projection.translate())
+                .scale(projection.scale())
+                .scaleExtent([height, 8*height])
+                .on("zoom", zooomed);
+            
+            
+            
+            
+            
+            
+            
+        </script>
+    </body>
+</html>

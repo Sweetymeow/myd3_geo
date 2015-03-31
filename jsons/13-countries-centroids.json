@@ -1,0 +1,215 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "01",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -86.766233,
+          33.001471
+        ]
+      },
+      "properties": {
+        "name": "Alabama",
+        "population": 4447100
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "02",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -148.716968,
+          61.288254
+        ]
+      },
+      "properties": {
+        "name": "Alaska",
+        "population": 626932
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "04",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.828711,
+          33.373506
+        ]
+      },
+      "properties": {
+        "name": "Arizona",
+        "population": 5130632
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "05",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -92.576816,
+          35.080251
+        ]
+      },
+      "properties": {
+        "name": "Arkansas",
+        "population": 2673400
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "06",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -119.355165,
+          35.458606
+        ]
+      },
+      "properties": {
+        "name": "California",
+        "population": 33871648
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "08",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.203628,
+          39.500656
+        ]
+      },
+      "properties": {
+        "name": "Colorado",
+        "population": 4301261
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "09",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -72.874365,
+          41.494852
+        ]
+      },
+      "properties": {
+        "name": "Connecticut",
+        "population": 3405565
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.561908,
+          39.397164
+        ]
+      },
+      "properties": {
+        "name": "Delaware",
+        "population": 783600
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.014001,
+          38.910092
+        ]
+      },
+      "properties": {
+        "name": "District of Columbia",
+        "population": 572059
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -81.634622,
+          27.79585
+        ]
+      },
+      "properties": {
+        "name": "Florida",
+        "population": 15982378
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "13",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -83.868887,
+          33.332208
+        ]
+      },
+      "properties": {
+        "name": "Georgia",
+        "population": 8186453
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "15",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -157.524452,
+          21.146768
+        ]
+      },
+      "properties": {
+        "name": "Hawaii",
+        "population": 1211537
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -115.133222,
+          44.242605
+        ]
+      },
+      "properties": {
+        "name": "Idaho",
+        "population": 1293953
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -115.133222,
+          44.242605
+        ]
+      },
+      "properties": {
+        "name": "Idaho",
+        "population": 1293953
+      }
+    }
+  ]
+}

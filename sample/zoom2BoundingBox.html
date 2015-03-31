@@ -1,0 +1,154 @@
+<!--http://bl.ocks.org/mbostock/4699541-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Wendy d3 Map: Zoom 2 Bounding Box</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css" />
+       <!--Pure grid Responsive Grids & Mobile-first-->
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .backgroud{
+                fill: white;
+                pointer-events: all;
+            }
+            
+            .feature{
+                fill: #ccc;
+                cursor: pointer;
+            }
+            
+            .feature.active{
+                fill: orange;
+            }
+            
+            .mesh{
+                fill: #fff;
+                stroke: purple;
+                stroke-width: .6px;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+            
+            .graticule{
+                fill: none;
+                stroke: pink;
+                stroke-width: .5px;
+                stroke-opacity: .8;
+            }
+            .l-box{
+                padding: 1em;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="pure-u-1 l-box">
+        <h1>Zoom to Bounding Box</h1>
+        <p>This example demonstrates how to compute a suitable translate and scale to zoom to the bounding box of a particular feature. Click on any state to zoom in; click on the focused state or the background to zoom out. This variant uses transform transitions to change the viewport. A slightly better approach, and one that can also allow free panning and zooming with the mouse if desired, is to use zoom transitions.</p>
+        <p>这个例子演示了如何计算合适的翻译和规模放大到一个特定的功能的边框。点击任何国家进行放大;点击聚焦状态或背景缩小。 该变种利用变换转换来改变视口。一个稍微好一点的办法，一个也可以允许自由平移和如果需要鼠标缩放，是使用缩放转换。
+        </p>
+        </div>
+        <div class="map pure-u-1">
+        </div>
+        <script>
+            var width = 960,
+                height = 700,
+                active = d3.select(null);
+            
+            var projection = d3.geo.mercator()
+                .scale((width + 1) / 2 / Math.PI)
+                .translate([width / 2, height / 2])
+                .precision(.1);
+            // # projection.translate([point]) - https://github.com/mbostock/d3/wiki/Geo-Projections#translate
+            // # d3.geo.azimuthalEqualArea() 考虑用这个
+            var graticule = d3.geo.graticule();
+            
+            var path = d3.geo.path()
+                .projection(projection);
+            
+            var svg = d3.select("div.map").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+            
+            svg.append("rect")
+                .attr("class", "background")
+                .attr("width", width)
+                .attr("height", height)
+                .on("click", reset);
+            
+            svg.append("path")
+                .datum(graticule)
+                .attr("class", "graticule")
+                .attr("d", path);
+            
+            var g = svg.append("g")
+                .style("stroke-width", "1.5px");
+                // g : svg 组 
+            
+            d3.json("../MyMAP/jsons/world-110m.json", function(error, d){
+                console.log(d);
+                g.selectAll("path")
+                    .data(topojson.feature(d, d.objects.countries).features)
+                    .enter().append("path")
+                    .attr("d", path)
+                    .attr("class", "feature")
+                    .on("click", clicked);
+                // path 标签用来定义数据， d用来存储路径数据 http://www.w3school.com.cn/svg/svg_path.asp
+                 // # topojson.feature(topology, object) - 返回 featureCollection or Feature
+                // https://github.com/mbostock/topojson/wiki/API-Reference#feature
+                
+                // # topojson.mesh(topology, object, [filter]) 
+                // 返回geojson多行字符串几何物体，代表给定的拓扑结构中的指定的对象的网格mesh
+                // https://github.com/mbostock/topojson/wiki/API-Reference#mesh
+                g.append("path")
+                    .datum(topojson.mesh(d, d.objects.countries, function(a, b){ return a!==b; }))
+                    .attr("class", "mesh")
+                    .attr("d", path);
+                // #selection.datum - 设置或获取单独元素的数据，不进行关联join。
+                // https://github.com/mbostock/d3/wiki/选择集#datum
+                
+            })
+            
+            function clicked(d){
+                // active is a d3 select object  d3从当前文档中选择一系列元素。
+                if(active.node() === this){ return reset() }
+                active.classed("active", false);
+                active = d3.select(this).classed("active", true);
+                
+               var bounds = path.bounds(d),
+                    dx = bounds[1][0] - bounds[0][0],
+                    dy = bounds[1][1] - bounds[0][1],
+                    x = (bounds[0][0] + bounds[1][0]) / 2,
+                    y = (bounds[0][1] + bounds[1][1]) / 2,
+                    scale = .9 / Math.max(dx / width, dy / height),
+                    translate = [width / 2 - scale * x, height / 2 - scale * y];  
+
+                g.transition()
+                  .duration(750)
+                  .style("stroke-width", 1.5 / scale + "px")
+                  .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+                }
+
+                function reset() {
+                    active.classed("active", false);
+                    active = d3.select(null);
+
+                    g.transition()
+                      .duration(750)
+                      .style("stroke-width", "1.5px")
+                      .attr("transform", "");
+                }
+
+        </script>
+        
+    </body>
+</html>

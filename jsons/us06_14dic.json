@@ -1,0 +1,12 @@
+{"country":"United States",
+  "year":{
+  "2006": { "rank":0.20, "pop(million)":298.2, "gdp(billions$)":12485.73, "ppp":41399, "score":0.704, "eco_sc":0.759, "edu_sc":0.982, "hea_sc":0.98, "pol_sc":0.097, "m_age":26},
+  "2007": { "rank":0.24, "pop(million)":296.41, "gdp(billions$)":11046.43, "ppp":37267, "score":0.7, "eco_sc":0.738, "edu_sc":0.982, "hea_sc":0.979, "pol_sc":0.102, "m_age":26},
+  "2008": { "rank":0.21, "pop(million)":301.62, "gdp(billions$)":11314.68, "ppp":42610, "score":0.718, "eco_sc":0.752, "edu_sc":1, "hea_sc":0.979, "pol_sc":0.14, "m_age":26},
+  "2009": { "rank":0.23, "pop(million)":301.62, "gdp(billions$)":11490.5, "ppp":43055, "score":0.717, "eco_sc":0.75, "edu_sc":1, "hea_sc":0.979, "pol_sc":0.14, "m_age":26},
+  "2010": { "rank":0.14, "pop(million)":304.06, "gdp(billions$)":11513.87, "ppp":42107, "score":0.741, "eco_sc":0.79, "edu_sc":1, "hea_sc":0.979, "pol_sc":0.186, "m_age":26},
+  "2011": { "rank":0.13, "pop(million)":309.71, "gdp(billions$)":11681.22, "ppp":42551, "score":0.741, "eco_sc":0.8, "edu_sc":1, "hea_sc":0.979, "pol_sc":0.186, "m_age":26},
+  "2012": { "rank":0.16, "pop(million)":311.59, "gdp(billions$)":11597.86, "ppp":42297, "score":0.737, "eco_sc":0.814, "edu_sc":1, "hea_sc":0.979, "pol_sc":0.156, "m_age":26},
+  "2013": { "rank":0.17, "pop(million)":311.59, "gdp(billions$)":11744.22, "ppp":42486, "score":0.739, "eco_sc":0.818, "edu_sc":1, "hea_sc":0.979, "pol_sc":0.159, "m_age":26},
+  "2014": { "rank":0.14, "pop(million)":316.63, "gdp(billions$)":14498.62, "ppp":50866, "score":0.746, "eco_sc":0.828, "edu_sc":0.998, "hea_sc":0.975, "pol_sc":0.185, "m_age":27}
+}}

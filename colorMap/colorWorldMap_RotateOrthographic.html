@@ -1,0 +1,160 @@
+<!-- http://bl.ocks.org/mbostock/6619561 -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>d3 Geo Sample : Miller Project World Map </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <style>
+            body{
+                background: #eee;
+                font-family: sans-serif;
+            }
+            
+            div.header{
+                padding: 0 1em 0 1em;
+                position: relative;
+                left: 20px;
+            }
+            div.map{
+                padding: auto;
+                background:  #fff;
+                border: 1em black;
+            }
+
+            .country {
+              fill: #ccc;
+              stroke: #fff;
+              stroke-width: .5px;
+              stroke-linejoin: round;
+            }
+
+            .graticule {
+              fill: none;
+              stroke: #000;
+              stroke-opacity: .3;
+              stroke-width: .5px;
+            }
+
+            .graticule.outline {
+              stroke: #222;
+              stroke-opacity: 1;
+              stroke-width: 1.5px;
+            }
+
+        </style>
+	</head>
+
+    <body>
+        <div class="header">
+            <h1> Rotating Orthographic </h1>
+            <p><a href="http://bl.ocks.org/mbostock/6619561">link</a></p>
+        </div>
+        <div class="map">
+        </div>
+        <script>
+
+        var width = 960,
+            height = 547
+            speed = 1e-2
+            start = Date.now();
+            
+        var sphere = {type: "Sphere"}
+
+        var projection = d3.geo.orthographic()
+            .scale(height/2.1)
+            .translate([width/2, height/2])
+            .clipAngle(90)
+            .precision(.5);
+        
+        // https://github.com/mbostock/d3/wiki/Ordinal-Scales#categorical-colors
+        // Constructs a new ordinal scale with a range of twenty categorical colors
+        var color = d3.scale.category20c(),
+            graticule = d3.geo.graticule(); 
+        // 经纬线 https://github.com/mbostock/d3/wiki/Geo-Paths#shape-generators
+            
+        var canvas = d3.select("body").append("canvas")
+            .attr("width", width)
+            .attr("height", height);
+
+        var context = canvas.node().getContext("2d");
+
+        var path = d3.geo.path()
+            .projection(projection)
+            .context(context);
+
+//        var svg = d3.select("div.map").append("svg")
+//            .attr("width", width)
+//            .attr("height", height);
+//
+//        svg.append("path")
+//            .datum(graticule)
+//            .attr("class", "graticule")
+//            .attr("d", path);
+//
+//        svg.append("path")
+//            .datum(graticule.outline)
+//            .attr("class", "graticule outline")
+//            .attr("d", path);
+
+        d3.json("../jsons/world-110m.json", function(error, world) {
+//            var countries = topojson.feature(world, world.objects.countries).features,
+//                neighbors = topojson.neighbors(world.objects.countries.geometries);
+//
+//            svg.selectAll(".country") // "country" should be one kind of key name inside of json
+//                .data(countries)
+//                .enter().insert("path", ".graticule")
+//                .attr("class", "country")
+//                .attr("d", path)
+//                .style("fill", function(d, i) { 
+//                    return color(d.color = d3.max(neighbors[i], function(n) { 
+//                        return countries[n].color; 
+//                    }) + 1 | 0); 
+//                });
+//        });
+            var land = topojson.feature(world, world.objects.land),
+                borders = topojson.mesh(world, world.objects.countries, function(a, b){ return a !== b; }),
+                grid = graticule();
+            
+            d3.timer(function(){
+                projection.rotate([speed * (Date.now() - start), -15]);
+
+                context.clearRect(0, 0, width, height);
+
+                context.beginPath();
+                path(sphere);
+                context.lineWidth = 3;
+                context.strokeStyle = "#000";
+                context.stroke();
+
+                context.beginPath();
+                path(sphere);
+                context.fillStyle = "#fff";
+                context.fill();
+
+                context.beginPath();
+                path(land);
+                context.fillStyle = "#E91E63";
+                context.fill();
+                
+
+                context.beginPath();
+                path(borders);
+                context.lineWidth = .8;
+                context.strokeStyle = "#fff";
+                context.stroke();
+
+                context.beginPath();
+                path(grid);
+                context.lineWidth = .5;
+                context.strokeStyle = "rgba(119,119,119,.5)";
+                context.stroke();
+            });
+        });
+        d3.select(self.frameElement).style("height", height + "px");
+             
+        </script>
+    </body>
+</html>

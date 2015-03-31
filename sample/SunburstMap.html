@@ -1,0 +1,89 @@
+<!--http://bl.ocks.org/wizicer/f662a0b04425fc0f7489 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Sunburst for your skill map </title>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="../MyMAP/js/skillsdata.js"></script>
+        <script type="text/javascript" src="../MyMAP/js/skill.js"></script>
+
+        <link rel="stylesheet" href="../MyMAP/css/Sunburst.css" />
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+            }
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1> Sunburst for your skill map </h1>
+                <h1> 不知道为什么读不了数据？ </h1>
+                <p> Extract from my work, you can a <a href="http://icerdesign.com/about/#/skills">demo</a> in live Combined sunburst and line chart, currently you must generate the data by yourself, I also uploaded the skills.xlsx file to help generate this file(skillsdata.js).</p>
+
+                <h3>Features:</h3>
+                <ul><li>[TODO]works with data that is in a CSV format (you don't need to pre-generate a hierarchical JSON file, unless your data file is very large)</li>
+                    <li>interactive breadcrumb trail helps to emphasize the sequence, so that it is easy for a first-time user to understand what they are seeing</li></ul>
+                <p>If you want to simply reuse this with your own data, here are some tips for generating the skillsdata.js file:</p>
+                <ul><li>Fill in your data to skills.xlsx</li>
+                    <li>Select whole W column and copy</li>
+                    <li>Convert to js by using http://js2coffee.org/</li>
+                    <li>Save and overwrite to skillsdata.js file</li></ul>
+                <p>Indeed, I'm greatly inspired by someone else, but now I can't find who he is and where his site located, maybe I'll add his site link here later, if you do, please let me know, thanks!</p>
+                <div class="map"></div>
+                <div id="skills">
+                  <div id="skillmap">
+                    <div class="skills-wrapper">
+                      <div class="skills-sunburst"></div>
+                      <div class="skills-chart">
+                        <div id="skills-chart-breadcrumb"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <script>
+             // Hack to make this example display correctly in an iframe on bl.ocks.org
+             d3.select(self.frameElement).style("height", "700px");
+        </script>
+    </body>
+</html>

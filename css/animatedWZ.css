@@ -1,0 +1,36 @@
+.breadcrumbs {
+  font-size: small;
+  text-align: center;
+  width: 100%;
+  padding: 5px 0;
+  margin: 0;
+  font-style: italic;
+  border-bottom: solid #eee 1px;
+  color: #000;
+}
+
+.breadcrumbs a {
+  color: #669;
+}
+
+.breadcrumbs a:hover {
+  color: #000;
+}
+
+p.cite {
+  text-align: right;
+  font-size: small;
+  font-style: italic;
+}
+
+p.cite, p.cite a, p.caption, p.caption a {
+  color: #666;
+}
+
+p.caption {
+  text-align: center;
+  font-size: small;
+  font-style: italic;
+  width: 400px;
+  margin: 0 auto;
+}

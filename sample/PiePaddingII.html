@@ -1,0 +1,111 @@
+<!-- http://bl.ocks.org/mbostock/31ec1817b2be2660c453 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pie Padding II</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+                font-weight: 400;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+            }
+            
+           path {
+              fill: #ccc;
+              stroke: #000;
+              stroke-width: 1.5px;
+              stroke-linejoin: round;
+            }
+
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>Pie Padding II</h1>
+                <p>D3 3.5’s d3.layout.pie and d3.svg.arc support angular padding to separate adjacent arcs. Increasing the padAngle increases the separation between arcs, but preserves their relative area, which is necessary for accurate perception.</p>
+                <p>The sides of adjacent arcs are normally parallel. When the specified padding angle is large (relative to the angular width of each arc), the arcs are truncated into wedges. This may be avoided by increasing the inner radius.</p>
+                <h3><a href="PiePaddingII_test.html">Test HTML</a></h3>
+                <div class="map"></div>
+            </div>
+        </div>
+        
+        <script>
+            
+           var data = [1, 1, 2, 3, 5, 8, 13];
+
+            var width = 960,
+                height = 500;
+
+            var outerRadius = height / 2 - 30,
+                innerRadius = outerRadius / 3,
+                cornerRadius = 10;
+
+            var pie = d3.layout.pie();
+
+            var arc = d3.svg.arc()
+                .innerRadius(innerRadius)
+                .outerRadius(outerRadius);
+
+            var svg = d3.select("div.map").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+               
+                var path = svg.selectAll("path")
+                    .data(data)
+                    .enter().append("path");
+
+                var ease = d3.ease("cubic-in-out"),
+                    duration = 7500;
+
+                d3.timer(function(elapsed) {
+                  var t = ease(1 - Math.abs((elapsed % duration) / duration - .5) * 2);
+
+                  path
+                      .data(pie.padAngle(t * 2 * Math.PI / data.length)(data))
+                      .attr("d", arc);
+                });
+
+</script>
+        </script>
+    </body>
+</html>

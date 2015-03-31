@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>d3 Geo Sample : Merging States for topojson </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <style>
+            body{
+                background: #eee;
+            }
+            
+            div.header{
+                position: relative;
+                left: 20px;
+            }
+            div.map{
+                background:  #fff;
+                border: 1em black;
+            }
+
+            .state {
+              fill: #ccc;
+            }
+
+            .state-boundary {
+              fill: none;
+              stroke: #fff;
+            }
+
+            .state.selected {
+              fill: orange;
+              stroke: #000;
+            }
+
+        </style>
+	</head>
+    <body>
+        <div class="header">
+            <h1>Miller projection</h1>
+                <p>This demonstrates using 
+                    <a href="https://github.com/mbostock/topojson/wiki/API-Reference#merge">topojson.merge</a>
+                    , a new feature in 
+                    <a href="https://github.com/mbostock/topojson/releases/tag/v1.6.0">TopoJSON 1.6</a>
+                    , to merge multiple polygons into a single polygon whilst removing interior borders. (An alternative approach is to 
+                    <a href="http://bl.ocks.org/mbostock/5416440">draw the polygons twice.</a>)
+                </p>
+                <p>This example is in response to a Stack Overflow question.</p>
+        </div>
+        <div class="map">
+        </div>
+        <script>
+
+        var width = 960,
+            height = 600;
+
+        var projection = d3.geo.albersUsa()
+            .scale(1280)
+            .translate([width/2, height/2])
+        
+        var color = d3.scale.category20(),
+            graticule = d3.geo.graticule();
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+        var svg = d3.select("div.map").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        svg.append("path")
+            .datum(graticule)
+            .attr("class", "graticule")
+            .attr("d", path);
+
+        svg.append("path")
+            .datum(graticule.outline)
+            .attr("class", "graticule outline")
+            .attr("d", path);
+
+        d3.json("../jsons/color-world.json", function(error, world) {
+          var countries = topojson.feature(world, world.objects.countries).features,
+              neighbors = topojson.neighbors(world.objects.countries.geometries);
+
+          svg.selectAll(".country")
+              .data(countries)
+            .enter().insert("path", ".graticule")
+              .attr("class", "country")
+              .attr("d", path)
+              .style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); });
+        });
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,186 @@
+<!-- http://www.jasondavies.com/maps/zoom/ -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Animated World Zoom </title>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="../js/topojson.min.js"></script>
+        <script src="../js/d3.geo.zoom.js"></script>
+    
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+             body {
+                font-family: 'PT Sans', serif;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                -webkit-margin-end: 1em;
+                border: 1px solid #DEDEDE;
+            }
+            
+            @import url(css/animatedWZ.css);
+
+            #control {
+              width: 960px;
+              margin: 0 auto;
+              text-align: right;
+              font-size: small;
+              font-style: italic;
+              color: #666;
+            }
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1 class="">Animated World Zoom</h1>
+                <p>This is a variation of van Wijk and Nuij’s 
+                    <a href="http://www.win.tue.nl/~vanwijk/zoompan.pdf">Smooth and efficient zooming and panning</a>. The origin of the projection moves along a geodesic (the shortest path on a sphere) between the two points.</p>
+                <p>You can also interact with the globe using a mouse or touch, as described in 
+                    <a href="http://www.jasondavies.com/maps/rotate/">Rotate the World</a>. The transition to a random country happens when a zoom gesture finishes.</p>
+                <h2>d3.geo.zoom</h2>
+                <p> The code is available as a reusable helper, 
+                    <a href="http://www.jasondavies.com/maps/d3.geo.zoom.js">d3.geo.zoom</a>
+                    . The API is similar to that of 
+                    <a href="https://github.com/mbostock/d3/wiki/Zoom-Behavior">d3.behavior.zoom</a></p>
+                <div class="map">
+                </div>
+                <div class="pure-u-1  l-box">
+                    <label for="north-up">
+                        <input type="checkbox" checked id="north-up"> North is up</label>
+                </div>
+            </div>
+        </div>
+        <script>  
+
+            var degrees = 180 / Math.PI,
+                ratio = window.devicePixelRatio || 1,
+                width = 960,
+                height = 500,
+                p = ratio;
+
+            var projection = d3.geo.orthographic()
+                .rotate([0, -30])
+                .scale(height / 2 - 1)
+                .translate([width / 2, height / 2])
+                .clipExtent([[-p, -p], [width + p, height + p]])
+                .precision(.5);
+
+            var canvas = d3.select(".map").append("canvas")
+                .attr("width", width * ratio)
+                .attr("height", height * ratio)
+                .style("width", width + "px")
+                .style("height", height + "px");
+
+            var c = canvas.node().getContext("2d");
+            //# selection.node() - Returns the first non-null element in the current selection. If the selection is empty, returns null.
+
+            var path = d3.geo.path()
+                .projection(projection)
+                .context(roundRatioContext(c));
+
+            var northUp = d3.select("#north-up").on("change", function() { northUp = this.checked; }).property("checked");
+
+            d3.json("../jsons/world-110m.json", function(error, world) {
+
+              var globe = {type: "Sphere"},
+                  graticule = d3.geo.graticule()(),
+                  land = topojson.feature(world, world.objects.land),
+                  borders = topojson.mesh(world, world.objects.countries),
+                  countries = d3.shuffle(topojson.feature(world, world.objects.countries).features),
+                  i = -1,
+                  i0 = i;
+
+              var zoom = d3.geo.zoom()
+                  .projection(projection)
+                  .duration(function(S) { return 2000 * Math.sqrt(S); }) // assume ease="quad-in-out"
+                  .scaleExtent([height / 2 - 1, Infinity])
+                  .on("zoom", function() {
+                    projection.clipAngle(Math.asin(Math.min(1, .5 * Math.sqrt(width * width + height * height) / projection.scale())) * degrees);
+                    c.clearRect(0, 0, width * ratio, height * ratio);
+                    c.strokeStyle = "#999", c.lineWidth = .25 * ratio, c.beginPath(), path(graticule), c.stroke();
+                    c.fillStyle = "#69d2e7", c.beginPath(), path(land), c.fill();
+                    c.fillStyle = "#f00", c.beginPath(), path(countries[i0]), c.fill();
+                    c.fillStyle = "#f00", c.beginPath(), path(countries[i]), c.fill();
+                    c.strokeStyle = "#fff", c.lineWidth = .5 * ratio, c.beginPath(), path(borders), c.stroke();
+                    c.strokeStyle = "#000", c.lineWidth = .5 * ratio, c.beginPath(), path(globe), c.stroke();
+                  })
+                  .on("zoomend", transition);
+
+              canvas
+                  .call(zoom)
+                  .call(zoom.event);
+
+              function transition() {
+                zoomBounds(projection, countries[i = ((i0 = i) + 1) % countries.length]);
+                canvas.transition()
+                    .ease("quad-in-out")
+                    .duration(2000) // see https://github.com/mbostock/d3/pull/2045
+                    .call(zoom.projection(projection).event);
+              }
+
+              function zoomBounds(projection, o) {
+                var centroid = d3.geo.centroid(o),
+                    clip = projection.clipExtent();
+
+                projection
+                    .rotate(northUp ? [-centroid[0], -centroid[1]] : zoom.rotateTo(centroid))
+                    .clipExtent(null)
+                    .scale(1)
+                    .translate([0, 0]);
+
+                var b = path.bounds(o),
+                    k = Math.min(1000, .45 / Math.max(Math.max(Math.abs(b[1][0]), Math.abs(b[0][0])) / width, Math.max(Math.abs(b[1][1]), Math.abs(b[0][1])) / height));
+
+                projection
+                    .clipExtent(clip)
+                    .scale(k)
+                    .translate([width / 2, height / 2]);
+              }
+            });
+
+            // Round to integer pixels for speed, and set pixel ratio.
+            function roundRatioContext(context) {
+              return {
+                moveTo: function(x, y) { context.moveTo(Math.round(x * ratio), Math.round(y * ratio)); },
+                lineTo: function(x, y) { context.lineTo(Math.round(x * ratio), Math.round(y * ratio)); },
+                closePath: function() { context.closePath(); }
+              };
+            }
+
+
+        </script>
+    </body>
+</html>

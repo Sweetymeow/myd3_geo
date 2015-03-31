@@ -1,0 +1,195 @@
+<!-- http://www.ourd3js.com/wordpress/?p=653 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>d3 Geo Sample </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+                font-weight: 400;
+            }
+            h1{
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+            }
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>【 D3.js 进阶系列 — 3.1 】 圆形分区图</h1>
+                <p>分区图布局的 size 函数很有意思，即可用于制作矩形分区图，也可用于制作圆形分区图。本文就来谈讨一下圆形分区图的制作。 </p>
+                <div class="map"></div>
+            </div>
+        </div>
+        
+        <script>
+            var width = 900,
+                height = 900,
+                radius =  Math.min(width, height) / 2 -20,
+                color = d3.scale.category20(),
+                cornerRadius = 10;
+
+            var svg = d3.select("div.map").append("svg")
+                        .attr("width", width)
+                        .attr("height", height)
+                        .append("g")
+                        .attr("transform", "translate(" + radius + "," + radius + ")");
+
+            var partition = d3.layout.partition()
+                            .sort(null)
+                            .size([2 * Math.PI, radius * radius])
+                            .value(function(d) { return 1; });
+
+            var arc = d3.svg.arc()
+                        .startAngle(function(d) { return d.x; })
+                        .endAngle(function(d) { return d.x + d.dx; })
+                        .innerRadius(function(d) { return Math.sqrt(d.y); })
+                        .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); })
+                        .cornerRadius(cornerRadius);
+
+
+            d3.json("jsons/GenGapTitle.json", function(error, root) {
+
+                if(error)
+                    console.log(error);
+                console.log(root);
+
+                var nodes = partition.nodes(root);
+                var links = partition.links(nodes);
+                var nodesName = [], i;
+
+//                console.log(nodes);
+//                for(i = 0; i < nodes.length ; i++){
+//                    var strs = nodes[i].name.split(" ");
+//                    nodesName = nodesName.concat(strs);
+//                } // I don't need to split the text before wrap them
+               
+
+                var arcs = svg.selectAll("g")
+                              .data(nodes)
+                              .enter().append("g");
+
+                arcs.append("path")
+                    .attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
+                    .attr("d", arc)
+                    .style("stroke", "#fff")
+                    .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+                    .on("mouseover",function(d){
+                        d3.select(this)
+                            .style("fill","yellow");
+                    })
+                    .on("mouseout",function(d){
+                        d3.select(this)
+                            .transition()
+                            .duration(200)
+                            .style("fill", function(d) { 
+                                return color((d.children ? d : d.parent).name); 
+                            });
+                    });
+
+
+                arcs.append("text")  
+                    .style("font-size", function(d,i){
+                        if(d.depth <= 1){
+                            console.log("There are one data lower than 1");
+                            return "18px";
+                        }else
+                            return "12px"
+                    })
+                    .style("font-family", "PT Sans")
+                    .attr("text-anchor","middle")
+                    .attr("transform",function(d,i){
+                            //第一个元素（最中间的），只平移不旋转
+                            if( i == 0 )
+                                return "translate(" + arc.centroid(d) + ")";
+
+                            //其他的元素，既平移也旋转
+                            var r = 0;
+                            if( (d.x+d.dx/2)/Math.PI*180 < 180 )  // 0 - 180 度以内的
+                                r = 180 * ((d.x + d.dx / 2 - Math.PI / 2) / Math.PI);
+                            else  // 180 - 360 度以内的
+                                r = 180 * ((d.x + d.dx / 2 + Math.PI / 2) / Math.PI);
+                            //既平移也旋转
+                    
+                            return  "translate(" + arc.centroid(d) + ")" +
+                                    "rotate(" + r + ")";
+                    })
+                    .text(function(d) { return d.name; })
+                    .call(wrap, 60);
+                  
+//                arcs.append("circle")
+//                    .attr("transform", function(d){ return "translate(" + arc.centroid(d) + ")"; })
+//                    .attr("r", 5)
+//                    .style("fill","red")
+//                    .style("stroke", "#000")
+//                    .style("stroke-width", "2px");
+
+            });
+            
+            function wrap(text, width) {
+              text.each(function() {
+                var text = d3.select(this),
+                    words = text.text().split(/\s+/).reverse(),
+                    word,
+                    line = [],
+                    lineNumber = 0,
+                    lineHeight = 1.1, // ems
+                    y = text.attr("y"),
+                    dy = parseFloat(text.attr("dy")),
+//                    tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                    tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy","1em");
+                    
+                while (word = words.pop()) {
+                  line.push(word);
+                  tspan.text(line.join(" "));
+                  if (tspan.node().getComputedTextLength() > width) {
+                    line.pop();
+                    tspan.text(line.join(" "));
+                    line = [word];
+                    // tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                      tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy","1em").text(word);
+                  }
+                }
+              });
+            }
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,97 @@
+<!-- http://bl.ocks.org/mbostock/1de35c45f8718c678712 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>d3 Geo Sample: d3.geo.azimuthal </title>
+        <script src="../MyMAP/js/d3_gra.js" charset="utf-8"></script>
+       
+        
+        <link type="text/css" rel="stylesheet" href="../MyMAP/css/AziStyle.css"/>
+        <link type="text/css" rel="stylesheet" href="../MyMAP/colorbrewer2/colorbrewerPink.css"/>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]--> 
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            svg {
+              width: 1280px;
+              height: 800px;
+              pointer-events: all;
+            }
+
+            circle {
+              fill: #dbe4f0;
+            }
+
+            path {
+              fill: #aaa;
+              stroke: #fff;
+            }
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1 class="">Multiple Rotations</h1>
+                <p>有一个d3.geo.graticule()()方法没办法理解</p>
+                <p>This globe rotates along φ (latitude) and then along λ (longtitude). Normally, the axes are rotated in the opposite order. D3’s new geometry pipeline allows multiple rotations to be applied sequentially, allowing you to specify the desired order.</p>
+            </div>
+        </div>
+        <script type="text/javascript">
+            
+            var width = 960,
+                height = 960,
+                scale = width / 2 - 4;
+
+            var canvas = d3.select("body").append("canvas")
+                .attr("width", width)
+                .attr("height", height);
+
+            var context = canvas.node().getContext("2d");
+
+            var sphere = {type: "Sphere"},
+                graticule = d3.geo.graticule()();
+
+            d3.timer(function(elapsed) {
+              var render = d3.geo.pipeline()
+                  .source(d3.geo.jsonSource)
+                  .pipe(d3.geo.rotate, 0, -.5, 0)
+                  .pipe(d3.geo.rotate, elapsed / 3000, 0, 0)
+                  .pipe(d3.geo.clipCircle, Math.PI / 2)
+                  .pipe(d3.geo.project, d3.geo.orthographic, .3 / scale)
+                  .sink(d3.geom.contextSink, context);
+
+              context.clearRect(0, 0, width, height);
+              context.save();
+              context.translate(width / 2, height / 2);
+              context.scale(scale, -scale);
+
+              context.beginPath();
+              render(graticule);
+              context.lineWidth = 1 / scale;
+              context.stroke();
+
+              context.beginPath();
+              render(sphere);
+              context.lineWidth = 2.5 / scale;
+              context.stroke();
+
+              context.restore();
+            });
+
+            d3.select(self.frameElement).style("height", height + "px");
+
+        
+        </script>
+    </body>
+</html>
