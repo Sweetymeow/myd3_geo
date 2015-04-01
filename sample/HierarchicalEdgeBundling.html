@@ -1,0 +1,172 @@
+<!-- http://bl.ocks.org/mbostock/1044242 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hierarchical Edge Bundling </title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+                font-weight: 400;
+            }
+            h1{
+				margin-top: 0;
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+            }
+			.node {
+			  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+			.link {
+			  stroke: #E91E63;
+			  stroke-opacity: .4;
+			  fill: none;
+			}
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+                <h1>Hierarchical Edge Bundling </h1>
+                <p>An implementation of Danny Holten's hierarchical edge bundling algorithm in D3, showing dependencies between classes in a software class hierarchy. Dependencies are bundled according to the parent packages. This example uses two layouts: a radial d3.layout.cluster to position the tree nodes, and d3.layout.bundle to group the dependencies into spline bundles. Thanks to Jason Davies for contributing the layout implementation!</p>
+                
+<p>Compare to this <a href="http://bl.ocks.org/mbostock/4341134">treemap layout</a>.</p>
+<p>See also the interactive version with link highlighting!</p>
+                <div class="map"></div>
+            </div>
+        </div>
+        
+<script>
+	
+var diameter = 960,
+    radius = diameter / 2,
+    innerRadius = radius - 120;
+
+var cluster = d3.layout.cluster()
+    .size([360, innerRadius])
+    .sort(null)
+    .value(function(d) { return d.size; });
+
+var bundle = d3.layout.bundle();
+
+var line = d3.svg.line.radial()
+    .interpolate("bundle")
+    .tension(.85)
+    .radius(function(d) { return d.y; })
+    .angle(function(d) { return d.x / 180 * Math.PI; });
+
+var svg = d3.select("div.map").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+  .append("g")
+    .attr("transform", "translate(" + radius + "," + radius + ")");
+
+d3.json("../jsons/readme-flare-imports.json", function(error, classes) {
+  var nodes = cluster.nodes(packageHierarchy(classes)),
+      links = packageImports(nodes);
+
+  svg.selectAll(".link")
+      .data(bundle(links))
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", line);
+
+  svg.selectAll(".node")
+		.data(nodes.filter(function(n) { return !n.children; }))
+		.enter().append("g")
+		.attr("class", "node")
+		.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+		.append("text")
+		.attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
+		.attr("dy", ".31em")
+		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+		.attr("transform", function(d) { return d.x < 180 ? null : "rotate(180)"; })
+		.text(function(d) { return d.key; });
+});
+
+d3.select(self.frameElement).style("height", diameter + "px");
+
+// Lazily construct the package hierarchy from class names.
+function packageHierarchy(classes) {
+  var map = {};
+
+  function find(name, data) {
+    var node = map[name], i;
+    if (!node) {
+      node = map[name] = data || {name: name, children: []};
+      if (name.length) {
+        node.parent = find(name.substring(0, i = name.lastIndexOf(".")));
+        node.parent.children.push(node);
+        node.key = name.substring(i + 1);
+      }
+    }
+    return node;
+  }
+
+  classes.forEach(function(d) {
+    find(d.name, d);
+  });
+
+  return map[""];
+}
+
+// Return a list of imports for the given array of nodes.
+function packageImports(nodes) {
+  var map = {},
+      imports = [];
+
+  // Compute a map from name to node.
+  nodes.forEach(function(d) {
+    map[d.name] = d;
+  });
+
+  // For each import, construct a link from the source to target node.
+  nodes.forEach(function(d) {
+    if (d.imports) d.imports.forEach(function(i) {
+      imports.push({source: map[d.name], target: map[i]});
+    });
+  });
+
+  return imports;
+}
+
+
+</script>
+    </body>
+</html>

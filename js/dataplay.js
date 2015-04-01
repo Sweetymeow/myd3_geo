@@ -5,7 +5,11 @@ var qrread_data,
 var width = 960,
     height = 800,
     radius = Math.min(width, height) / 2,
-    color = d3.scale.category20();
+    //color = d3.scale.category20();
+	color = d3.scale.linear()
+			.domain([0, 3])
+			.range(["#FB4650", "#71E2E0", "#6559D7", "#FDB43F"])
+			.interpolate(d3.interpolateHcl);
 
 var pathdelay = 600,
 	textdelay = 700,
@@ -58,7 +62,8 @@ function dataTitle(){
 		.attr("class", "refLine")
 		.attr("x1", -width).attr("y1", 0).attr("x2", width).attr("y2", 0)
         .attr("stroke-width", 2)
-        .attr("stroke", "lightgray");
+        .attr("stroke", "lightgray")
+		.attr("fill","#4D4044");
 
     var partition = d3.layout.partition()
         .sort(d3.descending)

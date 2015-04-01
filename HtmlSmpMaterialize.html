@@ -2,7 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <!--Let browser know website is optimized for mobile
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>-->
         <title>d3 Geo Sample </title>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
@@ -10,19 +12,10 @@
         
         <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-        <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-        <!--<![endif]-->
+		<!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+
         <style>
-            .l-box{
-                padding: 0.8em;
-                text-align: center;
-            }
-            
             body {
                 font-family: 'Play', 'Quicksand', serif;
                 font-weight: 400;
@@ -32,7 +25,6 @@
 				margin-top: 0;
                 color: white;
                 font-size: 3em;
-                background: #E91E63;
                 padding: 0.5em 0 0.5em 0;
                 text-align: center;
             }
@@ -54,20 +46,30 @@
 			a{
 				color: #FD5247;
 			}
+			div.card{
+				width: 960px;
+			}
            
         </style>
 	</head>
 
     <body>
-       <div class="title"><h1>GDP per capita (current US$)</h1>
-				<p>GDP per capita is product </p></div>
-		<div class="pure-g">
-			<div class="pure-u-1 l-box">
-				
-				<div class="map"></div>
-			</div>
+       <div class="card-panel pink accent-3">
+       		<h1>GDP per capita (current US$)</h1>
 		</div>
-
+		<div class="container"> 
+		<!-- Page Content goes here -->
+			<div class="row">
+			  <div class="col s12 grid-example"><span class="flow-text">This div is 12-columns wide on all screen sizes</span></div>
+			  <div class="col s6 offset-s6 grid-example"><span class="flow-text">6-columns (offset-by-6)</span></div>
+			</div>
+			<div class="map"></div>
+		</div><!-- container -->
+		
+		<!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<!--d3 code-->
 		<script>
 		</script>
     </body>
