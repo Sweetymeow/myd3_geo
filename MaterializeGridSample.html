@@ -5,25 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
         <!--Let browser know website is optimized for mobile
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>-->
-        <title>d3 Geo Sample </title>
+        <title> Materialize Grid Sample </title>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
         <script src="http://d3js.org/topojson.v1.min.js"></script>
         
-<<<<<<< Updated upstream
-         <!-- Compiled and minified CSS -->
-		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
-        <!--Import jQuery before materialize.js-->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>		
-        <script type="text/javascript" src="../js/materialize.min.js"></script>
-        <!-- Compiled and minified JavaScript -->
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
-
-
-=======
         <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
->>>>>>> Stashed changes
         <style>
             body {
                 font-family: 'Play', 'Quicksand', serif;
@@ -52,15 +40,8 @@
                 border: 1px solid #DEDEDE;
 				box-shadow: 3px 3px 3px lightgray;
             }
-<<<<<<< Updated upstream
-			a{	color: #FD5247;}
-            .map{  text-align: center; }
-			div.card{
-				width: 960px;
-=======
 			a{
 				color: #FD5247;
->>>>>>> Stashed changes
 			}
            
         </style>
@@ -68,10 +49,10 @@
 
     <body>
        <div class="card-panel pink accent-3">
-       		<h1>GDP per capita (current US$)</h1>
+       		<h1>Materialize Grid Sample</h1>
 		</div>
 		<div class="container"> 
-		<!-- Page Content goes here -->
+			<!-- Grid Offset -->
 			<div class="row">
 				<div class="col s12 grid-example">
 					<div class="map"></div><!-- map -->
@@ -80,6 +61,8 @@
 				<div class="col s6 offset-s6 grid-example">
 					<span class="flow-text">6-columns (offset-by-6)</span>
 				</div>
+				<div class="col s1 orange darken-1"><span class="white-text">1-col</span></div>
+      			<div class="col s11"><span class="blue-text text-darken-1">This div is 11-columns wide </span></div>
 			</div>
 			<div class="row">
 				<div class="col s12">
@@ -90,22 +73,65 @@
 							I am convenient because I require little markup to use effectively.</p>
 						</div>
 						<div class="card-action">
-							<a href="" class="lime-text">This is a link</a>
+							<a href="http://materializecss.com/grid.html" class="lime-text">This is a link to original website </a>
 						
 						</div><!--card-action-->
 					</div><!--card color -->
 				</div><!--col -->
 			</div><!--row-->
+			
+			<!-- Responsive Side Navigation Layout -->
+			<div class="row">
+			  <div class="col s12 m4 l3"> <!-- Note that "m4 l3" was added -->
+				<!-- Grey navigation panel -->
+				  <p>This content will be:</p>
+				  <p>3-columns-wide on large screens,4-columns-wide on medium screens,12-columns-wide on small screens</p>
+			  </div>
+			  <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
+				<!-- Teal page content-->
+				  <p>This content will be:</p>
+				  <p> 9-columns-wide on large screens,</p>
+				  <p>8-columns-wide on medium screens,</p>
+				  <p>12-columns-wide on small screens</p>
+			  </div>
+			</div><!-- Responsive Side Navigation Layout -->
+			<!-- More Responsive Grid Examples -->
+			<div class="row">
+				<div class="col s12"><p>s12</p></div>
+				<div class="col s12 m3 l2"><p>s12 m4</p></div>
+				<div class="col s12 m6 l8"><p>s12 m4</p></div>
+				<div class="col s12 m3 l2"><p>s12 m4</p></div>
+			  </div>
+			  <div class="row">
+				<div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+				<div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+				<div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+				<div class="col s12 m6 l3"><p>s12 m6 l3</p></div>
+			  </div><!-- More Responsive Grid Examples -->
+			<!-- Example Sections and Dividers-->
+			<div class="row">
+				<div class="divider"></div>
+				<div class="section">
+					<h5>Section 1</h5>
+					<p>Stuff</p>
+				</div>
+				<div class="divider"></div>
+				<div class="section">
+					<h5>Section 2</h5>
+					<p>Stuff</p>
+				</div>
+				<div class="divider"></div>
+				<div class="section">
+					<h5>Section 3</h5>
+					<p>Stuff</p>
+				</div>		
+			</div><!-- Example Sections and Dividers-->
 		</div><!-- container -->
-<<<<<<< Updated upstream
-
-=======
 		
 		<!--Import jQuery before materialize.js-->
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<!-- Compiled and minified CSS -->
 		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
->>>>>>> Stashed changes
 		<!--d3 code-->
 		<script>
 		</script>
