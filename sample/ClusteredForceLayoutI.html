@@ -71,6 +71,7 @@
 
             // The largest node for each cluster.
             var clusters = new Array(m);
+            console.log(clusters);
 
             var nodes = d3.range(n).map(function() {
               var i = Math.floor(Math.random() * m),
@@ -79,6 +80,7 @@
               if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = d;
               return d;
             });
+            console.log(nodes);
 
             var force = d3.layout.force()
                 .nodes(nodes)
