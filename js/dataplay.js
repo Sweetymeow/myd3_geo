@@ -8,8 +8,8 @@ var width = 960,
     //color = d3.scale.category20();
 	color = d3.scale.linear()
 			.domain([0, 3])
-			.range(["#FB4650", "#71E2E0", "#6559D7", "#FDB43F"])
-			.interpolate(d3.interpolateHcl);
+			.range(["#FB4650", "#71E2E0", "#6559D7", "#FDB43F"]);
+			//.interpolate(d3.interpolateHcl);
 
 var pathdelay = 600,
 	textdelay = 700,
