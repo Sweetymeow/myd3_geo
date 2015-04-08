@@ -1,0 +1,211 @@
+<!-- HTML Sample -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <title>Zoomable Circle Packing</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+        
+         <!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+        <!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>		
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
+
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Play', 'Quicksand', serif;
+                font-weight: 400;
+				color: #FD5247;
+				background-color: #0C1621;
+            }
+            h1{
+				margin-top: 0;
+                color: white;
+                font-size: 3em;
+                padding: 0.2em 0;
+                text-align: center;
+            }
+            p{
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 1em;
+/*              border: 1px solid #DEDEDE;
+				box-shadow: 3px 3px 3px lightgray;  */
+            }
+
+			a{	color: #FD5247;}
+			div.card{  /*	width: 960px;*/	}
+			.map{
+				margin: 20px auto;
+				text-align: center;
+			}
+			#title{
+				margin-top: 0;
+			}
+
+			.node {
+			  cursor: pointer;
+			}
+
+			.node:hover {
+			  stroke: #000;
+			  stroke-width: 1.5px;
+			}
+
+			.node--leaf {
+			  fill: white;
+			}
+
+			.label {
+			  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+			  text-anchor: middle;
+			  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+			}
+
+			.label,
+			.node--root,
+			.node--leaf {
+			  pointer-events: none;
+			}
+			h1 a{	color: white;}
+        </style>
+	</head>
+
+    <body>
+       	<div class="card-panel teal accent-4" id="title">
+       		<h1><a href="#svgmap">Zoomable Circle Packing</a></h1>
+		</div>
+		<div class="map" id="svgmap"></div>
+		
+		<div class="container"> 
+		<!-- Page Content goes here -->
+<!--
+			<div class="row">
+				<div class="col s12 grid-example">
+					<div class="map"></div> map 
+					<span class="flow-text">This div is 12-columns wide on all screen sizes</span>
+				</div>
+				<div class="col s6 offset-s6 grid-example">
+					<span class="flow-text">6-columns (offset-by-6)</span>
+				</div>
+			</div>
+-->
+			<div class="row">
+				<div class="col s12">
+					<div class="card teal">
+						<div class="card-content white-text">
+							<span class="card-title">Introduction :</span>
+							<p>A quick visual reference to every 
+								<a href="http://colorbrewer2.org/">ColorBrewer scale</a>; colors by Cynthia Brewer. Available in 
+								<a href="https://github.com/mbostock/d3/tree/master/lib/colorbrewer">CSS and JS format.</a>
+								 Click on a palette to log the constituent colors in hexadecimal RGB to the console.</p>
+						</div>
+						<div class="card-action">
+							<a href="http://bl.ocks.org/mbostock/7607535" class="lime-text">Link to Sample</a>
+						
+						</div><!--card-action-->
+					</div><!--card color -->
+				</div><!--col -->
+			</div><!--row-->
+		</div><!-- container -->
+
+		<!-- Import jQuery before materialize.js -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+<!--d3 code-->
+<script>
+	
+
+var margin = 20,
+    diameter = 960;
+
+var color = d3.scale.linear()
+    .domain([-1, 5])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .interpolate(d3.interpolateHcl);
+
+var pack = d3.layout.pack()
+    .padding(2)
+    .size([diameter - margin, diameter - margin])
+    .value(function(d) { return d.size; })
+
+var svg = d3.select("div.map").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+  .append("g")
+    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+
+d3.json("../jsons/flare.json", function(error, root) {
+  if (error) return console.error(error);
+
+  var focus = root,
+      nodes = pack.nodes(root),
+      view;
+
+  var circle = svg.selectAll("circle")
+      .data(nodes)
+    .enter().append("circle")
+      .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+      .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+      .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+
+  var text = svg.selectAll("text")
+      .data(nodes)
+    .enter().append("text")
+      .attr("class", "label")
+      .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+      .style("display", function(d) { return d.parent === root ? null : "none"; })
+      .text(function(d) { return d.name; });
+
+  var node = svg.selectAll("circle,text");
+
+  d3.select("div.map")
+      .style("background", color(-1))
+      .on("click", function() { zoom(root); });
+
+  zoomTo([root.x, root.y, root.r * 2 + margin]);
+
+  function zoom(d) {
+    var focus0 = focus; focus = d;
+
+    var transition = d3.transition()
+        .duration(d3.event.altKey ? 7500 : 750)
+        .tween("zoom", function(d) {
+          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+          return function(t) { zoomTo(i(t)); };
+        });
+
+    transition.selectAll("text")
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+        .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+  }
+
+  function zoomTo(v) {
+    var k = diameter / v[2]; view = v;
+    node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+    circle.attr("r", function(d) { return d.r * k; });
+  }
+});
+
+d3.select(self.frameElement).style("height", diameter + "px");
+
+</script>
+    </body>
+</html>

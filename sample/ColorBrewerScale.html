@@ -7,8 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>-->
         <title>d3 Geo Sample </title>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
-        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
         
          <!-- Compiled and minified CSS -->
 		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
@@ -25,6 +24,7 @@
                 font-family: 'Play', 'Quicksand', serif;
                 font-weight: 400;
 				color: #FD5247;
+				background-color: #0C1621;
             }
             h1{
 				margin-top: 0;
@@ -52,46 +52,66 @@
 			a{	color: #FD5247;}
             .map{  text-align: center; }
 			div.card{  /*	width: 960px;*/	}
-			a{
-				color: #FD5247;
-			}
-			.content{
-				margin: 20px 0;
+			.map{
+				margin: 20px auto;
 				text-align: center;
+				width: 960px;
+  				height: 500px;
+			}
+			#title{
+				margin-top: 0;
 			}
            
+			.palette {
+			  cursor: pointer;
+			  display: inline-block;
+			  vertical-align: bottom;
+			  margin: 4px 0 4px 6px;
+			  padding: 4px;
+			  background: #fff;
+			  border: solid 1px #aaa;
+			}
+
+			.swatch {
+			  display: block;
+			  vertical-align: middle;
+			  width: 37px;
+			  height: 22px;
+			}
         </style>
 	</head>
 
     <body>
-       	<div class="card-panel pink accent-3">
+       	<div class="card-panel pink accent-3" id="title">
        		<h1>GDP per capita (current US$)</h1>
 		</div>
-		<div class="content">
-			This is to show D3 map
-		</div>
+		<div class="map"></div>
 		
 		<div class="container"> 
 		<!-- Page Content goes here -->
+<!--
 			<div class="row">
 				<div class="col s12 grid-example">
-					<div class="map"></div><!-- map -->
+					<div class="map"></div> map 
 					<span class="flow-text">This div is 12-columns wide on all screen sizes</span>
 				</div>
 				<div class="col s6 offset-s6 grid-example">
 					<span class="flow-text">6-columns (offset-by-6)</span>
 				</div>
 			</div>
+-->
 			<div class="row">
 				<div class="col s12">
 					<div class="card pink lighten-1">
 						<div class="card-content white-text">
 							<span class="card-title">Introduction :</span>
-							<p>I am a very simple card. I am good at containing small bits of information.
-							I am convenient because I require little markup to use effectively.</p>
+							<p>A quick visual reference to every 
+								<a href="http://colorbrewer2.org/">ColorBrewer scale</a>; colors by Cynthia Brewer. Available in 
+								<a href="https://github.com/mbostock/d3/tree/master/lib/colorbrewer">CSS and JS format.</a>
+								 Click on a palette to log the constituent colors in hexadecimal RGB to the console.</p>
 						</div>
 						<div class="card-action">
-							<a href="" class="lime-text">Link to Sample</a>
+							<a href="http://bl.ocks.org/mbostock/5577023#index.html" class="lime-text">Link to Sample</a>
 						
 						</div><!--card-action-->
 					</div><!--card color -->
@@ -103,8 +123,22 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<!-- Compiled and minified CSS -->
 		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
-		<!--d3 code-->
-		<script>
-		</script>
+<!--d3 code-->
+<script>
+	
+d3.select("div.map")
+  .selectAll(".palette")
+    .data(d3.entries(colorbrewer))
+  .enter().append("span")
+    .attr("class", "palette")
+    .attr("title", function(d) { return d.key; })
+    .on("click", function(d) { console.log(d3.values(d.value).map(JSON.stringify).join("\n")); })
+  .selectAll(".swatch")
+    .data(function(d) { return d.value[d3.keys(d.value).map(Number).sort(d3.descending)[0]]; })
+  .enter().append("span")
+    .attr("class", "swatch")
+    .style("background-color", function(d) { return d; });
+	
+</script>
     </body>
 </html>

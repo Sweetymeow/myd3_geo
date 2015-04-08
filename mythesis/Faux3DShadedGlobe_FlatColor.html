@@ -4,38 +4,34 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Faux-3d Shaded Globe </title>
+        <title> Thesis Work3 </title>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="http://d3js.org/queue.v1.min.js"></script>
         <script src="http://d3js.org/topojson.v0.min.js"></script>
         
-        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-        <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-        <!--<![endif]-->
+<!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+        <!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>		
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
+
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
         <style>
-            .l-box{
-                /*padding: 0.8em;*/
-                text-align: right;
-                margin-left: 1em;
-                margin-right: 1em;
-            }
-            
             body {
-                font-family: 'PT Sans', serif;
+                font-family: 'Play', 'Quicksand', serif;
+				background-color: #593d6a;
             }
             h1{
                 color: white;
                 font-size: 3em;
-                background: #E91E63;
-                padding: 0.5em 0 0.5em 0;
+/*                padding: 0.5em 0 0.5em 0;*/
                 text-align: center;
             }
+			h1 a{ color: white; }
             p{
                 font-size: 1.3em;
                 text-align: left;
@@ -47,10 +43,15 @@
                 -webkit-margin-end: 2em;
             }
             svg{
-                -webkit-margin-before: 2em;
-                -webkit-margin-end: 1em;
+/*              -webkit-margin-before: 1em;
+                -webkit-margin-end: 1em; */
                 border: 1px solid #DEDEDE;
+				margin: 0.5em auto;
+				text-align: center;
             }
+			text{
+				fill: white;
+			}
             
             .land {
               fill: white;
@@ -93,40 +94,56 @@
             .point{
               opacity:.6;
             }
-            
-            .labelBox{
-                text-align: center;
-                margin: 0 0 1em 0;
-                min-height: 50px;
-                border: 1px solid #D81B60;
-                background: #FCE4EC;
-            }
-            
-            .labelBox h3{
-                margin: 1em 2em 1em 1em;
-                color: #F06292;
-                font-size: 1.2em;
-            }
-            
-            .label{
-                min-height: 150px;
-                border: 1px solid #D81B60;
-                margin: 2em 1em 0 1em;
-            }
+			
+			/** d3 geo global **/
+			.info {
+				margin: 0 auto;
+  				text-align: center;
+			}
+			.map {
+				margin: 0 auto;
+  				text-align: center;
+			}
+			#title{
+				margin: 0;
+				max-height: 160px;
+			}
+			div#title h1 {
+				margin: 10px 0;
+			}
+			.mapcontainer{
+				margin: 1em 0;
+			}
         </style> 
     </head>
     <body>
-        <div class="pure-u-1 l-box">
-        <h1>Faux-3d Shaded Globe</h1>
-        <p>Faux-3d SVG globe using <a href="https://github.com/mbostock/d3/wiki/Geo-Projections#wiki-orthographic">d3.geo.orthographic</a> and a few radial gradients. Labels offset or hidden based on radians from current map center to enhance the effect.</p>
-        <p>Uncomment svg.append("g").attr("class","countries") for hover-able country outlines.</p>
-        </div>    
-        <div class="pure-g">
-            <div class="pure-u-1 pure-u-lg-3-4"><div class="map l-box"></div></div>
-            <div class="pure-u-1 pure-u-lg-1-4">
-                <div class="label">
+		<div class="card-panel pink accent-4" id="title">
+       		<h1><a href="#svgmap">Thesis: Take Beauty to Go</a></h1>
+		</div>
+		<div class="mapcontainer">
+			<div class="row">
+				<div class="map col s12 l8">
+					
+				</div><!-- map -->
+				<div class="info col s12 l4">
+					<div class="introduction card pink accent-3">
+						<div class="card-content white-text">
+							<span class="card-title">Introduction :</span>
+							<p>Faux-3d SVG globe using 
+								<a href="https://github.com/mbostock/d3/wiki/Geo-Projections#wiki-orthographic">d3.geo.orthographic</a> 
+								and a few radial gradients. Labels offset or hidden based on radians from current map center to enhance the effect.</p>
+							<p>Uncomment svg.append("g").attr("class","countries") for hover-able country outlines.</p>
+						</div>
+					</div><!-- introduction -->
+				</div><!-- info -->
+			</div><!-- row -->
+		</div><!--  container-->
+      
+        <div class="container">
+            <div class="card pink accent-3">
+                <div class="label card-content white-text ">
                     <div class="labelBox"> 
-                    <h3>This contain the basic info</h3>
+                    	<h4>This contain the basic info</h4>
                     </div>
                     <div>
                         <p>country information</p>
