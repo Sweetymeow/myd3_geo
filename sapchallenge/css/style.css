@@ -1,0 +1,54 @@
+rect:hover {
+    fill: orange;
+}
+nav{
+    margin: 5px 20px;
+    text-align: center;
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: 'PT Sans',sans-serif;
+}
+
+/* SVG Map */
+.map{
+    text-align: center;
+}
+svg{  
+    border: 2px solid #ccc; 
+}
+
+/* Title and Avg percent */
+g text{ 
+    font-family: 'PT Sans', sans-serif;
+    fill: black;
+    font-size: 1.2em;
+    text-anchor: middle; 
+}
+
+/* Axis */
+.tick{ 
+    fill: #000; 
+}
+line, path { 
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.xaxis, .yaxis{
+    font-family: sans-serif;
+    fill: black;
+    font-size: 0.8em;
+}
+
+/* Percent text */
+.percent0,.percent1 { /* On Time */
+    font-family: 'PT Sans', sans-serif;
+    fill: white;
+    font-size: 1em;
+}
+/*
+.percent1{   Late 
+    font-family: 'PT Sans', sans-serif;
+    fill: white;
+    font-size: 1em;
+}*/

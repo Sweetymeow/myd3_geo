@@ -7,7 +7,14 @@
 		<style type="text/css">
 			rect:hover {
 				fill: orange;
-			}			
+			}
+            nav{
+                margin: 5px 20px;
+                text-align: center;
+            }
+            h1,h2,h3,h4,h5,h6{
+                font-family: sans-serif;
+            }
 			#tooltip {
 				position: absolute;
 				width: 200px;
@@ -63,6 +70,7 @@
 	<body>
 	    <nav>
 	        <h1>SAP Challenge</h1>
+	        <h3>Xin Wen</h3>
 	    </nav>
 	    <div class="map"></div>
 		<div id="tooltip" class="hidden">
@@ -131,13 +139,15 @@
                 // Calculate quarter average % Net Sales
                 percent_data.forEach(function(d) {
                     d.quartAvg = Math.round(quartSum[d.status][d.quart-1]/ quartSum[d.status+"MonthNum"][[d.quart-1]]);
+                    
+                    d.quartMonth = quartSum[d.status+"MonthNum"][[d.quart-1]];
                 });
+                console.log(quartSum);
                 
                 // create array to save two Total net sales object
                 var avgNetSales = new Array();
                 
                 statusData.forEach(function(d,i){
-                    console.log(d);
                     avgNetSales[i] = new Object();
                     
                     avgNetSales[i].date = d.values[d.values.length-1].date+1;
@@ -154,6 +164,10 @@
                 var xScale = d3.scale.ordinal()
 							.domain(d3.range(dataset.length/2 + 1))
 							.rangeRoundBands([0, w - yaxisSpace], 0.1);
+                // x Scale without interval
+                var xNoInt = d3.scale.ordinal()
+							.domain(d3.range(dataset.length/2 + 1))
+							.rangeBands([0, w - yaxisSpace]);
                 
                 var xAxis = d3.svg.axis()
                             .scale(xScale);
@@ -209,7 +223,7 @@
                         .enter()
                         .append("rect")
                         .attr("x", function(d, i) {
-                            //console.log(d);
+                            console.log(xScale(i));
                             return xScale(i)+yaxisSpace;
                         })
                         .attr("y", function(d) {
@@ -223,7 +237,40 @@
                             return color(j);
                         });
                     
-                    // Percent text inside bar
+                    // build dashed lines for quarter average % Net Sales
+                    var dashrect = svg.selectAll("g.dashed"+j)
+                        .data(statusData[j].values)
+                        .enter()
+                        .append("g")
+                        .attr("class","dashed"+j);
+                    
+                    dashrect.append("rect")
+                        .attr("x", function(d, i) {
+                            var x0 = xNoInt(i)+yaxisSpace
+                            return i?(x0-i):x0;
+                        })
+                        .attr("y", function(d) {
+                            if(d.total){
+                                return h/(j+1)-yScale(d.netsales)+barRise;
+                            }else{
+                            return d.quartAvg?(h/(j+1)-yScale(d.quartAvg)+barRise):0;}
+                        })
+                        .attr("width", function(d,i){
+                            if(d.total){
+                                return xNoInt.rangeBand();
+                            }else{
+                                return d.date%3==1?(d.quartMonth*xNoInt.rangeBand()-i):0;
+                            }
+                        })
+                        .attr("height", function(d) {
+                            return d.total?(yScale(d.netsales)-barRise):(yScale(d.quartAvg)-barRise);
+                        })
+                        .attr("stroke", "black")
+                        .attr("stroke-width","2")
+                        .attr("stroke-dasharray","5,5")
+                        .attr("fill","none");
+                    
+                    // Percent text inside bars
                     svg.selectAll("text.percent"+j)
                         .data(statusData[j].values)
                         .enter()
@@ -239,6 +286,25 @@
                         })
                         .text(function(d) { return d.netsales+"%"; });
                     // debug console.log(statusData[j].values);
+                    
+                    // Average percent text outside of bars
+                    dashrect.append("text")
+                        .attr("class", "avgpercent"+j)
+                        .attr("text-anchor", "middle")
+                        .attr("font-size", "11px")
+                        .attr("fill", "black")
+                        .attr("x", function(d, i) {
+                            if(d.total){
+                                return  xScale(i)+yaxisSpace+xScale.rangeBand()/2;
+                            }else{
+                                return d.date%3==1?(d.quartMonth*xNoInt.rangeBand()/2 + xScale(i)+yaxisSpace):(-50);
+                                }
+                        })
+                        .attr("y", function(d) {
+                            return h/(j+1) - yScale(d.netsales);
+                        })
+                        .text(function(d) { 
+                            return "Avg = " + (d.total?d.netsales:d.quartAvg)+"%"; });
                         
                     // X Axis
                     svg.append("g")
@@ -269,19 +335,6 @@
                 }
                    
              });
-            
-//            function quarterAvg(data){
-//                var twoStatus = data;
-//                console.log(data);
-//                twoStatus.forEach(function(twoData,i){
-//                    var dataValues = twoData.values;
-//                    dataValues.forEach(function(d,i){
-//                        d.quart = Math.floor((d.date-1)/3)+1;
-//                        console.log(d);
-//                    });
-//                });
-//                return twoStatus;
-//            }
 			
 		</script>
 	</body>
