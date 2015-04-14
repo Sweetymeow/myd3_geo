@@ -1,0 +1,190 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800|Roboto+Slab:400,300,100,700|Roboto:400,100,300,500,700);
+/* import font from Google Font */
+
+body{
+	// padding-top: 70px;
+	font-family: 'Roboto Slab', sans-serif;
+	font-weight: 300;
+	font-size: 2em;
+	position: relative; 
+	/* It's gonna be important for some of the other work that we're gonna be doing. 
+	* We're going to be using a plugin called scroll spy from bootstrap. 
+	* And it requires that you add this position relative to your body section.  */
+}
+
+h1, h2, h3, h4, h5, h6{
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 100;
+	margin: 0;
+}
+
+img {
+	max-width: 200px;
+}
+
+.main{
+	font-family: 'Open Sans', sans-serif;
+	margin-top: 160px;
+}
+
+/** D3 List Styles **/
+#d3sample li a{
+	font-size: 1em;
+	color: cornflowerblue;
+	
+}
+
+#d3sample li a.important{
+	font-weight: 600;
+	color: coral;
+}
+#d3sample h3{
+	margin-left: 1em;
+	font-weight: 600;
+	margin-bottom: 0.5em;
+}
+#d3sample li a.test{
+	font-weight: 500;
+	color: orange;
+}
+#contents{
+	letter-spacing: 0;
+}
+
+/** Header Navigation 导航标志**/
+
+header .navbar {
+	padding: 10px 0; /* top&bottom: 30px left&right: 0px */ 
+    transition: all .5s ease-out;
+}
+header .navbar-default {
+/*	background-color: transparent;*/
+	background-color: coral;
+	border: none;
+}
+header .navbar-default .navbar-nav a{
+	color: white;
+	padding: 5px 8px;
+}
+header .navbar-default .navbar-nav a:hover {
+	color: #EFC460; 
+/*	sample color #EEC856*/
+}
+header .navbar-default .navbar-nav .active a {
+	font-weight: 700;
+	color: #EFC460;
+	background-color: transparent;
+	border-bottom: 4px solid #EFC460;
+	text-shadow: none;
+}
+header .navbar-default .navbar-nav .active a:hover {
+	color: #E15d5f;
+	background-color: transparent;
+	text-shadow: none;	
+}
+
+header .navbar-nav {
+	margin-top: 1em;
+}
+
+/** Navbar Brand **/
+header .navbar-brand{
+/*	background: url(../img/wisdompetlogo.svg);*/
+	background-repeat: no-repeat;
+	background-position: 15px 0;
+	height: auto;
+}
+header .navbar-brand h1 {
+	color: white;
+	margin: 0;
+	font-size: 1.8em;
+	font-weight: 800;
+	padding-left: 105px;
+}
+header .navbar-brand span.subhead{
+	display: block;/**/
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 0.6em;
+	font-weight: 100;
+
+}
+
+/** Navbar Toggle: 只在手机界面显示 **/
+header .navbar-toggle{
+	background-color: #279182;
+}
+header .navbar-default .navbar-toggle .icon-bar {
+	background-color: white;
+}
+
+@media only screen
+and (max-width: 768px){/* Following css only work when screen smaller than 768px */
+	header .navbar-collapse.in {
+		background-color: rgba(0,0,0,.5);
+	}
+
+}
+
+/** Nav Indoby: 向下滚动的导航栏 **/
+header .inbody{
+    background: rgba(104, 73, 49, .9);
+    
+}
+header .inbody{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+header .inbody .navbar-nav{
+    margin-top: 0;
+    padding-top: 10px;
+}
+header .inbody .navbar-brand{
+    background-size: 43px;
+    background-position: top left;
+    margin-top: 5px;
+    padding-bottom: 0;
+    margin-left: 10px;
+}
+header .inbody .navbar-brand h1{
+    font-size: 1.1em;
+    padding-left: 38px;
+}
+header .inbody .navbar-brand .subhead{
+    display: none;
+}
+
+.nav{
+	border-radius: 0;
+	border: 0;
+}
+.navbar{
+	border-radius: 0;
+	border: 0;
+}
+
+/** Old Style **/
+
+/*
+ul{
+	text-align: left;
+	margin: 0.5em 3em 1em 3em;
+}
+li{
+	min-height: 1.5em;
+	font-size: 1.3em;
+	color: orange;
+}
+
+
+a.important{
+	font-weight: 600;
+	color: coral;
+}
+a.test{
+	font-weight: 500;
+	color: orange;
+}
+#contents{
+	letter-spacing: 0;
+}
+*/

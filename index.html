@@ -1,241 +1,278 @@
 <!-- HTML Sample -->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Wendy g3 files</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script src="../mymap/js/jquery.csv.js"></script>
-		
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-        <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-        <!--<![endif]-->
-        <style>
-            .l-box{
-                padding: 0.8em;
-                text-align: center;
-            }
-            ul{
-                text-align: left;
-                margin: 0.5em 3em 1em 3em;
-            }
-            li{
-                min-height: 1.5em;
-                font-size: 1.3em;
-                color: orange;
-            }
-            a{
-                color: cornflowerblue;
-            }
-            a.important{
-                font-weight: 600;
-                color: coral;
-            }
-            a.test{
-                font-weight: 500;
-                color: orange;
-            }
-			#contents{
-				letter-spacing: 0;
-			}
-        </style>
-	</head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Wendy g3 files</title>
+	<!--响应式CSS-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">	
+	<link rel="stylesheet" href="css/style.css"><!--Custom CSS-->
 
-    <body>
-        <div class="pure-g">
-            <div class="pure-u-1 l-box">
-                <h1 class="">My D3 Files and Samples List</h1>
-				<div id=inputs class="clearfix">
-					<p>This file function can read local html files from File.csv</p>
-					<P>current only work in CAA-S192 with path: <strong>/Users/xzw117/Sites/d3_Geo/mymap/</strong></P>
-					<input type="file" id="files" name="files[]" multiple />
-					<hr />
-					<output id="list"></output>
-					<hr />
-				</div>
-            </div>
-            <div class="pure-u-1-2">
-                <ul>
-                    <li><a href="/sample/Azimuthal.html">Azimuthal</a></li>
-                    <li><a href="/sample/CollapsibleForceLayout.html">CollapsibleForceLayout</a></li>
-                    <li><a href="/sample/d3HtmlSample.html">d3HtmlSample</a></li>
-                    <li><a href="/sample/d3showReel.html">d3 Show Reel(15种动画)</a></li>
-                    <li><a href="/sample/D3ShowReel10types.html">D3 Show Reel 10 types</a></li>
-                    <li><a href="/sample/FactorizationDiagrams.html">Factorization Diagrams</a></li>
-                    <li><a href="/sample/Faux3dArcs.html">Faux 3d Arcs</a></li>
-                    <li><a href="/sample/GeodesicRainbow.html">Geodesic Rainbow</a></li>
-                    <li><a href="/sample/GooglePublicPPPDataSample.html">Google Public PPP Data Sample</a></li>
-                    <li><a class="important" href="HtmlSample.html"><strong>Html Sample</strong></a></li>
-                    <li><a href="/sample/interactiveOrthographic.html">interactive Orthographic</a></li>
-                    <li><a href="/sample/mergingStates.html">merging States</a></li>
-                    <li><a href="/sample/mouseZclick2C.html">mouse Zoom and Click to Countries</a></li>
-                    <li><a href="/sample/MulRotate.html">Mul Rotate</a></li>
-                    <li><a class="important"  href="/mythesis/PHONE_ChordDiagram.html">PHONE_Chord Diagram</a></li>
-                    <li><a href="/sample/PieChartsLabels.html">Pie Charts Labels</a></li>
-                    <li><a class="important" href="/sample/Prim'sAlgorithmV.html">Prim's Algorithm V</a></li>
-                    <li><a href="/sample/primAlgorithm.html">prim Algorithm</a></li>
-                    <li><a href="/sample/Streamgraph.html">Streamgraph - 无数据</a></li>
-                    <li><a class="important" href="/mythesis/Streamgraph_data.html">Streamgraph_<em>Data</em></a></li>
-                    <li><a href="/mythesis/Streamgraph_interactive.html">Streamgraph_<em>Interactive</em>(Button)</a></li>
-                    
-                    <li><a href="/sample/SymbolWorldMap.html">Symbol World Map</a></li>
-                    <li><a href=/sample/"transformTransitions.html">transform Transitions</a></li>
-                    <li><a href="/sample/treemap.html">treemap</a></li>
-                    <li><a href="/sample/VoronoiArcMap.html">Voronoi Arc Map</a></li>
-                    <li><a href="/sample/z2BoundingBox.html">Zoom 2 Bounding Box</a></li>
-                    <li><a href="/sample/z2BoundingBox2.html">Zoom 2 Bounding Box2</a></li>
-                    <li><a href="/sample/z2Sunburst.html">Zoom 2 Sunburst </a></li>
-                    <li><a href="/sample/zCirclePacking.html">Zoom C irclePac king</a></li>
-                    <li><a href="/sample/zoom2BoundingBox.html">Zoom 2 Bounding Box</a></li>
-                    <li><a href="/sample/ZoomTransitions.html">Zoom Transitions</a></li>
-                </ul>
-                </div>
-                <div class="pure-u-1-2">
-                    <ul>
-                        <li><h3>New Sample created after Mar 8th</h3></li>
-                        <li><a href="/sample/CollapsibleForceLayout.html">Collapsible Force Layout/a></li>
-                        <li><a href="/sample/ForceDirectedGraph.html">ForceDirectedGraph</a></li>
-                        <li><a href="/sample/ForceCurvedLinks.html">Force Curved Links</a></li>
-                        <li><a href="/sample/RadarChart_Ep.html">Radar Chart_Ep</a></li>
-                        <li><a href="/sample/RadarChart.html">Radar Chart</a></li>
-                        <li><a href="/sample/Faux3dShadedGlobe.html">Faux 3D Shaded Globe</a></li>
-                        <li><a href="/sample/ClusteredForceLayoutI.html">Clustered Force Layout I</a></li>
-                        <li><a href="/sample/CustomCartesianProjection.html">Custom Cartesian Projection</a></li>
-                        <li><a href="/sample/ClusteredForceLayoutII.html">Clustered Force Layout II</a></li>
-                        <li><a href="/sample/ChordDiagram.html">Chord Diagram</a></li>
-                        <li><a href="/sample/SunburstMap.html">Sunburst Map</a></li>
-                        <li><a href="/sample/interactiveOrthographic.html">Interactive Orthographic</a></li>
-                        <li><a class="important" href="/mythesis/Faux3DShadedGlobe_Test.html"><em>Faux3DShadedGlobe_Test</em></a></li>
-                        <li><a class="important" href="mythesis/PHONE_ChordDiagram.html">PHONE_Chord Diagram(Animation)</a></li>
-                        <li><a href="/sample/geoCanvas_Sample.html">Geo Canvas_Sample</a></li>
-                        <li><a href="/sample/AnimatedWorldZoom.html">Animated Global World Zoom</a></li>
-                        <li><a class="test" href="/mythesis/AnimatedWorldZoom_test.html">Animated Global World Zoom_test</a></li>
-                        <li><a href="/sample/GlobalRotateZoom.html">Global Rotate Zoom</a></li>
-                        <li><a class="test" href="/sample/GlobalRotateZoom_test.html">Global Rotate Zoom _ <strong>Test</strong></a></li>
+	<script src="js/prefixfree.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<script src="js/jquery.csv.js"></script>
+	<script src="js/myscript.js"></script>
+</head>
 
-                        <li><a href="/sample/selectableColorWMap.html">selectable Color World Map</a></li>
-                        <li><a href="/sample/DynamicHexbin.html">Dynamic Hexbin(no Data)</a></li>
-                        <li><a href="/sample/RainbowWorm.html">Rainbow Worm(no Data)</a></li>
-                        <li><a href="/sample/BilevelPartition.html">Bilevel Partition(动态分割饼图)</a></li>
-                        <li><a class="important" href="/sample/RingPartitionMap.html">Ring Partition Map(使用GenderGap Title做数据)</a></li> 
-						<li><a class="test" href="/sample/RingPartitionMap_radio.html">Ring Partition Map(尝试加入动作不成功)</a></li>
-                        <li><a href="/sample/PiePaddingII.html">Pie Padding II(动态饼图) </a></li>
-                        <li><a class="important" href="/mythesis/SunburstPartition_test.html">Sunburst Partition_test</a></li> 
-						<li><a class="important" href="SunburstPartition_test_title.html">Sunburst Partition_test_title</a></li> 
-                        <li><a href=".html"></a></li> 
-                     </ul>
-                </div>
-			<div class=" pure-u-1 l-box">
+<body>
+<header>
+	<nav class="navbar navbar-default navbar-fixed-top" id="navspace" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle " data-toggle="collapse" 
+					data-target="#bs-example-navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+				<h1>Wendy<span class="subhead"> D3 Sample</span></h1>
+				</a><!-- Title will keep in colloapse version-->
+			</div>	
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse">
+				<ul class="nav navbar-right navbar-nav">
+					<li class="active"><a href="#featured">Home</a></li>
+					<li><a href="#mythesis">My Thesis</a></li>
+					<li><a href="#csvread">CSV Read</a></li>
+					<li><a href="#d3sample">D3 Sample</a></li>
+					<li><a href="#d3csvlist">CSV List</a></li>
+				</ul><!--nav nav-tabs-->
+			</div><!--nav-collapse collapse-->
+		</div><!--container-->
+	 </nav><!--navbar navbar-default-->
+</header>
+  
+<div class="main">
+	<div class="page" id="mythesis">
+		<div class="content container">
+			<h2>My Thesis Projects</h2>
+			<div class="row">
+			<article class="myd3 col-md-4 col-sm-6 col-xs-12">
+			  <img class="sample" src="img/icon-exoticpets.svg" alt="Sample">
+			  <h3>Exotic Pets</h3>
+			  <p>We offer specialized care for reptiles, rodents, birds, and other exotic pets.</p>
+			</article> <!-- service col-sm-4-->
+
+			<article class="myd3 col-md-4 col-sm-6 col-xs-12">
+			  <img class="sample" src="img/icon-grooming.svg" alt="Sample">
+			  <h3>Grooming</h3>
+			  <p>Our therapeutic grooming treatments help battle fleas, allergic dermatitis, and other challenging skin conditions.</p>
+			</article><!-- service col-sm-4-->
+
+			<article class="myd3 col-md-4 col-sm-6 col-xs-12">
+			  <img class="sample" src="img/icon-health.svg" alt="Sample">
+			  <h3>GeneralHealth</h3>
+			  <p>Wellness and senior exams, ultrasound, x-ray, and dental cleanings are just a few of our general health services.</p>
+			</article><!-- service col-sm-4-->
+			
+			<article class="myd3 col-xs-12" >
+			  <h3>Link Lists</h3>
+			  <ul class="col-sm-6 col-xs-12" id="thesisList">
+			  </ul><!--thesisList-->
+			</article><!-- service col-sm-10 col-sm-offset-1 col-xs-12 -->
+			</div><!--row-->
+		</div><!--content container-->
+	</div><!--.page#mythesis-->
+</div><!--  main -->
+	  
+<div class="page">
+	<div class="content container" id="csvread">
+		<div class="row">
+			<h2>My D3 Sample Projects</h2>
+			<div id=inputs class="clearfix">
+				<p>This file function can read local html files from File.csv</p>
+				<P>current only work in CAA-S192 with path: <strong>/Users/xzw117/Sites/d3_Geo/mymap/</strong></P>
+				<input type="file" id="files" name="files[]" multiple />
 				<hr />
-				<table id="contents" style="width:100%; height:400px;" border></table>
+				<output id="list"></output>
+				<hr />
 			</div>
-        </div>
-        <script>
-			
-			$(document).ready(function() {
-				if(isAPIAvailable()) {
-				  $('#files').bind('change', handleFileSelect);
-				}
+		</div><!--row-->
+
+		<div class="row" id="d3sample">
+			<div class="col-sm-6 col-xs-12">
+				<ul>
+					<li><a href="../sample/Azimuthal.html">Azimuthal</a></li>
+					<li><a href="../sample/CollapsibleForceLayout.html">CollapsibleForceLayout</a></li>
+					<li><a href="../sample/d3HtmlSample.html">d3HtmlSample</a></li>
+					<li><a href="../sample/d3showReel.html">d3 Show Reel(15种动画)</a></li>
+					<li><a href="../sample/D3ShowReel10types.html">D3 Show Reel 10 types</a></li>
+					<li><a href="../sample/FactorizationDiagrams.html">Factorization Diagrams</a></li>
+					<li><a href="../sample/Faux3dArcs.html">Faux 3d Arcs</a></li>
+					<li><a href="../sample/GeodesicRainbow.html">Geodesic Rainbow</a></li>
+					<li><a href="../sample/GooglePublicPPPDataSample.html">Google Public PPP Data Sample</a></li>
+					<li><a class="important" href="HtmlSample.html"><strong>Html Sample</strong></a></li>
+					<li><a href="../sample/interactiveOrthographic.html">interactive Orthographic</a></li>
+					<li><a href="../sample/mergingStates.html">merging States</a></li>
+					<li><a href="../sample/mouseZclick2C.html">mouse Zoom and Click to Countries</a></li>
+					<li><a href="../sample/MulRotate.html">Mul Rotate</a></li>
+					<li><a class="important"  href="/mythesis/PHONE_ChordDiagram.html">PHONE_Chord Diagram</a></li>
+					<li><a href="../sample/PieChartsLabels.html">Pie Charts Labels</a></li>
+					<li><a class="important" href="../sample/Prim'sAlgorithmV.html">Prim's Algorithm V</a></li>
+					<li><a href="../sample/primAlgorithm.html">prim Algorithm</a></li>
+					<li><a href="../sample/Streamgraph.html">Streamgraph - 无数据</a></li>
+					<li><a class="important" href="/mythesis/Streamgraph_data.html">Streamgraph_<em>Data</em></a></li>
+					<li><a href="/mythesis/Streamgraph_interactive.html">Streamgraph_<em>Interactive</em>(Button)</a></li>
+
+					<li><a href="../sample/SymbolWorldMap.html">Symbol World Map</a></li>
+					<li><a href="../sample/transformTransitions.html">transform Transitions</a></li>
+					<li><a href="../sample/treemap.html">treemap</a></li>
+					<li><a href="../sample/VoronoiArcMap.html">Voronoi Arc Map</a></li>
+					<li><a href="../sample/z2BoundingBox.html">Zoom 2 Bounding Box</a></li>
+					<li><a href="../sample/z2BoundingBox2.html">Zoom 2 Bounding Box2</a></li>
+					<li><a href="../sample/z2Sunburst.html">Zoom 2 Sunburst </a></li>
+					<li><a href="../sample/zCirclePacking.html">Zoom C irclePac king</a></li>
+					<li><a href="../sample/zoom2BoundingBox.html">Zoom 2 Bounding Box</a></li>
+					<li><a href="../sample/ZoomTransitions.html">Zoom Transitions</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-6 col-xs-12">
+			<h3>New Sample created after Mar 8th</h3>
+			<ul>
+				<li><a href="../sample/CollapsibleForceLayout.html">Collapsible Force Layout/a></li>
+				<li><a href="../sample/ForceDirectedGraph.html">ForceDirectedGraph</a></li>
+				<li><a href="../sample/ForceCurvedLinks.html">Force Curved Links</a></li>
+				<li><a href="../sample/RadarChart_Ep.html">Radar Chart_Ep</a></li>
+				<li><a href="../sample/RadarChart.html">Radar Chart</a></li>
+				<li><a href="../sample/Faux3dShadedGlobe.html">Faux 3D Shaded Globe</a></li>
+				<li><a href="../sample/ClusteredForceLayoutI.html">Clustered Force Layout I</a></li>
+				<li><a href="../sample/CustomCartesianProjection.html">Custom Cartesian Projection</a></li>
+				<li><a href="../sample/ClusteredForceLayoutII.html">Clustered Force Layout II</a></li>
+				<li><a href="../sample/ChordDiagram.html">Chord Diagram</a></li>
+				<li><a href="../sample/SunburstMap.html">Sunburst Map</a></li>
+				<li><a href="../sample/interactiveOrthographic.html">Interactive Orthographic</a></li>
+				<li><a class="important" href="/mythesis/Faux3DShadedGlobe_Test.html"><em>Faux3DShadedGlobe_Test</em></a></li>
+				<li><a class="important" href="mythesis/PHONE_ChordDiagram.html">PHONE_Chord Diagram(Animation)</a></li>
+				<li><a href="../sample/geoCanvas_Sample.html">Geo Canvas_Sample</a></li>
+				<li><a href="../sample/AnimatedWorldZoom.html">Animated Global World Zoom</a></li>
+				<li><a class="test" href="/mythesis/AnimatedWorldZoom_test.html">Animated Global World Zoom_test</a></li>
+				<li><a href="../sample/GlobalRotateZoom.html">Global Rotate Zoom</a></li>
+				<li><a class="test" href="../sample/GlobalRotateZoom_test.html">Global Rotate Zoom _ <strong>Test</strong></a></li>
+				<li><a href="../sample/selectableColorWMap.html">selectable Color World Map</a></li>
+				<li><a href="../sample/DynamicHexbin.html">Dynamic Hexbin(no Data)</a></li>
+				<li><a href="../sample/RainbowWorm.html">Rainbow Worm(no Data)</a></li>
+				<li><a href="../sample/BilevelPartition.html">Bilevel Partition(动态分割饼图)</a></li>
+				<li><a class="important" href="../sample/RingPartitionMap.html">Ring Partition Map(使用GenderGap Title做数据)</a></li> 
+				<li><a class="test" href="../sample/RingPartitionMap_radio.html">Ring Partition Map(尝试加入动作不成功)</a></li>
+				<li><a href="../sample/PiePaddingII.html">Pie Padding II(动态饼图) </a></li>
+				<li><a class="important" href="/mythesis/SunburstPartition_test.html">Sunburst Partition_test</a></li> 
+				<li><a class="important" href="SunburstPartition_test_title.html">Sunburst Partition_test_title</a></li> 
+				<li><a href=".html"></a></li> 
+			 </ul>
+			 </div>
+		</div><!--row-->
+		<div class="row" id="d3csvlist">
+			<hr />
+			<table id="contents" style="width:100%; height:400px;" border></table>
+		</div><!--row-->
+	</div><!--content container-->
+</div><!--page .d3sample-->
+<script>
+
+	$(document).ready(function() {
+		if(isAPIAvailable()) {
+		  $('#files').bind('change', handleFileSelect);
+		}
+		
+//		var $filecsv = $.csv.function(csv, {options}, callback);
+		jQuery.get('/mythesis/mythesis.csv', function(data) {
+//		   	alert(data);
+			var filecsv = $.csv.toArrays(data);
+			console.log(filecsv);
+			var filelist = new Array();
+			filelist.length = filecsv.length;
+			for(var i=1; i < filecsv.length; i++){
+				filelist[i-1] = filecsv[i][0];
+				//process text file line by line
+				$('#thesisList').append('<li><a href="../mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
+			}
+			console.log(filelist);
+		});
+		
+	  });
+
+	function isAPIAvailable() {
+		// Check for the various File API support.
+		if (window.File && window.FileReader && window.FileList && window.Blob) {
+			  // Great success! All the File APIs are supported.
+			  return true;
+		} else {
+			  // source: File API availability - http://caniuse.com/#feat=fileapi
+			  // source: <output> availability - http://html5doctor.com/the-output-element/
+			  document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+			  // 6.0 File API & 13.0 <output>
+			  document.writeln(' - Google Chrome: 13.0 or later<br />');
+			  // 3.6 File API & 6.0 <output>
+			  document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+			  // 10.0 File API & 10.0 <output>
+			  document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+			  // ? File API & 5.1 <output>
+			  document.writeln(' - Safari: Not supported<br />');
+			  // ? File API & 9.2 <output>
+			  document.writeln(' - Opera: Not supported');
+			  return false;
+		}
+	}
+
+	function handleFileSelect(evt) {
+		var filename = $('input[type="file"]').attr('name');
+		var filevalue =$('input[type="file"]').val();
+		console.log("File Name: " + filename + " / File val: " + filevalue);
+
+		var files = evt.target.files; // FileList object
+		var file = files[0];
+
+		// read the file metadata
+		var output = '';
+		output += '<span style="font-weight:bold;">' + escape(file.name) + '</span><br />\n';
+		output += ' - FileType: ' + (file.type || 'n/a') + '<br />\n';
+		output += ' - FileSize: ' + file.size + ' bytes<br />\n';
+		output += ' - LastModified: ' + (file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a') + '<br />\n';
+
+		// read the file contents
+		printTable(file);
+		// post the results
+		$('#list').append(output);
+	}
+
+	function printTable(file) {
+		var reader = new FileReader();
+		reader.readAsText(file);
+		reader.onload = function(event){
+			var csv = event.target.result;
+			var data = $.csv.toArrays(csv);
+			var html = '';
+			var htmlList = new Array();
+
+			var htmlitem = $.grep(data, function(n,i){
+				// n是data array中的每一项
+				  return n[3] === "Html Text" || n[3] === "Kind" ;
 			  });
+			console.log(htmlitem);
 
-			function isAPIAvailable() {
-				// Check for the various File API support.
-				if (window.File && window.FileReader && window.FileList && window.Blob) {
-					  // Great success! All the File APIs are supported.
-					  return true;
-				} else {
-					  // source: File API availability - http://caniuse.com/#feat=fileapi
-					  // source: <output> availability - http://html5doctor.com/the-output-element/
-					  document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
-					  // 6.0 File API & 13.0 <output>
-					  document.writeln(' - Google Chrome: 13.0 or later<br />');
-					  // 3.6 File API & 6.0 <output>
-					  document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
-					  // 10.0 File API & 10.0 <output>
-					  document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
-					  // ? File API & 5.1 <output>
-					  document.writeln(' - Safari: Not supported<br />');
-					  // ? File API & 9.2 <output>
-					  document.writeln(' - Opera: Not supported');
-					  return false;
+		  for(var row in htmlitem) {
+			html += '<tr>\r\n';
+			for(var item in htmlitem[row]) {
+
+				if(item<5){
+			  html += '<td>' + htmlitem[row][item] + '</td>\r\n';
+				}else{
+					var htmlpath = htmlitem[row][item].replace('/Users/xzw117/Sites/d3_Geo/mymap/','');
+					html += '<td><a href="'+ htmlpath +'">' + htmlitem[row][item] + '</td>\r\n';	
+					console.log(htmlpath);
 				}
 			}
+			html += '</tr>\r\n';
+		  }
+		  $('#contents').html(html);
+		};
+		reader.onerror = function(){ alert('Unable to read ' + file.fileName); };
+	  }
 
-			function handleFileSelect(evt) {
-				var filename = $('input[type="file"]').attr('name');
-				var filevalue =$('input[type="file"]').val();
-				console.log("File Name: " + filename + " / File val: " + filevalue);
-				
-				var files = evt.target.files; // FileList object
-				var file = files[0];
-				
-				// read the file metadata
-				var output = '';
-				output += '<span style="font-weight:bold;">' + escape(file.name) + '</span><br />\n';
-				output += ' - FileType: ' + (file.type || 'n/a') + '<br />\n';
-				output += ' - FileSize: ' + file.size + ' bytes<br />\n';
-				output += ' - LastModified: ' + (file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() : 'n/a') + '<br />\n';
-
-				// read the file contents
-				printTable(file);
-				// post the results
-				$('#list').append(output);
-			}
-			
-			function printTable(file) {
-				var reader = new FileReader();
-				reader.readAsText(file);
-				reader.onload = function(event){
-				  	var csv = event.target.result;
-				  	var data = $.csv.toArrays(csv);
-				  	var html = '';
-					var htmlList = new Array();
-					
-					var htmlitem = $.grep(data, function(n,i){
-						// n是data array中的每一项
-						  return n[3] === "Html Text" || n[3] === "Kind" ;
-					  });
-					console.log(htmlitem);
-				  
-				  for(var row in htmlitem) {
-					html += '<tr>\r\n';
-					for(var item in htmlitem[row]) {
-						
-						if(item<5){
-					  html += '<td>' + htmlitem[row][item] + '</td>\r\n';
-						}else{
-							var htmlpath = htmlitem[row][item].replace('/Users/xzw117/Sites/d3_Geo/mymap/','');
-							html += '<td><a href="'+ htmlpath +'">' + htmlitem[row][item] + '</td>\r\n';	
-							console.log(htmlpath);
-						}
-					}
-					html += '</tr>\r\n';
-				  }
-				  $('#contents').html(html);
-				};
-				reader.onerror = function(){ alert('Unable to read ' + file.fileName); };
-			  }
-
-        </script>
-    </body>
+</script>
+	</body>
 </html>
-<!-- new Section -->
-<!--
-<div class="pure-u-1-2">
-<ul>
-<li><a href=".html"></a></li>
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-<li><a href=".html"></a></li> 
-</ul>
-</div>
--->
