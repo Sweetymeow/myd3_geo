@@ -46,10 +46,9 @@ var sql = new cartodb.SQL({ user: 'viz2', format: 'geojson', dp: 5});
 
 // Define our SVG element outside our SQL functions
 var svg = d3.select("body")
-        .append("svg")
-        .call(d3.behavior.zoom()
-            .on("zoom", redraw))
-        .append("g");
+            .append("svg")
+            .call(d3.behavior.zoom().on("zoom", redraw))
+            .append("g");
 
 // Our projection.
 var xy = d3.geo.mercator();
@@ -80,6 +79,7 @@ sql.execute("SELECT the_geom, quakedate, magnitude FROM {{table_name}} WHERE the
   });
 
 var i = 0;
+    
 function quake() {
   var c = earthquakes[i];
   svg.append("circle")

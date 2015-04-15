@@ -95,7 +95,7 @@
 
 		<div class="row" id="d3sample">
 			<div class="col-sm-6 col-xs-12">
-				<ul>
+				<ul class="d3sp1">
 					<li><a href="../sample/Azimuthal.html">Azimuthal</a></li>
 					<li><a href="../sample/CollapsibleForceLayout.html">CollapsibleForceLayout</a></li>
 					<li><a href="../sample/d3HtmlSample.html">d3HtmlSample</a></li>
@@ -130,9 +130,10 @@
 					<li><a href="../sample/ZoomTransitions.html">Zoom Transitions</a></li>
 				</ul>
 			</div>
+			
 			<div class="col-sm-6 col-xs-12">
 			<h3>New Sample created after Mar 8th</h3>
-			<ul>
+			<ul class="d3sp2">
 				<li><a href="../sample/CollapsibleForceLayout.html">Collapsible Force Layout/a></li>
 				<li><a href="../sample/ForceDirectedGraph.html">ForceDirectedGraph</a></li>
 				<li><a href="../sample/ForceCurvedLinks.html">Force Curved Links</a></li>
@@ -178,17 +179,37 @@
 		  $('#files').bind('change', handleFileSelect);
 		}
 		
-//		var $filecsv = $.csv.function(csv, {options}, callback);
+        // get mythesis list files name
 		jQuery.get('/mythesis/mythesis.csv', function(data) {
 //		   	alert(data);
 			var filecsv = $.csv.toArrays(data);
-			console.log(filecsv);
+			//console.log(filecsv);
 			var filelist = new Array();
 			filelist.length = filecsv.length;
 			for(var i=1; i < filecsv.length; i++){
 				filelist[i-1] = filecsv[i][0];
 				//process text file line by line
 				$('#thesisList').append('<li><a href="../mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
+			}
+		});
+        
+          // get other HTML list files name
+		jQuery.get('HTMLFiles.csv', function(data) {
+			var filecsv = $.csv.toArrays(data),
+                rootpath = '/Users/SweetyMEOW/Sites/myd3_geo/';
+            var paths = new Array();
+            
+            for(var i=1; i < filecsv.length; i++){
+                
+            }
+			console.log(filecsv);
+			var filelist = new Array();
+			filelist.length = filecsv.length;
+			
+            for(var i=1; i < filecsv.length; i++){
+				filelist[i-1] = filecsv[i][0];
+				//process text file line by line
+				$('#d3sp1').append('<li><a href="../mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
 			}
 			console.log(filelist);
 		});

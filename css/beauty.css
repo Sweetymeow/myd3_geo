@@ -1,14 +1,16 @@
- body {
+body {
     font-family: 'Play', 'Quicksand', serif;
     background-color: #593d6a;
 }
 h1{
     color: white;
     font-size: 3em;
-/*                padding: 0.5em 0 0.5em 0;*/
+    /*  padding: 0.5em 0 0.5em 0;*/
     text-align: center;
 }
-h1 a{ color: white; }
+h1 a{ 
+    color: white; 
+}
 p{
     font-size: 1.3em;
     text-align: left;
@@ -20,12 +22,13 @@ p{
     -webkit-margin-end: 2em;
 }
 svg{
-/*              -webkit-margin-before: 1em;
+/*  -webkit-margin-before: 1em;
     -webkit-margin-end: 1em; */
     border: 1px solid #DEDEDE;
     margin: 0.5em auto;
     text-align: center;
 }
+
 text{
     fill: white;
 }
