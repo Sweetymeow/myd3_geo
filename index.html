@@ -200,18 +200,20 @@
             var paths = new Array();
             
             for(var i=1; i < filecsv.length; i++){
-                
-            }
+				paths[i-1] = filecsv[i][3];
+				paths[i-1].replace(/\//g,"\\");
+            }// 怎么写这个正则表达式?
 			console.log(filecsv);
-			var filelist = new Array();
-			filelist.length = filecsv.length;
-			
-            for(var i=1; i < filecsv.length; i++){
-				filelist[i-1] = filecsv[i][0];
-				//process text file line by line
-				$('#d3sp1').append('<li><a href="../mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
-			}
-			console.log(filelist);
+			console.log(paths);
+//			var filelist = new Array();
+//			filelist.length = paths.length;
+//			
+//            for(var i=1; i < filelist.length; i++){
+//				filelist[i-1] = filecsv[i][0];
+//				//process text file line by line
+//				$('#d3sp1').append('<li><a href="../mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
+//			}
+			//console.log(filelist);
 		});
 		
 	  });

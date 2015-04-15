@@ -17,108 +17,9 @@
         <script type="text/javascript" src="../js/materialize.min.js"></script>
         <!-- Compiled and minified JavaScript -->
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
-
-        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
-        <style>
-            body {
-                font-family: 'Play', 'Quicksand', serif;
-				background-color: #593d6a;
-            }
-            h1{
-                color: white;
-                font-size: 3em;
-/*                padding: 0.5em 0 0.5em 0;*/
-                text-align: center;
-            }
-			h1 a{ color: white; }
-            p{
-                font-size: 1.3em;
-                text-align: left;
-                line-height: 1.2em;
-                display: block;
-                -webkit-margin-before: 0.5em;
-                -webkit-margin-after: 0.5em;
-                -webkit-margin-start: 2em;
-                -webkit-margin-end: 2em;
-            }
-            svg{
-/*              -webkit-margin-before: 1em;
-                -webkit-margin-end: 1em; */
-                border: 1px solid #DEDEDE;
-				margin: 0.5em auto;
-				text-align: center;
-            }
-			text{
-				fill: white;
-			}
-            
-            .land {
-              fill: white;
-              stroke-opacity: 1;
-            }
-
-            .countries path {
-              stroke: white;  
-              stroke-linejoin: round;
-              stroke-width:.5;
-              fill: white;
-              opacity: .1;
-            }
-
-            .countries path:hover {
-              fill-opacity:.1;
-              stroke-width:1;
-              opacity: 1;
-              fill: red; 
-            }
-
-            .graticule {
-              fill: none;
-              stroke: black;
-              stroke-width:.5;
-              opacity:.2;
-            }
-
-            .labels {
-                font-family: 'PT Sans', serif;
-                font: 9px;
-                fill: black;
-                opacity: .8;
-            }
-
-            .noclicks {
-              pointer-events:none;
-            }
-
-            .point{
-              opacity:.6;
-            }
-			
-			/** d3 geo global **/
-			.info {
-				margin: 0 auto;
-  				text-align: center;
-			}
-			.map {
-				margin: 0 auto;
-  				text-align: center;
-			}
-			#title{
-				margin: 0;
-				max-height: 160px;
-			}
-			div#title h1 {
-				margin: 10px 0;
-			}
-			.mapcontainer{
-				margin: 1em 0;
-			}
-			
-			a.btn-large{
-				color: #fff8e1;
-			}
-        </style> 
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stlesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'> 
+        <link rel="stylesheet" href="../css/beauty.css">
     </head>
     <body>
 		<div class="card-panel pink accent-4" id="title">
@@ -184,7 +85,7 @@
                 .on("mousemove", mousemove)
                 .on("mouseup", mouseup);
 
-            var width = 780,
+            var width = 700,
                 height = 700;
 			
             var proj = d3.geo.orthographic()
@@ -319,6 +220,8 @@
                     .enter().append("path")
                     .attr("d", path)
 				 	.on("click", function(d){
+                        console.log("current date is: ");
+                        console.log(d);
                         mouseclick(d);
                     });
 
@@ -364,7 +267,7 @@
             var m0, o0;
             
             function mouseclick(place){
-                console.log(place);
+                //console.log(place);
             }
             
             function mousedown() {

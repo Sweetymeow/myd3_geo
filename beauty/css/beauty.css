@@ -30,7 +30,9 @@ svg{
 }
 
 text{
-    fill: white;
+    fill: pink;
+	text-shadow: 2px 2px 1px #444;
+	font-weight: 700;
 }
 
 .land {
@@ -97,4 +99,18 @@ div#title h1 {
 
 a.btn-large{
     color: #fff8e1;
+}
+
+
+/** Tooltip **/
+
+div.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
 }

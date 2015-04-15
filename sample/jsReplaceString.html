@@ -1,0 +1,48 @@
+<html>
+<body>
+<a href="http://blog.sae.sina.com.cn/archives/2894">Original Link</a>
+
+<script type="text/javascript">
+function parseURL(url) {
+	var a = document.createElement('a');
+	//创建一个链接
+	a.href = url;
+	return {
+		source: url,
+		protocol: a.protocol.replace(':',''),
+		host: a.hostname,
+		port: a.port,
+		query: a.search,
+		params: (function(){
+			var ret = {},
+			seg = a.search.replace(/^\?/,'').split('&'),
+			len = seg.length, i = 0, s;
+			for (;i<len;i++) {
+				if (!seg[i]) { continue; }
+				s = seg[i].split('=');
+				ret[s[0]] = s[1];
+			}
+			return ret;
+		})(),
+		file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+		hash: a.hash.replace('#',''),
+		path: a.pathname.replace(/^([^\/])/,'/$1'),
+		relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+		segments: a.pathname.replace(/^\//,'').split('/')
+	};
+}
+
+var myURL = parseURL('http://abc.com:8080/dir/index.html?id=255&m=hello#top');
+console.log("myURL.file: "+ myURL.file); // = 'index.html'
+console.log("myURL.hash: "+ myURL.hash); // = 'top'
+console.log("myURL.host: "+ myURL.host); // = 'abc.com'
+console.log("myURL.query: "+ myURL.query); // = '?id=255&m=hello'
+console.log("myURL.params: "+ myURL.params); // = Object = { id: 255, m: hello }
+console.log("myURL.path: "+ myURL.path); // = '/dir/index.html'
+console.log("myURL.segments: "+ myURL.segments); // = Array = ['dir', 'index.html']
+console.log("myURL.port: "+ myURL.port); // = '8080'
+console.log("myURL.protocol: "+ myURL.protocol); // = 'http'
+console.log("myURL.source: "+ myURL.source); // = 'http://abc.com:8080/dir/index.html?id=255&m=hello#top'
+</script>
+</body>
+</html>
