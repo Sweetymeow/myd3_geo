@@ -127,7 +127,7 @@
 			for(var i=1; i < filecsv.length; i++){
 				filelist[i-1] = filecsv[i][0];
 				//process text file line by line
-				$('#thesisList').append('<li><a href="../myd3_geo/mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
+				$('#thesisList').append('<li><a href="../mythesis/' + filelist[i-1] + '">' + filelist[i-1] + '</a></li>');
 			}
 		});
         
@@ -140,7 +140,7 @@
             for(var i=1; i < filecsv.length; i++){
 				var message, message2;
 				message = filecsv[i][3];
-				message2 = message.replace(/[\/]Users[\/]SweetyMEOW[\/]Sites[\/]myd3_geo/g, "../myd3_geo/");
+				message2 = message.replace(/[\/]Users[\/]SweetyMEOW[\/]Sites[\/]myd3_geo/g, "..");
 				paths[i-1] = message2;
 			}		
 //			var value = paths[0];
@@ -159,7 +159,7 @@
 				//process text file line by line
 				$('.d3spli2').append('<li><a href="' + paths[i] + '">' + filecsv[i][0] + '</a></li>');
 			}
-			console.log(paths);
+			console.log(filecsv.length);
 			
 			$('#d3sample h3 span').text(filecsv.length);
 		}); // jQuery.get
