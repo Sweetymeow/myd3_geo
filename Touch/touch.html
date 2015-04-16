@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<title>Touch</title>
+	<script src="touch.js"></script>
+</head>
+<body>
+	<h1>Touch Test</h1>
+	<q><a href="http://blog.csdn.net/lee_magnum/article/details/17753807">HTML5实战与剖析之触摸事件(touchstart、touchmove和touchend)</a></q>
+	<section>
+		<p>触摸事件(touch)会在用户手指放在屏幕上面的时候、在屏幕上滑动的时候或者是从屏幕上移开的时候出发。下面具体说明：</p>
+		<ul>
+			<li>touchstart事件：当手指触摸屏幕时候触发，即使已经有一个手指放在屏幕上也会触发。</li>
+			<li>touchmove事件：当手指在屏幕上滑动的时候连续地触发。在这个事件发生期间，调用preventDefault()事件可以阻止滚动。</li>
+			<li>touchend事件：当手指从屏幕上离开的时候触发。</li>
+			<li>touchcancel事件：当系统停止跟踪触摸的时候触发。关于这个事件的确切出发时间，文档中并没有具体说明，咱们只能去猜测了。</li>
+		</ul>
+	</section>
+	<section>
+		<div id="inp">this is touch event test</div> 
+	</section>
+</body>
+</html>
