@@ -92,6 +92,7 @@ text{
 }
 div#title h1 {
     margin: 10px 0;
+	line-height: 1em;
 }
 .mapcontainer{
     margin: 1em 0;
@@ -100,22 +101,72 @@ div#title h1 {
 a.btn-large{
     color: #fff8e1;
 }
+/** Fun-Panel **/
+.card .card-content{
+	padding: 5px 15px;
+}
 
+.card .card-content h3{
+	margin: 5px 0;
+	line-height: 20px;
+}
+
+.card .card-content h5{
+	margin:0;
+}
+
+.card .card-content .row{
+	margin-bottom: 0;
+}
+#int-icon{
+	margin-bottom: 0;
+}
+
+.card .card-panel{
+	padding: 10px 15px;
+}
+
+.card .card-action{
+	padding: 10px 15px;
+}
+.card .card-action a{
+	margin-right: 0;
+}
+
+/** Introduction **/
+.card-panel h5{
+	margin: 0.2em 0;
+}
+#introduction p{
+	font-size: 1em;
+}
+/** int-icon **/
+#int-icon{
+	padding: 5px 10px;
+	
+}
 
 /** Tooltip **/
 
 div.tooltip {
-  color: #222; 
-  background: #fff; 
-  padding: .5em; 
-  text-shadow: #f5f5f5 0 1px 0;
-  border-radius: 2px; 
-  box-shadow: 0px 0px 2px 0px #a6a6a6; 
-  opacity: 0.9; 
+	color: #222; 
+	background: #fff; 
+	padding: .5em; 
+	text-shadow: #f5f5f5 0 1px 0;
+	border-radius: 2px; 
+	box-shadow: 0px 0px 2px 0px #a6a6a6; 
+	opacity: 0.9; 
 /*  position: absolute;*/
-    text-align: center;
+	text-align: center;
+	font-size: 1.4em;
     
 }
 .countryname{
-    padding-bottom: 30px;
+    padding-bottom: 20px;
+}
+
+/**  countries border  **/
+.countries path{
+	stroke: #d81b60;
+	  stroke-width: 1;
 }
