@@ -241,12 +241,8 @@ function ready(error, world, names, places) {
 		.enter().append("path")
 		.attr("d", path)
 	 	.attr("stroke", "#673ab7")
-		.on("click", function(d){
-			mouseclick(d);
-		})
-	 	.on("mousemove", function(d,i) {
+		.on("click", function(d,i) {
 			var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
-
 			tooltip.classed("hidden", false)
 			  //.attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+30)+"px")
 			  .html(d.name);
@@ -257,11 +253,6 @@ function ready(error, world, names, places) {
 
 	console.log("Country data: ");
 	console.log(countries);
-//	svg.append("g").attr("class","countries")
-//		.selectAll("path")
-//		.data(topojson.object(world, world.objects.countries).properties)
-//		.enter()
-
 
 	position_labels();
 }

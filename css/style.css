@@ -21,6 +21,9 @@ h1, h2, h3, h4, h5, h6{
 img {
 	max-width: 200px;
 }
+img.sample{
+	max-width: 80px;
+}
 
 .main{
 	font-family: 'Open Sans', sans-serif;
@@ -161,7 +164,9 @@ header .inbody .navbar-brand .subhead{
 	border-radius: 0;
 	border: 0;
 }
+/** Main Projects **/
 
+/** Main Thesis **/
 /** Old Style **/
 
 /*

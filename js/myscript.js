@@ -3,7 +3,7 @@ $(function(){
     "use strict"; // we want to be a little more careful with our JavaScript
     
     var topoffset = 50; // variable fo menu height
-	var slideqty = $('#featured .item').length;
+	var slideqty = $('#d3keysample .item').length;
     
     //Activate Scrollspy
     $('body').scrollspy({
@@ -13,25 +13,26 @@ $(function(){
     
     // Add an inbody class to nav whenever page was loaded to other #
     var hash = $(this).find('li.active a').attr('href');
+	console.log(hash);
     
     // this #featured is on top of page
-    if(hash !== '#featured'){  // 如果当前激活的li项目不是页面顶部
+    if(hash !== '#d3keysample'){  // 如果当前激活的li项目不是页面顶部
         $('header nav').addClass('inbody');
     }else{
         $('header nav').removeClass('inbody');
     }
     
-    // Add an inbody class to nav whenever the scrollspy event fires
-    $('.navbar-fixed-top').on('activate.bs.scrollspy', function(){
-        var hash = $(this).find('li.active a').attr('href');
-    
-        // this #featured is on top of page
-        if(hash !== '#featured'){  // 如果当前激活的li项目不是页面顶部
-            $('header nav').addClass('inbody');
-        }else{
-            $('header nav').removeClass('inbody');
-        }
-    });
+//    // Add an inbody class to nav whenever the scrollspy event fires
+//    $('.navbar-fixed-top').on('activate.bs.scrollspy', function(){
+//        var hash = $(this).find('li.active a').attr('href');
+//    
+//        // this #featured is on top of page
+//        if(hash !== '#d3keysample'){  // 如果当前激活的li项目不是页面顶部
+//            $('header nav').addClass('inbody');
+//        }else{
+//            $('header nav').removeClass('inbody');
+//        }
+//    });
 	
 	// Use smooth scrolling when clicking on navigation
 	/** https://css-tricks.com/snippets/jquery/smooth-scrolling/ **/
@@ -50,12 +51,12 @@ $(function(){
 		}  // click function
 	  }); // Smooth scrolling
 	
-	//Automatically generate carousel indicators
-	for(var i = 0; i < slideqty; i++){
-		var insertText = '<li data-target="#featured" data-slide-to="'+i+'"></li>';
-		console.log(insertText);
-		$('#featured ol').append(insertText);
-	}
+//	//Automatically generate carousel indicators
+//	for(var i = 0; i < slideqty; i++){
+//		var insertText = '<li data-target="#featured" data-slide-to="'+i+'"></li>';
+//		console.log(insertText);
+//		$('#featured ol').append(insertText);
+//	}
     
     $('.carousel').carousel({
 	interval: false
