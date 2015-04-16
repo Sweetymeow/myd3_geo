@@ -50,8 +50,13 @@
 									<h class="white-text">Rotate</h>
 								</div>
 							</div>
+				            <div class="countryname">
+                                <h5>Countries:</h5>
+                                <h5></h5>
+						</div>
 						</div>
 						<div class="card-action">
+						
 							<a class="waves-effect waves-light btn-large pink lighten-2">
 								<i class="mdi-av-videocam left"></i>Show on Gallery Wall </a>
 							<a class="waves-effect waves-light btn-large purple lighten-2">
@@ -119,7 +124,7 @@ var svg = d3.select("div.map").append("svg")
 			.attr("height", height)
 			.on("mousedown", mousedown);
 			
-var tooltip = d3.select("div.map").append("div")
+var tooltip = d3.select(".countryname").append("div")
     .attr("class", "tooltip");
 
 queue().defer(d3.json, "data/world-110m2.json")
@@ -243,7 +248,7 @@ function ready(error, world, names, places) {
 			var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
 
 			tooltip.classed("hidden", false)
-			  .attr("style", "left:"+(mouse[0]+15)+"px;top:"+mouse[1]+"px")
+			  //.attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+30)+"px")
 			  .html(d.name);
 		  })
 		.on("mouseout", function(d,i) {
