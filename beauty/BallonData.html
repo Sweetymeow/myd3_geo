@@ -21,18 +21,35 @@
                 font-family: 'Roboto-Regular','PT Sans', serif;
                 font-weight: 400;
             }
-/*
-            p{
-                font-size: 1.3em;
-                text-align: left;
-                line-height: 1.2em;
-                display: block;
-                -webkit-margin-before: 0.5em;
-                -webkit-margin-after: 0.5em;
-                -webkit-margin-start: 2em;
-                -webkit-margin-end: 2em;
-            }
-*/
+			div{
+				font-family: 'Roboto-Regular','PT Sans', serif;
+			}
+			/** Tooltip **/
+			#tooltip {
+				position: absolute;
+				width: 200px;
+				height: auto;
+				padding: 10px;
+				background-color: white;
+				-webkit-border-radius: 10px;
+				-moz-border-radius: 10px;
+				border-radius: 10px;
+				-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+				pointer-events: none;
+			}
+			
+			#tooltip.hidden {
+				display: none;
+			}
+			
+			#tooltip p {
+				margin: 0;
+				font-family: sans-serif;
+				font-size: 16px;
+				line-height: 20px;
+			}/** Tooltip **/
             svg{
                 -webkit-margin-before: 2em;
                 border: 1px solid #DEDEDE;
@@ -65,32 +82,23 @@
 	</head>
 
     <body>
-    <div class="card pink">
-		<div class="card-content white-text">
-			<h1>Dispatching Events</h1>
-			<p><a href="http://bl.ocks.org/mbostock/5872848">Link</a></p>
-		</div><!--card-content-->
-    </div><!-- card -->
-<div class="container">
-		<div class="map"></div>
-		<div class="row">
-			<div class="col s12">
-				<div class="card pink">
-					<div class="card-content white-text">
-						<p>This example demonstrates how to use <a href="https://github.com/mbostock/d3/wiki/Internals#wiki-d3_dispatch">d3.dispatch</a> to coordinate views with shared state. Here, a bar chart and a pie chart show two views of the same data: population by age group for a given state. (For brevity, a legend is omitted.) This example uses two custom events: a load event when data is available, and a statechange event when the displayed state is changed.</p>
+		<div class="container">
+			<div class="map"></div>
+			<div id="tooltip"><p id="value"></p></div>
+			<div class="row">
+				<div class="col s12">
+					<div class="card pink">
+						<div class="card-content white-text">
 
-					<p>Custom events allow loose coupling of components: views can listen for events and update the DOM accordingly, without needing to explicitly tie each view together. When the drop-down menu changes, a statechange event is triggered which causes any interested listeners to be notified.</p>
-					<p>Each view uses a unique name, such as "bar" or "pie", so that multiple listeners can be notified for a single event. (D3 requires listeners to be named, rather than anonymous, so that it’s easier to remove or inspect registered listeners.) Thus, the "load.menu", "load.bar" and "load.pie" listeners are all notified when the data is loaded.</p>
-					
-					<p>这个例子演示了如何使用d3.dispatch协调与共享状态的看法。在这里，柱状图和饼状图显示两个意见相同的数据：人口按年龄组给定的状态。（为简便起见，传说被省略了。）此示例使用了两个自定义事件：一个负载时的数据是可用的事件，和 的stateChange时所显示的状态改变的事件。</p>
+						<p>这个例子演示了如何使用d3.dispatch协调与共享状态的看法。在这里，柱状图和饼状图显示两个意见相同的数据：人口按年龄组给定的状态。（为简便起见，传说被省略了。）此示例使用了两个自定义事件：一个负载时的数据是可用的事件，和 的stateChange时所显示的状态改变的事件。</p>
 
-					<p>自定义事件允许组件的松散耦合：意见可以监听事件并相应地更新DOM，而无需显式地配合每个视图在一起。当下拉菜单的变化，一个的stateChange事件被触发，导致任何有兴趣的听众得到通知。</p>
+						<p>自定义事件允许组件的松散耦合：意见可以监听事件并相应地更新DOM，而无需显式地配合每个视图在一起。当下拉菜单的变化，一个的stateChange事件被触发，导致任何有兴趣的听众得到通知。</p>
 
-						<p>每个视图采用了独特的名称，如“酒吧”或“馅饼”，让多个侦听器可以为单个事件的通知。（D3需要监听器被命名，而不是匿名的，所以它更容易删除或检查注册的监听器。）因此，“load.menu”，“load.bar”和“load.pie”听众都收到通知时，数据加载。</p>
-					</div><!-- card-content -->
-				</div><!-- card -->
-			</div><!--row	-->
-		</div> <!--map-->
+							<p>每个视图采用了独特的名称，如“酒吧”或“馅饼”，让多个侦听器可以为单个事件的通知。（D3需要监听器被命名，而不是匿名的，所以它更容易删除或检查注册的监听器。）因此，“load.menu”，“load.bar”和“load.pie”听众都收到通知时，数据加载。</p>
+						</div><!-- card-content -->
+					</div><!-- card -->
+				</div><!--row	-->
+			</div> <!--map-->
 </div><!--  container -->
         
 <script>
@@ -140,7 +148,7 @@ dispatch.on("load.menu", function(stateById) {
         .text(function(d) { return d.id; });
 
   dispatch.on("statechange.menu", function(state) {
-      console.log(state);
+      //console.log(state);
     select.property("value", state.id);
   });
 });
@@ -149,8 +157,8 @@ dispatch.on("load.menu", function(stateById) {
 dispatch.on("load.pie", function(stateById) {
 //	console.log("State By Id: ");
 	console.log(stateById);
-	var width = 700,
-		height = 460,
+	var width = 660,
+		height = 500,
 		//radius = Math.min(width, height) / 2;
 		radius = 70; // Test radius
 
@@ -178,14 +186,14 @@ dispatch.on("load.pie", function(stateById) {
 	var pppCircle = cirGroup.append("circle")
 						.attr("class","ppp");
 
-    var bars = svg.selectAll("rect")
+	var bars = svg.selectAll("rect")
                 .data(groups)
                 .enter().append("rect")
                 .style("fill", color2)
-                .attr('x', 0)
                 .attr('rx', 6)
-                .attr('y', 0)
+                .attr('x', 0)
                 .attr('ry', 6)
+                .attr('y', 0)
                 .each(function() { this._current = {startAngle: 0, endAngle: 0}; });
 	
 	var ageCircle = cirGroup.append("circle")
@@ -197,12 +205,6 @@ dispatch.on("load.pie", function(stateById) {
 					.style("font-size", "26px")
 				.attr("transform", "translate(0, 9)");;
 
-//    var path = svg.selectAll("path")
-//                .data(groups)
-//                .enter().append("path")
-//                .style("fill", color)
-//                .each(function() { this._current = {startAngle: 0, endAngle: 0};});
-
   dispatch.on("statechange.pie", function(d) {
       var eachangle = 360/14,
           eachradians = 2*Math.PI/14;
@@ -210,7 +212,7 @@ dispatch.on("load.pie", function(stateById) {
 	  	  maAge = Number(d.age);
 	  
 	  radius = cyPPP/2;
-	  console.log(d.ppp2);
+	  console.log("PPP: " + d.ppp2);
 	  
 	  pppCircle.attr("cx",0)
 	  			.attr("cy",0)
@@ -225,28 +227,17 @@ dispatch.on("load.pie", function(stateById) {
 	  ageText.attr("text-anchor", "middle")
 		  	.attr("id", "age")
 		  .text(function(d) { return maAge; });
-	  
-      // ring data
-//      path.data(pie.value(function(g) { return d[g]; })(groups))
-//		.transition()
-//		.attrTween("d", function(d) {
-//		  var interpolate = d3.interpolate(this._current, d);
-//		  this._current = interpolate(0);
-//          console.log(this._current);
-//		  
-//          return function(t) {
-//			return arc(interpolate(t));
-//		  };
-//		});
-      
-	  var minRadius = radius-40;
+	 
+	  var barXY =[0,0]; // 这个好像不好用啊？
       // Bar data
       bars.data(pie.value(function(g) { return d[g];})(groups))
 			.attr("width", 0)
 			.attr("height", 2*Math.PI*radius/14 + "px")
 			.attr("transform", function(d,i){
-				return "translate("+ radius*Math.cos(eachradians*(i+0.5)) +","+ (-1)*radius*Math.sin(eachradians*(i+0.5)) +"),rotate(" + eachangle*(-i)+ ")";
-			});
+		  			barXY[0] = radius*Math.cos(eachradians*(i+0.5));
+		  			barXY[1] = -1*radius*Math.sin(eachradians*(i+0.5));
+				  return "translate("+ barXY[0] +","+ barXY[1] +"),rotate(" + eachangle*(-i)+ ")";
+	  		});
       
 	  // Chart bar animation
       bars.transition()
@@ -258,6 +249,31 @@ dispatch.on("load.pie", function(stateById) {
             })
             .duration(1000)
             .ease('elastic');
+	  
+	  bars.on("click", function(d){
+		  var clickpos = getMousePos(onclick);
+		  d3.select("#tooltip").style("opacity",1);
+		  
+		  console.log(clickpos);
+		  //Get this bar's x/y values, then augment for the tooltip
+		  //console.log(d3.select(this).node().getBBox());
+		  
+			//Update the tooltip position and value
+			var tooltip = d3.select("#tooltip")
+				.style("left", clickpos.x +20 + "px")
+				.style("top", clickpos.y-50 + "px")						
+				.select("#value")
+				.text(d.data);
+		  
+			d3.select("#tooltip").transition()
+				.style("opacity",0)
+				.delay(5000)
+				.duration(1000)
+            	.ease('elastic');
+
+			//Show the tooltip
+			d3.select("#tooltip").classed("hidden", false);
+	  });
       
   });
 });
@@ -309,7 +325,7 @@ dispatch.on("load.bar", function(stateById) {
 dispatch.on("load.bar", function(stateById) {
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
 	  width = 120 - margin.left - margin.right,
-	  height = 460 - margin.top - margin.bottom;
+	  height = 500 - margin.top - margin.bottom;
 
   var y = d3.scale.linear()
 	  .domain([0, d3.max(stateById.values(), function(d) { 
@@ -350,6 +366,11 @@ dispatch.on("load.bar", function(stateById) {
 function type(d) {
   d.total = d3.sum(groups, function(k) { return d[k] = +d[k]; });
   return d;
+}
+	
+function getMousePos(event) {
+	var e = event || window.event;
+	return {'x':e.clientX,'y':e.clientY}
 }
 
 </script>
