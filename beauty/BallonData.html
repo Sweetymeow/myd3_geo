@@ -239,6 +239,7 @@ dispatch.on("load.pie", function(stateById) {
 //		  };
 //		});
       
+	  var minRadius = radius-40;
       // Bar data
       bars.data(pie.value(function(g) { return d[g];})(groups))
 			.attr("width", 0)
