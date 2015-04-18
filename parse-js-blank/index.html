@@ -1,0 +1,123 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>My Parse App</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+</head>
+
+<body>
+  
+  <div id="main">
+    <h1>You're ready to use Parse!</h1>
+
+    <p>Read the documentation and start building your JavaScript app:</p>
+
+    <ul>
+      <li><a href="https://www.parse.com/docs/js_guide">Parse JavaScript Guide</a></li>
+      <li><a href="https://www.parse.com/docs/js">Parse JavaScript API Documentation</a></li>
+    </ul>
+
+    <div style="display:none" class="error">
+      Looks like there was a problem saving the test object. Make sure you've set your application ID and javascript key correctly in the call to <code>Parse.initialize</code> in this file.
+    </div>
+
+    <div style="display:none" class="success">
+      <p>We've also just created your first object using the following code:</p>
+        <code>
+          var TestObject = Parse.Object.extend("TestObject");<br/>
+          var testObject = new TestObject();<br/>
+          testObject.save({foo: "bar"});
+        </code>
+    </div>
+    <div class="TestGameScore" id="">
+    	
+    </div>
+    
+  </div>
+
+  <script type="text/javascript">
+//    Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
+    Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
+    
+    var TestObject = Parse.Object.extend("TestObject");
+    var testObject = new TestObject();
+      testObject.save({foo: "bar"}, {
+      success: function(object) {
+        $(".success").show();
+      },
+      error: function(model, error) {
+        $(".error").show();
+      }
+    });
+    
+    // Simple syntax to create a new subclass of Parse.Object.
+	var TestGameScore = Parse.Object.extend("TestGameScore");
+	// Create a new instance of that class.
+	var gameScore = new TestGameScore();
+	 
+	gameScore.set("score", 1929);
+	gameScore.set("playerName", "Wendy WEN");
+	gameScore.set("cheatMode", false);
+	 
+	gameScore.save(null, {
+	  success: function(gameScore) {
+	    // Execute any logic that should take place after the object is saved.
+	    alert('New object created with objectId: ' + gameScore.id);
+	  },
+	  error: function(gameScore, error) {
+	    // Execute any logic that should take place if the save fails.
+	    // error is a Parse.Error with an error code and message.
+	    alert('Failed to create new object, with error code: ' + error.message);
+	  }
+	});
+	
+	var query = new Parse.Query(TestGameScore);
+	// Retrieving Objects 取回
+	query.get(gameScore.id, {
+	  success: function(gameScore) {
+	    // The object was retrieved successfully.
+	    
+	  },
+	  error: function(object, error) {
+	    // The object was not retrieved successfully.
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+	 
+	// Alternatively, you can use the typical Backbone syntax.
+	var Achievement = Parse.Object.extend({	className: "Achievement" });
+	
+	// A complex subclass of Parse.Object
+	var Monster = Parse.Object.extend("Monster", {
+	  // Instance methods
+	  hasSuperHumanStrength: function () {
+	    return this.get("strength") > 18;
+	  },
+	  // Instance properties go in an initialize method
+	  initialize: function (attrs, options) {
+	    this.sound = "Rawr"
+	  }
+	}, {
+	  // Class methods
+	  spawn: function(strength) {
+	    var monster = new Monster();
+	    monster.set("strength", strength);
+	    return monster;
+	  }
+	});
+	 
+	var monster = Monster.spawn(200);
+	alert(monster.get('strength'));  // Displays 200.
+	alert(monster.sound); // Displays Rawr.
+	
+	
+  </script>
+</body>
+
+</html>
