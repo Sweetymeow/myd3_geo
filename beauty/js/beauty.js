@@ -6,8 +6,6 @@ Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFe
 var BeautyUser = Parse.Object.extend("BeautyUser");
 var beautyUser = new BeautyUser();
 
-var today = new Date();
-
 // Lots of code from:  http://bl.ocks.org/3757125
 //  http://bl.ocks.org/3795040
 
@@ -199,26 +197,7 @@ function position_labels() {
 var m0, o0;
 
 function mouseclick(place){
-	console.log(place);
-    
-    /* Parse: Get Date for user ID */
-    beautyUser.set("userName", "Jon Dow"); 
-    beautyUser.set("userID", 1); 
-    if(place){
-        beautyUser.set("countryName", place);
-    }
-
-    beautyUser.save(null, {
-      success: function(beautyUser) {
-        // Execute any logic that should take place after the object is saved.
-        alert('New object created with objectId: ' + beautyUser.id);
-      },
-      error: function(beautyUser, error) {
-        // Execute any logic that should take place if the save fails.
-        // error is a Parse.Error with an error code and description.
-        alert('Failed to create new object, with error code: ' + error.description);
-      }
-    });
+//	console.log(place);
 }
 
 function mousedown() {
@@ -268,3 +247,61 @@ $('.map').on("click", function(){
     console.log("$countryname: " + $countryname);
 }); // save country name to this object
 
+
+$('#onWall').on("click", function(){
+    strogeToParse("wall");
+});
+
+$('#onPhone').on("click", function(){
+    strogeToParse("phone");
+});
+
+$('#clear').on("click", function(){
+    localStorage.clear();
+    console.log("userIndex: " + localStorage.getItem("userIndex") + "; userID: " + localStorage.getItem("userID") );
+});
+
+function strogeToParse(method){
+     /* get user index from localStorage */
+    var userIndex = localStorage.getItem("userIndex");
+    
+    if(userIndex){  // Not the first user
+        localStorage.setItem("userIndex", ++userIndex);
+    }else{    // first user 
+        userIndex = 1;
+        localStorage.setItem("userIndex", userIndex);    
+    }
+    console.log("userIndex AF: " + userIndex);
+    
+    /* Parse: set data */
+    beautyUser.set("userIndex", userIndex); 
+    if($countryname){
+        beautyUser.set("countryName", $countryname);
+    }
+    beautyUser.set("showMethod", method); 
+    
+    // Save Data to Parse server
+    beautyUser.save(null, {
+      success: function(beautyUser) {
+        // Execute any logic that should take place after the object is saved.
+        beautyUser.save();
+        localStorage.setItem("userID", beautyUser.id);
+      // Save ID to localStorage, 注意sessionStorage不能跨标签页使用
+    
+        // Access some stored data
+        console.log('Parse objectId: ' + beautyUser.id + "; localStorage ID: " + localStorage.getItem("userID"));
+          
+        if(method == "wall"){
+            alert("select wall");
+            window.open('BallonData.html');
+        }else{
+            window.open('thesis_beauty_phoneQr.html');
+        } // open new page if the new beautyUser saved;
+      },
+      error: function(beautyUser, error) {
+        // Execute any logic that should take place if the save fails.
+        // error is a Parse.Error with an error code and description.
+        alert('Failed to create new object, with error code: ' + error.description);
+      }
+    }); // Parse data save
+}

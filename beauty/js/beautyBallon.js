@@ -1,3 +1,24 @@
+/** Parse: save user's select country **/
+// current only allow one country
+// Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
+Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
+
+// Retrieving Objects 根据sessionStroge ID查询国家
+var BeautyUser = Parse.Object.extend("BeautyUser");
+var beautyQuery = new Parse.Query(BeautyUser);
+var beautyUserID = localStorage.getItem("userID");
+console.log("beautyUserID in localStorage: " + beautyUserID);
+
+beautyQuery.get(beautyUserID, {
+  success: function(beautyUser) {
+    // The object was retrieved successfully.
+      console.log(beautyUser);
+  },
+  error: function(object, error) {
+    // The object was not retrieved successfully.
+    // error is a Parse.Error with an error code and description.
+  }
+});
 
 var dispatch = d3.dispatch("load", "statechange");
 var pppCirMap = 1;
@@ -270,4 +291,6 @@ function getMousePos(event) {
 
 //    Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
     Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
+    
+    
     

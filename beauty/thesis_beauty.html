@@ -10,18 +10,15 @@
         <script src="http://d3js.org/queue.v1.min.js"></script>
         <script src="http://d3js.org/topojson.v0.min.js"></script>
         <script src="js/parse-1.4.2.min.js"></script>
-<!--        <script src="js/script.js"></script>-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script><!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="../js/materialize.min.js"></script>    
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>--> 
         
-<!-- Compiled and minified CSS -->
+        <!-- Compiled and minified CSS -->
 		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
-        <!--Import jQuery before materialize.js-->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>		
-        <script type="text/javascript" src="../js/materialize.min.js"></script>
-        <!-- Compiled and minified JavaScript -->
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
-
         <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" href="../beauty/data/icon.png" />
         <link rel="stylesheet" href="css/beauty.css"> 
     </head>
     <body>
@@ -60,11 +57,10 @@
 						</div><!--card-panel countryname pink-->
 						
 						<div class="card-action">
-						
-							<a class="waves-effect waves-light btn-large pink lighten-2" id="onWall">
-								<i class="mdi-av-videocam left"></i>Show on Gallery Wall </a>
-							<a class="waves-effect waves-light btn-large purple lighten-2" id="onPhone">
-								<i class="mdi-hardware-smartphone left"></i>Show on Smart Phone</a>
+							<a class="waves-effect waves-light btn-large pink lighten-2" id="onWall" href="javascript:void(0)">
+								<i class="mdi-av-videocam left" id="onWall"></i>Show on Gallery Wall </a>
+							<a class="waves-effect waves-light btn-large purple lighten-2" id="onPhone" href="javascript:void(0)">
+								<i class="mdi-hardware-smartphone left" id="onPhone"></i>Show on Smart Phone</a>
         
 						</div>
 					</div><!-- introduction -->
@@ -91,7 +87,7 @@
 			  <i class="large mdi-editor-mode-edit"></i>
 			</a>
 			<ul>
-			  <li><a class="btn-floating red"><i class="large mdi-editor-insert-chart"></i></a></li>
+			  <li><a class="btn-floating red" id="clear"><i class="large mdi-action-delete"></i></a></li>
 			  <li><a class="btn-floating yellow darken-1"><i class="large mdi-editor-format-quote"></i></a></li>
 			  <li><a class="btn-floating green"><i class="large mdi-editor-publish"></i></a></li>
 			  <li><a class="btn-floating blue"><i class="large mdi-editor-attach-file"></i></a></li>
