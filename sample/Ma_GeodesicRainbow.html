@@ -1,0 +1,192 @@
+<!-- HTML Sample -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <!--Let browser know website is optimized for mobile
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>-->
+        <title>Rotating Icosahedron</title>
+<!--        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>-->
+       <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+         <!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+        <!--Import jQuery before materialize.js-->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript" ></script>		
+        <script src="../js/materialize.min.js" type="text/javascript" ></script>
+        <script src="http://d3js.org/d3.geodesic.v0.min.js"></script>
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
+
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Play', 'Quicksand', serif;
+                font-weight: 400;
+				color: #FD5247;
+				background-color: #37474f;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+				box-shadow: 3px 3px 3px lightgray;
+            }
+            path {
+              fill: #f88e22;
+              stroke: #fff;
+              stroke-width: 2px;
+            }
+			a{	color: #FD5247;}
+            .map{  text-align: center; }
+			div.card{  /*	width: 960px;*/	}
+			a{
+				color: #FD5247;
+			}
+			.content{
+				margin: 20px 0;
+				text-align: center;
+			}
+			#title{
+				margin-top: 0;
+			}
+            /** SVG Style **/
+            
+            #subdivision {/*  position: absolute;*/
+                position: relative;
+              left: -200px;
+            }
+
+            #subdivision input {
+              width: 200px;
+            }
+
+        </style>
+	</head>
+
+    <body>
+       	<div class="card-panel pink accent-3" id="title">
+       		<h1 class="white-text">Geodesic Rainbow</h1>
+		</div>
+		<div class="content">
+		    <div class="map">
+                <div id="subdivision">
+                  <input type="range" min="1" max="12" value="8">
+                  <output name="subdivision"></output>
+                </div><!--subdivision-->
+		    </div><!-- SVG map  -->
+		</div>
+		<!-- Page Content goes here -->
+		<div class="container"> 
+			<div class="row">
+				<div class="col s12">
+					<div class="card pink lighten-1">
+						<div class="card-content white-text">
+							<h4><span class="card-title">Introduction :</span></h4>
+							<p>Use the range slider to change the degree of subdivision in this geodesic sphere. The base shape, visible when subdivision is disabled, is the icosahedron. Built with the <a href="https://github.com/d3/d3-plugins/tree/master/geodesic">d3.geodesic plugin. </a></p>
+						</div>
+						<div class="card-action">
+							<a href="http://bl.ocks.org/mbostock/3057239" class="lime-text">Link to Sample</a>
+						
+						</div><!--card-action-->
+					</div><!--card color -->
+				</div><!--col -->
+			</div><!--row-->
+			<div class="row blue white-text">
+				<div class="col s12 grid-example">
+				    <h3>Grid Sample</h3>
+					<span class="flow-text">This div is 12-columns wide on all screen sizes</span>
+				</div>
+				<div class="col s6 offset-s6 grid-example">
+					<span class="flow-text">6-columns (offset-by-6)</span>
+				</div>
+			</div><!--row-->
+		</div><!-- container -->
+<!-- Import jQuery before materialize.js -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<!-- Compiled and minified CSS -->
+<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+<!--d3 code-->
+<script>
+
+var width = 960,
+    height = 500;
+
+var velocity = [.010, .005],
+    t0 = Date.now();
+
+var projection = d3.geo.orthographic()
+    .scale(height / 2 - 10);
+
+var canvas = d3.select("div.map").append("canvas")
+    .attr("width", width)
+    .attr("height", height);
+
+var context = canvas.node().getContext("2d");
+
+context.strokeStyle = "#000";
+context.lineWidth = .5;
+
+var faces;
+
+var output = d3.select("output");
+
+var input = d3.select("input")
+    .on("change", function() { geodesic(+this.value); })
+    .each(function() { geodesic(+this.value); });
+
+d3.timer(function() {
+  var time = Date.now() - t0;
+  projection.rotate([time * velocity[0], time * velocity[1]]);
+  redraw();
+});
+
+function redraw() {
+  context.clearRect(0, 0, width, height);
+
+  faces.forEach(function(d) {
+    d.polygon[0] = projection(d[0]);
+    d.polygon[1] = projection(d[1]);
+    d.polygon[2] = projection(d[2]);
+    if (d.visible = d.polygon.area() > 0) {
+      context.fillStyle = d.fill;
+      context.beginPath();
+      drawTriangle(d.polygon);
+      context.fill();
+    }
+  });
+
+  context.beginPath();
+  faces.forEach(function(d) {
+    if (d.visible) {
+      drawTriangle(d.polygon);
+    }
+  });
+  context.stroke();
+}
+
+function drawTriangle(triangle) {
+  context.moveTo(triangle[0][0], triangle[0][1]);
+  context.lineTo(triangle[1][0], triangle[1][1]);
+  context.lineTo(triangle[2][0], triangle[2][1]);
+  context.closePath();
+}
+
+function geodesic(subdivision) {
+  output.text(subdivision);
+
+  faces = d3.geodesic.polygons(subdivision).map(function(d) {
+    d = d.coordinates[0];
+    d.pop(); // use an open polygon
+    d.fill = d3.hsl(d[0][0], 1, .5) + "";
+    d.polygon = d3.geom.polygon(d.map(projection));
+    return d;
+  });
+
+  redraw();
+}
+
+</script>
+    </body>
+</html>

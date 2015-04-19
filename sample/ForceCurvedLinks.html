@@ -55,7 +55,7 @@
                 .attr("width", width)
                 .attr("height", height);
 
-            d3.json("../myd3_geo/jsons/miserables.json", function(error, graph) {
+            d3.json("../jsons/miserables.json", function(error, graph) {
               var nodes = graph.nodes.slice(),
                   links = [],
                   bilinks = [];
