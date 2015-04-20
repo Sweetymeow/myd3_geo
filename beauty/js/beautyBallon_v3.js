@@ -14,47 +14,43 @@ var scrWidth = $(window).width(),
 
 /** D3: Timer & Speed **/
 var t0 = Date.now();
+var aniTimer = [6, 12, 18],
+    velocity = new Array(),
+    svgAniName;
+velocity[0] = calSpeed(0.8, aniTimer[0]*1000);
+var nextYear = false;
 
 d3.timer(function() {
     var time = Date.now() - t0,
-        sec = Math.round(time/1000),
-        msec = Math.round(time/10);
+        sec = Math.round(time/1000);
     
-    if(sec<=10 && sec>1){
+    var select = d3.select("select");
+    
+    if(sec<=aniTimer[0] && sec>0){
         d3.select("svg.svgbar")
             .style("left", scrWidth/3)
-            .style("top", scrHeight-0.5*msec);
-    }
+            .style("top", scrHeight-velocity[0]*time);
+    } 
     
-    switch (sec){
-        case 5:
-            console.log("5 second!");
-          break;
-        case 10:
-            console.log("10 second!");    
-          break;
-        case 15:
-            console.log("15 second!");
-          break;
-        case 20:
-            console.log("20 second!");
-          break;
-        case 25:
-            console.log("25 second!");
-          break;
-        case 30:
-            console.log("30 second!");
-          break;
-    }
-    if(sec>30){
-        console.log("Stop Timmer " + time);
+//    if(time<aniTimer[0]*1000){
+//        console.log("!!!!timer zone 1!!!!");
+//    }else if(time<aniTimer[1]*1000){
+//        console.log("!!!!timer zone 2!!!!");
+//        
+//    }else if(time<aniTimer[2]*1000){
+//        console.log("!!!!timer zone 3!!!!");
+//    }
+    
+    var l = aniTimer.length;
+    if(sec > aniTimer[l-1]){
+        console.log("Stop Timer " + time);
         return true;
     }
-  //projection.rotate([time * velocity[0], time * velocity[1]]);
 }); // make sure your timer function returns true when done!
 
 /** D3.js: obtain data from csv file **/
-var countryList = new Array();
+var countryList = new Array(),
+    rankRates = new Array();
 var dispatch = d3.dispatch("load", "statechange");
 
 // sub-title for csv
@@ -73,7 +69,7 @@ var groups = ["Labour force participation",
 			  "Years with female head of state(last 50)"];
 
 
-d3.csv("data/gg_gdp.csv", type, function(error, countries) {
+d3.csv("data/gg_gdp_s.csv", type, function(error, countries) {
 	if (error) 
 		throw error;
     
@@ -84,8 +80,9 @@ d3.csv("data/gg_gdp.csv", type, function(error, countries) {
 		countryById.set(d.id, d);
         d.country = idInfo[0];
         d.year = Number(idInfo[1]);
+        d.rank_rate = Number(d.rank_rate);
+        //console.log(d); // 返回每个数据项目的细节
 	});
-    console.log(countryById); 
     
     var cntryNest = d3.nest()
         .key(function(d){ return d.country; })
@@ -99,10 +96,10 @@ d3.csv("data/gg_gdp.csv", type, function(error, countries) {
     console.log(countryList);
     
 	dispatch.load(countryById);
-	dispatch.statechange(countryById.get("China,2014"));
+	dispatch.statechange(countryById.get("China,2006"));
 });
 
-// A drop-down menu for selecting a state; uses the "menu" namespace.
+// A drop-down menu for selecting a country; uses the "menu" namespace.
 dispatch.on("load.menu", function(countryById) {
   var select = d3.select("div.map")
         .append("div").attr("class","cySelect")
@@ -117,21 +114,59 @@ dispatch.on("load.menu", function(countryById) {
         .attr("value", function(d) { return d.id; })
         .text(function(d) { return d.id; });
 
-  dispatch.on("statechange.menu", function(state) {
-      //console.log(state);
-    select.property("value", state.id);
+  dispatch.on("statechange.menu", function(country) {
+        console.log(country.id);
+        select.property("value", country.id);
   });
 });
 
+dispatch.on("load.parseCountry", function(countryById) {
+    /** Parse: get user selected country **/
+    if(beautyUserID){
+        beautyQuery.get(beautyUserID, {
+          success: function(beautyUser) {
+              // The object was retrieved successfully.
+              userCountry = beautyUser.get("countryName");
+              console.log("Parse: beautyUser ID: " + beautyUser.id + "; Get country name from user: " + userCountry);
+
+            // compare the user selected country with the country in Dataset
+            if(userCountry && countryList.length>0){ //Parse返回用户选择国家并获得CSV国家列表
+                var compareResult = cntryInList(userCountry);
+                if(compareResult){
+                    dispatch.statechange(countryById.get(userCountry +",2006"));
+                    console.log("load.parseCountry启动修改svg图为 "+ userCountry);
+                }else{
+                    userCountry = "NO";
+                }
+                console.log("compare reault is: " + compareResult +" / " + userCountry);  
+            }else{//Parse用户选择国家，或者CSV国家列表：有一个没有发现
+                console.log("Don't get Country in List:" + userCountry + "or Country List: " + countryList.length);
+            }
+          },
+          error: function(object, error) {
+            // The object was not retrieved successfully, error is a Parse.Error with an error code and description.
+            alert('Failed to get object from server: ' + error.description);
+          }
+        }); // beautyQuery.get(beautyUserID)
+    }else{
+        dispatch.statechange(countryById.get("Japan,2006"));
+        console.log("load.parseCountry: 没有获得后台国家，保持默认China,2006");
+    }
+    /** Parse: beautyQuery.get get user selected country **/
+
+    dispatch.on("statechange.parseCountry", function(country) {
+      console.log("statechange.parseCountry 启动 " + country.id);
+      console.log(country);
+    });
+});
+
+
 // A pie chart to show GenderGap score, PPP & Age by country and year; uses the "pie" namespace.
 dispatch.on("load.pie", function(countryById) {
-	var width = scrWidth,
-		height = scrHeight,	
+	var width = 600,
+		height = 480,	
 		radius = 70; //radius = Math.min(width, height) / 2;
 
-//	var color = d3.scale.ordinal()
-//			.domain(groups)  // sub-title for csv
-//			.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 	var color2 = d3.scale.category20();
 
 	var arc = d3.svg.arc()
@@ -143,34 +178,32 @@ dispatch.on("load.pie", function(countryById) {
 
 	var svg = d3.select("div.map").append("svg")
 				.attr("width", width)
-				.attr("height", height)
-				.append("g")
+				.attr("height", height);
+    
+	var svg_g =svg.append("g")
 				.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 	
-	var cirGroup = svg.append("g")
+	var cirGroup = svg_g.append("g")
 				.attr("class","circles");
 	
 	var pppCircle = cirGroup.append("circle")
 						.attr("class","ppp");
 
-	var bars = svg.selectAll("rect")
+	var bars = svg_g.selectAll("rect")
                 .data(groups)
                 .enter().append("rect")
                 .style("fill", color2)
-                .attr('rx', 6)
-                .attr('x', 0)
-                .attr('ry', 6)
-                .attr('y', 0)
+                .attr('rx', 6).attr('x', 0)
+                .attr('ry', 6).attr('y', 0)
                 .each(function() { this._current = {startAngle: 0, endAngle: 0}; });
 	
-	var ageCircle = cirGroup.append("circle")
-						.attr("class","age");
+	var ageCircle = cirGroup.append("circle").attr("class","age");
 	
 	var ageText = cirGroup.append("text")
-					.attr("class","ageText")
-					.style("fill", "white")
-					.style("font-size", "26px")
-				.attr("transform", "translate(0, 9)");;
+                .attr("class","ageText")
+                .style("fill", "white")
+                .style("font-size", "26px")
+                .attr("transform", "translate(0, 9)");;
 
   dispatch.on("statechange.pie", function(d) {
       var eachangle = 360/14,
@@ -178,9 +211,12 @@ dispatch.on("load.pie", function(countryById) {
 	  var cyPPP = Number(d.ppp2),
 	  	  maAge = Number(d.age);
       svg.attr("class", d.country); // set country name as g class
+      velocity[0] = calSpeed(d.rank_rate, aniTimer[0]*1000);
+      
+      $('svg.'+d.country).css("top", (scrHeight-height/2)+"px");
 	  
 	  radius = cyPPP/2;
-	  console.log("PPP: " + d.ppp2);
+	  console.log("statechange.pie: 目前国家/ "+ d.country+" /的PPP: " + d.ppp2);
 	  
 	  pppCircle.attr("cx",0)
 	  			.attr("cy",0)
@@ -211,67 +247,38 @@ dispatch.on("load.pie", function(countryById) {
         });
 	  
 	  bars.on("click", function(d){
-		  var clickpos = getMousePos(onclick);
-		  d3.select("#tooltip").style("opacity",1);
-		  
-		  console.log(clickpos);
-		  //Get this bar's x/y values, then augment for the tooltip
-		  //console.log(d3.select(this).node().getBBox());
-		  
-			//Update the tooltip position and value
-			var tooltip = d3.select("#tooltip")
-				.style("left", clickpos.x +20 + "px")
-				.style("top", clickpos.y-50 + "px")						
-				.select("#value")
-				.text(d.data);
-		  
-			d3.select("#tooltip").transition()
-				.style("opacity",0)
-				.delay(5000)
-				.duration(1000)
-            	.ease('elastic');
+        var clickpos = getMousePos(onclick);
+        d3.select("#tooltip").style("opacity",1);
 
-			//Show the tooltip
-			d3.select("#tooltip").classed("hidden", false);
-	  });
-  });
+        console.log(clickpos);
+
+        //Update the tooltip position and value
+        var tooltip = d3.select("#tooltip")
+            .style("left", clickpos.x +20 + "px")
+            .style("top", clickpos.y-50 + "px")						
+            .select("#value")
+            .text(d.data);
+
+        d3.select("#tooltip").transition()
+            .style("opacity",0)
+            .delay(5000)
+            .duration(1000)
+            .ease('elastic');
+        //Show the tooltip
+        d3.select("#tooltip").classed("hidden", false);
+	  }); // bars.on("click")
+      
+      svgAniName = "svg."+d.country;
+      
+      var heightGap = height/2 - cyPPP;
+      
+      $('svg.'+d.country).animate({
+            top: d.rank_rate*scrHeight - heightGap+'px'
+        },(aniTimer[1]-aniTimer[0])*1000);
+  }); // dispatch.on("statechange.pie")
 });
 
-barRiser(scrWidth/3, scrHeight);
-
-dispatch.on("load.parseCountry", function(countryById) {
-    /** Parse: get user selected country **/
-    beautyQuery.get(beautyUserID, {
-      success: function(beautyUser) {
-        // The object was retrieved successfully.
-          userCountry = beautyUser.get("countryName");
-          alert("Pare | Uer choose the country: " + userCountry);
-          console.log("beautyUser ID: " + beautyUser.id + "; Get country name from user: " + userCountry);
-
-        // compare the user selected country with the country in Dataset
-        if(userCountry && countryList.length>0){
-            var compareResult = cntryInList(userCountry);
-            if(compareResult){
-                dispatch.statechange(countryById.get(userCountry +",2006"));
-            }else{
-                userCountry = "NO";
-            }
-            console.log("compare reault is: " + compareResult +" / " + userCountry);      
-        }else{
-            console.log("Don't get Country in List:" + userCountry + "or Country List: " + countryList.length);
-        }
-      },
-      error: function(object, error) {
-        // The object was not retrieved successfully.
-        // error is a Parse.Error with an error code and description.
-      alert('Failed to get object from server: ' + error.description);
-      }
-    }); // Parse: beautyQuery.get userCountry
-
-  dispatch.on("statechange.parseCountry", function(country) {
-      console.log("current in parse Country state change: " + country); 
-  });
-});
+drawBar(scrWidth/3, scrHeight);
 
 /** Other Function without D3 & Parse **/
 
@@ -297,11 +304,13 @@ function cntryInList(userCntry){
     return findCountryInList;
 }
 
-function redraw() {
-  //context.clearRect(0, 0, width, height);
+function calSpeed(rankRate, time){
+    var velocity = scrHeight*rankRate/time;
+    console.log("velocity: " + velocity);
+    return velocity;
 }
 
-function barRiser(left,top){   
+function drawBar(left,top){   
     // A bar chart to show total population; uses the "bar" namespace.
     dispatch.on("load.bar", function(countryById) {
       var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -344,4 +353,4 @@ function barRiser(left,top){
             .attr("height", y(0) - y(d.total));
       });
     }); // dispatch.on "load.bar"
-}// function barRiser
+}// function drawBar
