@@ -1,34 +1,24 @@
-/** Parse: save user's select country **/
+/** Parse: get user selected country **/
 // current only allow one country
-// Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
 Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
 
-// Retrieving Objects 根据sessionStroge ID查询国家
+// Parse: Retrieving Objects 根据sessionStroge ID查询国家
 var BeautyUser = Parse.Object.extend("BeautyUser");
 var beautyQuery = new Parse.Query(BeautyUser);
 var beautyUserID = localStorage.getItem("userID");
+var userCountry;
 console.log("beautyUserID in localStorage: " + beautyUserID);
 
-beautyQuery.get(beautyUserID, {
-  success: function(beautyUser) {
-    // The object was retrieved successfully.
-      console.log(beautyUser);
-  },
-  error: function(object, error) {
-    // The object was not retrieved successfully.
-    // error is a Parse.Error with an error code and description.
-  }
-});
-
 /** D3: Timer & Speed **/
-var velocity = [.010, .005],
-    t0 = Date.now();
+var t0 = Date.now(),
+    ballonRise = 8000,
+    yearInterval = 5000;
 
 d3.timer(function() {
   var time = Date.now() - t0;
+    console.log(time);
   //projection.rotate([time * velocity[0], time * velocity[1]]);
-  redraw();
-});
+}); // make sure your timer function returns true when done!
 
 /** D3.js: obtain data from csv file **/
 var countryList = new Array();
@@ -79,8 +69,6 @@ d3.csv("data/gg_gdp.csv", type, function(error, countries) {
 	dispatch.statechange(countryById.get("China,2014"));
 });
 
-cntryInList();
-
 // A drop-down menu for selecting a state; uses the "menu" namespace.
 dispatch.on("load.menu", function(countryById) {
   var select = d3.select("div.map")
@@ -102,7 +90,7 @@ dispatch.on("load.menu", function(countryById) {
   });
 });
 
-// A pie chart to show population by age group; uses the "pie" namespace.
+// A pie chart to show GenderGap score, PPP & Age by country and year; uses the "pie" namespace.
 dispatch.on("load.pie", function(countryById) {
 	var width = 660,
 		height = 500,
@@ -157,6 +145,7 @@ dispatch.on("load.pie", function(countryById) {
           eachradians = 2*Math.PI/14;
 	  var cyPPP = Number(d.ppp2),
 	  	  maAge = Number(d.age);
+      svg.attr("class", d.country); // set country name as g class
 	  
 	  radius = cyPPP/2;
 	  console.log("PPP: " + d.ppp2);
@@ -188,17 +177,6 @@ dispatch.on("load.pie", function(countryById) {
             barXY[1] = -1*radius*Math.sin(eachradians*(i+0.5));
             return "translate("+ barXY[0] +","+ barXY[1] +"),rotate(" + eachangle*(-i)+ ")";
         });
-      
-	  // Chart bar animation
-//      bars.transition()
-//            .attr("width", function(d) {
-//                return radius*d.value+"px";
-//            })
-//            .delay(function(d, i) {
-//                return i * 50;
-//            })
-//            .duration(1000)
-//            .ease('elastic');
 	  
 	  bars.on("click", function(d){
 		  var clickpos = getMousePos(onclick);
@@ -227,47 +205,41 @@ dispatch.on("load.pie", function(countryById) {
   });
 });
 
-    
-// A bar chart to show total population; uses the "bar" namespace.
-dispatch.on("load.bar", function(countryById) {
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
-	  width = 120 - margin.left - margin.right,
-	  height = 460 - margin.top - margin.bottom;
+dispatch.on("load.parseCountry", function(countryById) {
+    /** Parse: get user selected country **/
+    beautyQuery.get(beautyUserID, {
+      success: function(beautyUser) {
+        // The object was retrieved successfully.
+          userCountry = beautyUser.get("countryName");
+          alert("Pare | Uer choose the country: " + userCountry);
+          console.log("beautyUser ID: " + beautyUser.id + "; Get country name from user: " + userCountry);
 
-  var y = d3.scale.linear()
-	  .domain([0, d3.max(countryById.values(), function(d) { 
-		  return d.total; })])
-	  .rangeRound([height, 0])
-	  .nice();
+        // compare the user selected country with the country in Dataset
+        if(userCountry && countryList.length>0){
+            var compareResult = cntryInList(userCountry);
+            if(compareResult){
+                dispatch.statechange(countryById.get(userCountry +",2006"));
+            }else{
+                userCountry = "NO";
+            }
+            console.log("compare reault is: " + compareResult +" / " + userCountry);      
+        }else{
+            console.log("Don't get Country in List:" + userCountry + "or Country List: " + countryList.length);
+        }
+      },
+      error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and description.
+      alert('Failed to get object from server: ' + error.description);
+      }
+    }); // Parse: beautyQuery.get userCountry
 
-  var yAxis = d3.svg.axis()
-	  .scale(y)
-	  .orient("left")
-	  .tickFormat(d3.format(".2s"));
-
-  var svg = d3.select("div.map").append("svg")
-		.attr("width", width + margin.left + margin.right)
-		.attr("height", height + margin.top + margin.bottom)
-		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("g")
-	  .attr("class", "y axis")
-	  .call(yAxis);
-
-  var rect = svg.append("rect")
-	  .attr("x", 4)
-	  .attr("width", width - 10)
-	  .attr("y", height)
-	  .attr("height", 0)
-	  .style("fill", "#aaa");
-
-  dispatch.on("statechange.bar", function(d) {
-	rect.transition()
-		.attr("y", y(d.total))
-		.attr("height", y(0) - y(d.total));
+  dispatch.on("statechange.parseCountry", function(country) {
+      console.log("current in parse Country state change: " + country); 
   });
 });
+
+/** Other Function without D3 & Parse **/
 
 // Coerce population counts to numbers and compute total per state.
 function type(d) {
@@ -280,10 +252,62 @@ function getMousePos(event) {
 	return {'x':e.clientX,'y':e.clientY}
 }
 
-function cntryInList(){
-    
+function cntryInList(userCntry){
+    var findCountryInList = false;
+    countryList.forEach(function(country){
+        if(country === userCntry){
+            findCountryInList = true;
+            console.log("User selected country in List!!!");
+        }
+    });
+    return findCountryInList;
 }
 
 function redraw() {
   //context.clearRect(0, 0, width, height);
 }
+
+function barRiser(left,top){   
+    // A bar chart to show total population; uses the "bar" namespace.
+    dispatch.on("load.bar", function(countryById) {
+      var margin = {top: 20, right: 20, bottom: 30, left: 40},
+          width = 120 - margin.left - margin.right,
+          height = 460 - margin.top - margin.bottom;
+
+      var y = d3.scale.linear()
+          .domain([0, d3.max(countryById.values(), function(d) { 
+              return d.total; })])
+          .rangeRound([height, 0])
+          .nice();
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          .tickFormat(d3.format(".2s"));
+
+      var svg = d3.select("div.map").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("class","bar")
+//          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + (margin.left+left) + "," + (margin.top+top) + ")");
+
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+
+      var rect = svg.append("rect")
+          .attr("x", 4)
+          .attr("width", width - 10)
+          .attr("y", height)
+          .attr("height", 0)
+          .style("fill", "#aaa");
+
+      dispatch.on("statechange.bar", function(d) {
+        rect.transition()
+            .attr("y", y(d.total))
+            .attr("height", y(0) - y(d.total));
+      });
+    }); // dispatch.on "load.bar"
+}// function barRiser
