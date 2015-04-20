@@ -35,6 +35,7 @@ div{
 svg{
     -webkit-margin-before: 2em;
     border: 1px solid #DEDEDE;
+    background-color: transparent;
 }
 .axis text {
   font: 10px sans-serif;
@@ -59,4 +60,7 @@ select{
 text{
     vertical-align: middle;
     font-family: 'PT Sans', sans-serif;
+}
+svg.svgbar{
+    position:absolute;
 }

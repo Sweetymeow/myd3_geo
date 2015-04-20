@@ -9,14 +9,47 @@ var beautyUserID = localStorage.getItem("userID");
 var userCountry;
 console.log("beautyUserID in localStorage: " + beautyUserID);
 
+var scrWidth = $(window).width(),
+    scrHeight = $(window).height();
+
 /** D3: Timer & Speed **/
-var t0 = Date.now(),
-    ballonRise = 8000,
-    yearInterval = 5000;
+var t0 = Date.now();
 
 d3.timer(function() {
-  var time = Date.now() - t0;
-    console.log(time);
+    var time = Date.now() - t0,
+        sec = Math.round(time/1000),
+        msec = Math.round(time/10);
+    
+    if(sec<=10 && sec>1){
+        d3.select("svg.svgbar")
+            .style("left", scrWidth/3)
+            .style("top", scrHeight-0.5*msec);
+    }
+    
+    switch (sec){
+        case 5:
+            console.log("5 second!");
+          break;
+        case 10:
+            console.log("10 second!");    
+          break;
+        case 15:
+            console.log("15 second!");
+          break;
+        case 20:
+            console.log("20 second!");
+          break;
+        case 25:
+            console.log("25 second!");
+          break;
+        case 30:
+            console.log("30 second!");
+          break;
+    }
+    if(sec>30){
+        console.log("Stop Timmer " + time);
+        return true;
+    }
   //projection.rotate([time * velocity[0], time * velocity[1]]);
 }); // make sure your timer function returns true when done!
 
@@ -92,10 +125,9 @@ dispatch.on("load.menu", function(countryById) {
 
 // A pie chart to show GenderGap score, PPP & Age by country and year; uses the "pie" namespace.
 dispatch.on("load.pie", function(countryById) {
-	var width = 660,
-		height = 500,
-		//radius = Math.min(width, height) / 2;
-		radius = 70; // Test radius
+	var width = scrWidth,
+		height = scrHeight,	
+		radius = 70; //radius = Math.min(width, height) / 2;
 
 //	var color = d3.scale.ordinal()
 //			.domain(groups)  // sub-title for csv
@@ -205,6 +237,8 @@ dispatch.on("load.pie", function(countryById) {
   });
 });
 
+barRiser(scrWidth/3, scrHeight);
+
 dispatch.on("load.parseCountry", function(countryById) {
     /** Parse: get user selected country **/
     beautyQuery.get(beautyUserID, {
@@ -286,12 +320,12 @@ function barRiser(left,top){
           .tickFormat(d3.format(".2s"));
 
       var svg = d3.select("div.map").append("svg")
+            .attr("class","svgbar")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("class","bar")
-//          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-            .attr("transform", "translate(" + (margin.left+left) + "," + (margin.top+top) + ")");
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       svg.append("g")
           .attr("class", "y axis")
