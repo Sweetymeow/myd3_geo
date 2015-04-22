@@ -292,7 +292,7 @@ function strogeToParse(method){
         console.log('Parse objectId: ' + beautyUser.id + "; localStorage ID: " + localStorage.getItem("userID"));
           
         if(method == "wall"){
-            window.open('BallonData_v2.html');
+            window.open('BallonData_v3.html');
         }else{
             window.open('thesis_beauty_phoneQr.html');
         } // open new page if the new beautyUser saved;

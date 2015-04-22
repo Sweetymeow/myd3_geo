@@ -14,36 +14,20 @@ var scrWidth = $(window).width(),
 
 /** D3: Timer & Speed **/
 var t0 = Date.now();
-var aniTimer = [6, 12, 18],
+var aniTimer = [6,8,10,12],
+    dataYear = [2006, 2010, 2014],
+    dataIndex = 0,
     velocity = new Array(),
     svgAniName;
-velocity[0] = calSpeed(0.8, aniTimer[0]*1000);
-var nextYear = false;
+
+/* Set Tooptip hiden */
+d3.select("#tooltip").classed("hidden", true);
 
 d3.timer(function() {
     var time = Date.now() - t0,
         sec = Math.round(time/1000);
-    
-    var select = d3.select("select");
-    
-    if(sec<=aniTimer[0] && sec>0){
-        d3.select("svg.svgbar")
-            .style("left", scrWidth/3)
-            .style("top", scrHeight-velocity[0]*time);
-    } 
-    
-//    if(time<aniTimer[0]*1000){
-//        console.log("!!!!timer zone 1!!!!");
-//    }else if(time<aniTimer[1]*1000){
-//        console.log("!!!!timer zone 2!!!!");
-//        
-//    }else if(time<aniTimer[2]*1000){
-//        console.log("!!!!timer zone 3!!!!");
-//    }
-    
-    var l = aniTimer.length;
-    if(sec > aniTimer[l-1]){
-        console.log("Stop Timer " + time);
+    if(sec > aniTimer[0]+1){
+        console.log("Stop Timer " + time + "; Data Index: " + dataIndex);
         return true;
     }
 }); // make sure your timer function returns true when done!
@@ -93,19 +77,23 @@ d3.csv("data/gg_gdp_s.csv", type, function(error, countries) {
     cntryNest.forEach(function(d){
         countryList.push(d.key);
     });
-    console.log(countryList);
+//    console.log(countryList);
     
 	dispatch.load(countryById);
-	dispatch.statechange(countryById.get("China,2006"));
+	//dispatch.statechange(countryById.get("China,2006"));
 });
 
 // A drop-down menu for selecting a country; uses the "menu" namespace.
 dispatch.on("load.menu", function(countryById) {
   var select = d3.select("div.map")
-        .append("div").attr("class","cySelect")
+        .append("div")
+        .attr("class","container")
         .append("select")
+        .attr("class","cySelect")
         .on("change", function() {
             dispatch.statechange(countryById.get(this.value)); 
+
+            console.log(countryById.get(this.value));
         });
 
   select.selectAll("option")
@@ -115,9 +103,21 @@ dispatch.on("load.menu", function(countryById) {
         .text(function(d) { return d.id; });
 
   dispatch.on("statechange.menu", function(country) {
-        console.log(country.id);
+        console.log("Menu| State Chagne: " + country.id);
         select.property("value", country.id);
   });
+});
+
+dispatch.on("load.next", function(countryById) {
+    $('#next').on("click",function(d){
+        if(dataIndex<dataYear.length-1){
+            dataIndex++;
+            console.log(userCountry +","+dataYear[dataIndex]);
+            dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
+        }else{
+            alert("NEXT: no more data ");
+        }
+    });
 });
 
 dispatch.on("load.parseCountry", function(countryById) {
@@ -133,14 +133,13 @@ dispatch.on("load.parseCountry", function(countryById) {
             if(userCountry && countryList.length>0){ //Parse返回用户选择国家并获得CSV国家列表
                 var compareResult = cntryInList(userCountry);
                 if(compareResult){
-                    dispatch.statechange(countryById.get(userCountry +",2006"));
-                    console.log("load.parseCountry启动修改svg图为 "+ userCountry);
+                    dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
+                    console.log("load | parseCountry启动修改svg图为 "+ userCountry);
                 }else{
                     userCountry = "NO";
-                }
-                console.log("compare reault is: " + compareResult +" / " + userCountry);  
+                } 
             }else{//Parse用户选择国家，或者CSV国家列表：有一个没有发现
-                console.log("Don't get Country in List:" + userCountry + "or Country List: " + countryList.length);
+                alert("Don't get Country in List:" + userCountry + "or Country List: " + countryList.length);
             }
           },
           error: function(object, error) {
@@ -149,13 +148,13 @@ dispatch.on("load.parseCountry", function(countryById) {
           }
         }); // beautyQuery.get(beautyUserID)
     }else{
-        dispatch.statechange(countryById.get("Japan,2006"));
-        console.log("load.parseCountry: 没有获得后台国家，保持默认China,2006");
+        userCountry = "Iceland";
+        console.log("ParseCountry: LocalStorage Eempty! current country: " + userCountry + "or Country List: " + countryList.length);
     }
     /** Parse: beautyQuery.get get user selected country **/
 
     dispatch.on("statechange.parseCountry", function(country) {
-      console.log("statechange.parseCountry 启动 " + country.id);
+      console.log("Statechange | Parse Country 启动: " + country.id);
       console.log(country);
     });
 });
@@ -192,13 +191,15 @@ dispatch.on("load.pie", function(countryById) {
 	var bars = svg_g.selectAll("rect")
                 .data(groups)
                 .enter().append("rect")
-                .style("fill", color2)
-                .attr('rx', 6).attr('x', 0)
-                .attr('ry', 6).attr('y', 0)
+                //.style("fill", color2)
+                .style("fill", "white")
+                .attr('x', 0)
+                .attr('y', 0)
                 .each(function() { this._current = {startAngle: 0, endAngle: 0}; });
 	
+    var equalCircle = cirGroup.append("circle").attr("class","equal");
 	var ageCircle = cirGroup.append("circle").attr("class","age");
-	
+    
 	var ageText = cirGroup.append("text")
                 .attr("class","ageText")
                 .style("fill", "white")
@@ -210,10 +211,24 @@ dispatch.on("load.pie", function(countryById) {
           eachradians = 2*Math.PI/14;
 	  var cyPPP = Number(d.ppp2),
 	  	  maAge = Number(d.age);
-      svg.attr("class", d.country); // set country name as g class
-      velocity[0] = calSpeed(d.rank_rate, aniTimer[0]*1000);
+      var svgClassName;
       
-      $('svg.'+d.country).css("top", (scrHeight-height/2)+"px");
+      svg.attr("class", function(){
+          var name = d.country;
+          var names = name.split(' ');
+          if(names.length>1){
+              svgClassName = names[0];
+          }else{
+              svgClassName = d.country;
+          }
+          return svgClassName;
+      }); // set country name as g class
+      
+       //每个国家第一年，设置回初始位置
+      if(!dataIndex){
+        $('svg.'+svgClassName).css("top", scrHeight+"px")
+            .css("left", (scrWidth-width)/2+"px");
+      }
 	  
 	  radius = cyPPP/2;
 	  console.log("statechange.pie: 目前国家/ "+ d.country+" /的PPP: " + d.ppp2);
@@ -221,28 +236,24 @@ dispatch.on("load.pie", function(countryById) {
 	  pppCircle.attr("cx",0)
 	  			.attr("cy",0)
 	  			.attr("r", cyPPP)
-	  			.style("fill", "pink");
-	  
-	  ageCircle.attr("cx",0)
-	  			.attr("cy",0)
-	  			.attr("r", maAge)
-	  			.style("fill", "red");
-	  
-	  ageText.attr("text-anchor", "middle")
-		  	.attr("id", "age")
-		  .text(function(d) { return maAge; });
+	  			.style("fill", "#FFC107")
+	  			.attr("stroke", "#fff")
+	  			.attr("stroke-width", "2");
 	 
-	  var barXY =[0,0]; // 这个好像不好用啊？
+	  var barXY =[0,0],
+          barRxy = (Math.PI*radius/14)/3;
       // Bar data
       bars.data(pie.value(function(g) { return d[g];})(groups))
 		 // .attr("width", 0)
         .attr("width", function(d) {
-            return radius*d.value+"px";
+            return radius*d.value+"px"; // char bar height
         })
-        .attr("height", 2*Math.PI*radius/14 + "px")
+        .attr("height", Math.PI*radius/14 + "px")
+        .attr("rx", barRxy)
+        .attr("ry", barRxy)
         .attr("transform", function(d,i){
-            barXY[0] = radius*Math.cos(eachradians*(i+0.5));
-            barXY[1] = -1*radius*Math.sin(eachradians*(i+0.5));
+            barXY[0] = radius*Math.cos(eachradians*(i+0.5))/2;
+            barXY[1] = -1*radius*Math.sin(eachradians*(i+0.5))/2;
             return "translate("+ barXY[0] +","+ barXY[1] +"),rotate(" + eachangle*(-i)+ ")";
         });
 	  
@@ -268,17 +279,32 @@ dispatch.on("load.pie", function(countryById) {
         d3.select("#tooltip").classed("hidden", false);
 	  }); // bars.on("click")
       
-      svgAniName = "svg."+d.country;
+      equalCircle.attr("cx",0)
+	  			.attr("cy",0)
+	  			.attr("r", 1.5*radius)
+                .attr("stroke", "#FF4081")
+	  			.attr("stroke-width", "2")
+	  			.style("fill", "#FFC107");
       
-      var heightGap = height/2 - cyPPP;
+      ageCircle.attr("cx",0)
+	  			.attr("cy",0)
+	  			.attr("r", maAge)
+	  			.style("fill", "#EB588F");
       
-      $('svg.'+d.country).animate({
-            top: d.rank_rate*scrHeight - heightGap+'px'
-        },(aniTimer[1]-aniTimer[0])*1000);
-  }); // dispatch.on("statechange.pie")
+	  ageText.attr("text-anchor", "middle")
+		  	.attr("id", "age")
+		  .text(function(d) { return maAge; });
+       
+      if(dataIndex <= dataYear.length){
+        $('svg.'+svgClassName).animate({
+            top: d.rank_rate*(scrHeight-height)/2+'px',
+            left: (scrWidth-width)/2+'px'
+        },(aniTimer[dataIndex+1]-aniTimer[dataIndex])*1000);
+      } // if-dataIndex
+    }); // dispatch.on("statechange.pie")
 });
 
-drawBar(scrWidth/3, scrHeight);
+//drawBar(scrWidth/3, scrHeight);
 
 /** Other Function without D3 & Parse **/
 
@@ -304,53 +330,53 @@ function cntryInList(userCntry){
     return findCountryInList;
 }
 
-function calSpeed(rankRate, time){
-    var velocity = scrHeight*rankRate/time;
-    console.log("velocity: " + velocity);
-    return velocity;
-}
-
-function drawBar(left,top){   
-    // A bar chart to show total population; uses the "bar" namespace.
-    dispatch.on("load.bar", function(countryById) {
-      var margin = {top: 20, right: 20, bottom: 30, left: 40},
-          width = 120 - margin.left - margin.right,
-          height = 460 - margin.top - margin.bottom;
-
-      var y = d3.scale.linear()
-          .domain([0, d3.max(countryById.values(), function(d) { 
-              return d.total; })])
-          .rangeRound([height, 0])
-          .nice();
-
-      var yAxis = d3.svg.axis()
-          .scale(y)
-          .orient("left")
-          .tickFormat(d3.format(".2s"));
-
-      var svg = d3.select("div.map").append("svg")
-            .attr("class","svgbar")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("class","bar")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      svg.append("g")
-          .attr("class", "y axis")
-          .call(yAxis);
-
-      var rect = svg.append("rect")
-          .attr("x", 4)
-          .attr("width", width - 10)
-          .attr("y", height)
-          .attr("height", 0)
-          .style("fill", "#aaa");
-
-      dispatch.on("statechange.bar", function(d) {
-        rect.transition()
-            .attr("y", y(d.total))
-            .attr("height", y(0) - y(d.total));
-      });
-    }); // dispatch.on "load.bar"
-}// function drawBar
+//function calSpeed(rankRate, time){
+//    var velocity = scrHeight*rankRate/time;
+//    console.log("velocity: " + velocity);
+//    return velocity;
+//}
+//
+//function drawBar(left,top){   
+//    // A bar chart to show total population; uses the "bar" namespace.
+//    dispatch.on("load.bar", function(countryById) {
+//      var margin = {top: 20, right: 20, bottom: 30, left: 40},
+//          width = 120 - margin.left - margin.right,
+//          height = 460 - margin.top - margin.bottom;
+//
+//      var y = d3.scale.linear()
+//          .domain([0, d3.max(countryById.values(), function(d) { 
+//              return d.total; })])
+//          .rangeRound([height, 0])
+//          .nice();
+//
+//      var yAxis = d3.svg.axis()
+//          .scale(y)
+//          .orient("left")
+//          .tickFormat(d3.format(".2s"));
+//
+//      var svg = d3.select("div.map").append("svg")
+//            .attr("class","svgbar")
+//            .attr("width", width + margin.left + margin.right)
+//            .attr("height", height + margin.top + margin.bottom)
+//            .append("g")
+//            .attr("class","bar")
+//            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+//
+//      svg.append("g")
+//          .attr("class", "y axis")
+//          .call(yAxis);
+//
+//      var rect = svg.append("rect")
+//          .attr("x", 4)
+//          .attr("width", width - 10)
+//          .attr("y", height)
+//          .attr("height", 0)
+//          .style("fill", "#aaa");
+//
+//      dispatch.on("statechange.bar", function(d) {
+//        rect.transition()
+//            .attr("y", y(d.total))
+//            .attr("height", y(0) - y(d.total));
+//      });
+//    }); // dispatch.on "load.bar"
+//}// function drawBar

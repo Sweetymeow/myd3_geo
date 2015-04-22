@@ -11,6 +11,7 @@ body {
     //font-family: 'Roboto','PT Sans', serif;
     font-family: 'PT Sans', serif;
     font-weight: 400;
+    background-color: #73D1D2;
 }
 div{
     //font-family: 'Roboto','PT Sans', serif;
@@ -42,11 +43,14 @@ div{
     font-size: 16px;
     line-height: 20px;
 }/** Tooltip **/
+
+/** svg: data ballon **/
 svg{
     -webkit-margin-before: 2em;
     border: 1px solid #DEDEDE;
     background-color: transparent;
 }
+/*
 .axis text {
   font: 10px sans-serif;
 }
@@ -56,6 +60,7 @@ svg{
   stroke: #000;
   shape-rendering: crispEdges;
 }
+*/
 .countrselect{
     height: 40px;
 }
@@ -64,13 +69,16 @@ select{
     display: inline-block;
     max-width: 200px;
 }
-.cySelect{
-    text-align: center;
-}
 text{
     vertical-align: middle;
     font-family: 'PT Sans', sans-serif;
 }
 svg{
     position:absolute;
+}
+div.map div.container{
+    text-align: center;
+}
+div.container{
+    text-align: center;
 }
