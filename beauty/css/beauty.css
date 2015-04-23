@@ -78,6 +78,13 @@ text{
 }
 
 /** d3 geo global **/
+#infoBox{
+    margin: 0 22px;
+    padding: 0;
+}
+#svgmap{
+    margin: 40px 22px auto 22px;
+}
 .info {
     margin: 0 auto;
     text-align: center;
@@ -101,7 +108,8 @@ div#title h1 {
 a.btn-large{
     color: #fff8e1;
 }
-/** Fun-Panel **/
+
+/** Intruduction-Panel **/
 .card .card-content{
 	padding: 5px 15px;
 }
@@ -137,8 +145,23 @@ a.btn-large{
 .card-panel h5{
 	margin: 0.2em 0;
 }
+#introduction h3{
+    font-weight: 700;
+}
 #introduction p{
-	font-size: 1em;
+    font-size: 1em;
+}
+#introduction p em{
+    font-size: 1.1em;
+    font-weight: 700;
+}
+#intro-p p:first-child{
+    font-size: 1.2em;
+    color: #ec407a;
+    padding-bottom: 5px;
+}
+#intro-p p:first-child span{
+    font-weight: 700;
 }
 /** int-icon **/
 #int-icon{
@@ -169,4 +192,14 @@ div.tooltip {
 .countries path{
 	stroke: #d81b60;
 	  stroke-width: 1;
+}
+
+/** footer **/
+div#footer{
+    position: absolute;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #4E375C;
+    width: 100%;
 }

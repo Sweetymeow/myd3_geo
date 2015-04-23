@@ -11,7 +11,7 @@ console.log("beautyUserID in localStorage: " + beautyUserID);
 
 /** D3: Timer & Speed **/
 var t0 = Date.now();
-var aniTimer = [6,3,3,3],
+var aniTimer = [10,6,3,3],
     dataYear = [2006, 2010, 2014],
     dataIndex = 0,
     velocity = new Array(),
@@ -108,14 +108,9 @@ dispatch.on("load.menu", function(countryById) {
   });
 });
 
-
-$(function() {
-//    if(!scrWidth){
-//        $('img#ground').css("bottom",0).css("width",1440);
-//    }else{
-//        $('img#ground').css("bottom",0).css("width",scrWidth);
-//    }
-
+$(function(){
+    var curLeftF = new Array();
+    
     $('img#ground').css("bottom",0);
     $(window).resize(function() {
         scrWidth = $(window).width();
@@ -123,19 +118,53 @@ $(function() {
         $('img#ground').css("bottom",0).css("width",scrWidth);
     });
     
-    var frontHInter = scrHeight/($('img#frontClouds').length+3);
-    var frontWInter = scrWidth/($('img#frontClouds').length+2);
-    console.log("scr height: "+ scrHeight+"; scr width:" + scrWidth+"; front clouds length: " + $('img#frontClouds').length + "; cloud intervel: " + frontHInter);
-    $('img#frontClouds').each(function(i){
-        console.log("frontClouds height: "+ $(this).height()+"; frontClouds width:" + $(this).width());
+    var frontHInter = scrHeight/($('div#frontClouds').length+3);
+    var frontWInter = scrWidth/($('div#frontClouds').length+2);
+//    console.log("scr height: "+ scrHeight+"; scr width:" + scrWidth+"; front clouds length: " + $('img#frontClouds').length + "; cloud intervel: " + frontHInter);
+    $('div#frontClouds').each(function(i){
+        var curLeft = Math.floor(100*Math.random());
         $(this).css("top", frontHInter*(i+0.5));
-        if(i%2){
-            $(this).css("left", frontWInter*Math.random());
-        }else{
-            $(this).css("left", scrWidth - frontWInter*Math.random()-300);
-        }
+        if(i%2 == 0){ curLeft = scrWidth-curLeft-300;}
+        $(this).css("left", curLeft);
+        curLeftF.push(curLeft);
     });
     
+    console.log(curLeftF);
+    
+    var $image = $('#frontClouds img'),
+        $wrapper = $image.parent(),
+        delay =500,
+        duration = 2000,
+        moveRight = function(){
+            $image.delay(delay).animate({
+                left: $wrapper.width() - $image.width()
+            }, {
+                duration: duration,
+                complete: moveLeft
+            });
+        },
+        moveLeft = function(){
+            $image.delay(delay).animate({
+                left: 0
+            }, {
+                duration: duration,
+                complete: moveRight
+            });
+        };
+    moveRight();
+   
+    $('div#backClouds').each(function(i){
+//        console.log("frontClouds height: "+ $(this).height()+"; frontClouds width:" + $(this).width());
+        $(this).css("top", frontHInter*(i+0.5)).css("opacity",0.8);
+        if(i%2 == 0){
+            $(this).css("left", frontWInter*(Math.random()+0.2));
+        }else{
+            $(this).css("left", scrWidth-frontWInter*Math.random()-100);
+        }
+    });
+});
+
+$(function() {
     dispatch.on("load.next", function(countryById) {
         /** 测试用按钮 **/
         $('#next').on("click",function(d){
@@ -147,27 +176,33 @@ $(function() {
                 alert("NEXT: no more data ");
             }
         });// JQ_next button click
-
-        /** jQ Timer 测试: aniTimer = [6,3,3,3] **/
+                /** jQ Timer 测试: aniTimer = [6,3,3,3] **/
         $('#timer-1').timer({
-            duration: aniTimer[dataIndex]+'s',
+            duration: aniTimer[0]+'s',
             callback: function() {
-                console.log("##Timer##: " + aniTimer[dataIndex] + "s timer up! DataIndex is: "+dataIndex);
-                dataIndex++;
-                console.log("##Timer## country: " + userCountry +","+dataYear[dataIndex]+"; DataIndex is: "+dataIndex);
-                // Show #2 & #3 data ballons
-                dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
-                
-                if(dataIndex == dataYear.length-1){
-                    console.log("###Timer Remove####");
-                    $('#timer-1').timer('remove');
-                }
-            },
-            repeat: function() {
-                dataIndex<(dataYear.length-1)?true:false
-            }
-        }); // #timer-1: This repeat only when dataIndex == 1
-        
+                console.log("## Timer-1 out!!: remove!! ##");
+                $('#timer-1').timer('remove');
+                /* timer 2 */
+                $('#timer-2').timer({
+                    duration: aniTimer[2]+'s',
+                    callback: function() {
+                        console.log("##Timer##: " + aniTimer[2] + "s timer up! DataIndex is: "+dataIndex);
+                        dataIndex++;
+                        console.log("##Timer## country: " + userCountry +","+dataYear[dataIndex]+"; DataIndex is: "+dataIndex);
+                        // Show #2 & #3 data ballons
+                        dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
+
+                        if(dataIndex == dataYear.length-1){
+                            console.log("###Timer Remove#### dataindex:"+dataIndex);
+                            $('#timer-2').timer('remove');
+                        }
+                    },
+                    repeat: function() {
+                        dataIndex<(dataYear.length-1)?true:false
+                    }
+                }); // #timer-2: This repeat only when dataIndex == 1
+            } // 'timer-1' callback
+        }); // 'timer-1'
     });// load.next
 });
 
@@ -346,18 +381,23 @@ dispatch.on("load.pie", function(countryById) {
 		  	.attr("id", "age")
 		  .text(function(d) { return maAge; });
       
-      var ballonHeight = d.rank_rate*(scrHeight-height/2);
+      var ballonHeight = d.rank_rate*(scrHeight-height/2)-60; // 60 is height of ground
        
-      if(dataIndex < dataYear.length){
+      if(!dataIndex){
+          $('svg.'+svgClassName).delay(aniTimer[0]*1000).animate({
+            top: ballonHeight+'px',
+            left: (scrWidth-width)/2+'px'
+        },aniTimer[dataIndex+1]*1000);
+      }else if(dataIndex < dataYear.length){
         $('svg.'+svgClassName).animate({
             top: ballonHeight+'px',
             left: (scrWidth-width)/2+'px'
-        },aniTimer[dataIndex]*1000);
+        },aniTimer[dataIndex+1]*1000);
       }else{
           $('svg.'+svgClassName).animate({
             top: ballonHeight+'px',
             left: (scrWidth-width)/2+'px'
-        },aniTimer[1]*1000);
+        },aniTimer[2]*1000);
       } // if-dataIndex
       console.log("###Ballon Height### Rank_Rate is: " + d.rank_rate + "; Ballon height is: " + ballonHeight);
     }); // dispatch.on("statechange.pie")
@@ -389,53 +429,19 @@ function cntryInList(userCntry){
     return findCountryInList;
 }
 
-//function calSpeed(rankRate, time){
-//    var velocity = scrHeight*rankRate/time;
-//    console.log("velocity: " + velocity);
-//    return velocity;
-//}
-//
-//function drawBar(left,top){   
-//    // A bar chart to show total population; uses the "bar" namespace.
-//    dispatch.on("load.bar", function(countryById) {
-//      var margin = {top: 20, right: 20, bottom: 30, left: 40},
-//          width = 120 - margin.left - margin.right,
-//          height = 460 - margin.top - margin.bottom;
-//
-//      var y = d3.scale.linear()
-//          .domain([0, d3.max(countryById.values(), function(d) { 
-//              return d.total; })])
-//          .rangeRound([height, 0])
-//          .nice();
-//
-//      var yAxis = d3.svg.axis()
-//          .scale(y)
-//          .orient("left")
-//          .tickFormat(d3.format(".2s"));
-//
-//      var svg = d3.select("div.map").append("svg")
-//            .attr("class","svgbar")
-//            .attr("width", width + margin.left + margin.right)
-//            .attr("height", height + margin.top + margin.bottom)
-//            .append("g")
-//            .attr("class","bar")
-//            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-//
-//      svg.append("g")
-//          .attr("class", "y axis")
-//          .call(yAxis);
-//
-//      var rect = svg.append("rect")
-//          .attr("x", 4)
-//          .attr("width", width - 10)
-//          .attr("y", height)
-//          .attr("height", 0)
-//          .style("fill", "#aaa");
-//
-//      dispatch.on("statechange.bar", function(d) {
-//        rect.transition()
-//            .attr("y", y(d.total))
-//            .attr("height", y(0) - y(d.total));
-//      });
-//    }); // dispatch.on "load.bar"
-//}// function drawBar
+function CloudFloat(dir){   
+//    $("#frontClouds").animate({top:"-10px"},100).animate({top:"0px"},100);  
+    $('img#frontClouds').each(function(i){
+        var leftpx = $(this).css("left") ;
+        var left = leftpx.split('.');
+        if(i%2){
+            $(this).animate({left: left[0]+dir+"px"},3000).animate({left: (left[0] - dir)+"px"},3000);
+        }else{
+            $(this).animate({left: (left[0]-dir)+"px"},3000).animate({left: left[0]+ dir+"px"},3000);
+        }
+    });
+    setTimeout(CloudFloat((0.5-Math.random())*200), 2000);
+    
+//    var floatDir = (0.5-Math.random())*200;
+//            CloudFloat(floatDir);
+}   

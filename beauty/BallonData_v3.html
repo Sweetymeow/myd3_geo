@@ -11,6 +11,7 @@
         <script src="js/parse-1.4.2.min.js"></script>
         <script src="js/materialize.min.js"></script>
         <script src="js/timer.jquery.js"></script>
+        <script src="js/jquery.cycle.all.js"></script>
 		<!-- Compiled and minified JavaScript -->     
         <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
         <link rel="shortcut icon" href="../beauty/data/icon.png">
@@ -21,34 +22,63 @@
 	</head>
 
     <body>
+    <div class="background">
+        <img src="img/TreesGroundL.svg" alt="ground" id="ground">
+        <div id="backClouds">
+            <img src="img/BClouds_L1@2x.svg" alt="back_clouds" >
+        </div>
+        <div id="backClouds">
+            <img src="img/BClouds_L2@2x.svg" alt="back_clouds" >
+        </div>
+        <div id="backClouds">
+            <img src="img/BClouds_R2@2x.svg" alt="back_clouds" >
+        </div>
+<!--
+        
+        <img src="img/BClouds_L1@2x.svg" alt="back_clouds" >
+        <img src="img/BClouds_L2@2x.svg" alt="back_clouds" >
+        <img src="img/BClouds_R2@2x.svg" alt="back_clouds" >
+-->
+    </div>
     <div class="map"></div>
     <div class="container">
 <!--    <div class="map"></div>-->
        <div class="row">
             <div class="col s12 m6">
                <a class="waves-effect waves-light btn" id="next">NEXT</a>
-               <p id="timer-1"></p>
-               <p id="timer-2"></p>
             </div>
            <div class="col s12 m6">
                <a class="waves-effect waves-light teal lighten-3 btn grey-text" id="back" href="thesis_beauty.html">BACK</a>
            </div>
+            <div class="col s12">
+                <p id="timer-1"></p>
+                <p id="timer-2"></p>
+                <p id="timer-cloudf"></p>
+                <p id="timer-cloudb"></p>
+            </div>
        </div>
         <div id="tooltip"><p id="value"></p></div>
     </div><!--  container -->  
-    <div class="background">
-        <img src="img/TreesGroundL.svg" alt="ground" id="ground">
-<!--
-        <img src="img/BClouds_L1@2x.svg" alt="back_clouds" id="backClouds">
-        <img src="img/BClouds_L2@2x.svg" alt="back_clouds" id="backClouds">
-        <img src="img/BClouds_R2@2x.svg" alt="back_clouds" id="backClouds">
--->
-    </div>    
+    
     <div class="foreground">
-        <img src="img/FCloud_L1.svg" alt="front_clouds" id="frontClouds">
+        <div id="frontClouds">
+           <img src="img/FCloud_L1.svg" alt="front_clouds">
+        </div>
+        <div id="frontClouds">
+           <img src="img/FCloud_L3.svg" alt="front_clouds">
+        </div>
+        <div id="frontClouds">
+           <img src="img/FCloud_L4.svg" alt="front_clouds">
+        </div>
+        <div id="frontClouds">
+           <img src="img/FCloud_R3.svg" alt="front_clouds">
+        </div>      
+<!--
+        <img src="img/FCloud_L1.svg" alt="front_clouds">
         <img src="img/FCloud_L3.svg" alt="front_clouds" id="frontClouds">
         <img src="img/FCloud_L4.svg" alt="front_clouds" id="frontClouds">
         <img src="img/FCloud_R3.svg" alt="front_clouds" id="frontClouds">
+-->
     </div>
     <script src="js/beautyBallon_v3.js"></script>
     </body>

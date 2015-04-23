@@ -84,14 +84,28 @@ div.container{
 }
 
 /** background & clouds **/
-img{
+div#frontClouds{
+    width: 250px;
     position:absolute;
-}
-#frontClouds{
     top: 0;
     left: 0;
 }
-#backClouds{
+#frontClouds img{
+    position: relative;
     top: 0;
-    left 0;
+    left: 0;
+}div#backClouds{
+    width: 250px;
+    position:absolute;
+    top: 0;
+    left: 0;
+}
+#backClouds img{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+img#ground{
+    position:absolute;
 }
