@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="1600px" height="196px" viewBox="0 0 1600 196" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>Trees_Ground</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="1600" height="85"></rect>
+        <rect id="path-2" x="0" y="0" width="1600" height="85"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Long_Portrait-iPhone5" sketch:type="MSArtboardGroup" transform="translate(0.000000, -1950.000000)">
+            <g id="Trees_Ground" sketch:type="MSLayerGroup" transform="translate(0.000000, 1950.000000)">
+                <g id="Trees" transform="translate(2.000000, 0.000000)" sketch:type="MSShapeGroup">
+                    <g id="Tree" transform="translate(120.805918, 0.570312)" fill="#9ED355">
+                        <ellipse id="Oval-95" cx="102.982094" cy="36.9464011" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="150.18222" cy="61.4711674" rx="41.2588517" ry="39.8129322"></ellipse>
+                        <ellipse id="Oval-95" cx="64.6938794" cy="47.1385118" rx="26.4056651" ry="25.4802766"></ellipse>
+                        <ellipse id="Oval-95" cx="98.3611024" cy="85.3589267" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="191.441072" cy="85.3589267" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="38.2882144" cy="85.3589267" rx="38.2882144" ry="36.9464011"></ellipse>
+                    </g>
+                    <g id="Tree" transform="translate(325.449822, 40.701748)" fill="#9ED355">
+                        <ellipse id="Oval-95" cx="185.169726" cy="41.0869461" rx="32.0168689" ry="30.8948354"></ellipse>
+                        <ellipse id="Oval-95" cx="270.988138" cy="72.300285" rx="41.2588517" ry="39.8129322"></ellipse>
+                        <ellipse id="Oval-95" cx="76.5764287" cy="43.3164703" rx="26.4056651" ry="25.4802766"></ellipse>
+                        <ellipse id="Oval-95" cx="102.982094" cy="25.4802766" rx="26.4056651" ry="25.4802766"></ellipse>
+                        <ellipse id="Oval-95" cx="312.24699" cy="68.7967469" rx="26.4056651" ry="25.4802766"></ellipse>
+                        <path d="M146.551441,104.469134 C171.3433,104.469134 191.441072,85.0756899 191.441072,61.1526639 C191.441072,37.229638 171.3433,17.8361936 146.551441,17.8361936 C121.759583,17.8361936 87.8903795,37.229638 87.8903795,61.1526639 C87.8903795,85.0756899 121.759583,104.469134 146.551441,104.469134 Z" id="Oval-95"></path>
+                        <ellipse id="Oval-95" cx="233.029994" cy="41.4054495" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="38.2882144" cy="47.1385118" rx="38.2882144" ry="36.9464011"></ellipse>
+                    </g>
+                    <g id="Tree_Front" transform="translate(0.000000, 0.570312)" fill="#99BB6A">
+                        <ellipse id="Oval-95" cx="187.480222" cy="36.9464011" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="149.192008" cy="47.1385118" rx="26.4056651" ry="25.4802766"></ellipse>
+                        <ellipse id="Oval-95" cx="182.859231" cy="85.3589267" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="259.435659" cy="118.483286" rx="38.2882144" ry="36.9464011"></ellipse>
+                        <ellipse id="Oval-95" cx="51.8211177" cy="81.2183818" rx="51.8211177" ry="50.0050429"></ellipse>
+                        <ellipse id="Oval-95" cx="233.360065" cy="81.2183818" rx="45.8798431" ry="44.2719807"></ellipse>
+                        <ellipse id="Oval-95" cx="122.786343" cy="88.5439613" rx="38.2882144" ry="36.9464011"></ellipse>
+                    </g>
+                </g>
+                <g id="Ground" transform="translate(0.000000, 111.000000)">
+                    <g id="Rectangle-110">
+                        <use fill="none" sketch:type="MSShapeGroup" xlink:href="#path-1"></use>
+                        <use fill="none" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <use fill="#85471C" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <g id="Rectangle-111">
+                        <use sketch:type="MSShapeGroup" xlink:href="#path-2"></use>
+                        <use xlink:href="#path-2"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

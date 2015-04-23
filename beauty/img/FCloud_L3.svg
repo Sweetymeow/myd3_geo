@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="352px" height="114px" viewBox="0 0 352 114" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>FCloud_L3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feMorphology radius="2" in="SourceAlpha" operator="dilate" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="2" dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.31114477   0 0 0 0 0.31114477   0 0 0 0 0.31114477  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Long_Portrait-iPhone5" sketch:type="MSArtboardGroup" transform="translate(-1156.000000, -679.000000)" filter="url(#filter-1)" fill="#FAF1DD">
+            <g id="Front_Clouds" sketch:type="MSLayerGroup" transform="translate(561.000000, 190.000000)">
+                <path d="M828.917769,570.170481 L926.293437,570.170481 C933.172318,570.170481 938.746978,575.746654 938.746978,582.625211 C938.746978,589.505281 933.171338,595.079941 926.293437,595.079941 L732.339123,595.079941 C725.460242,595.079941 719.885582,589.503768 719.885582,582.625211 C719.885582,582.045259 719.9252,581.474582 720.001877,580.915738 L720.001877,580.915738 L611.453541,580.915738 C604.57466,580.915738 599,575.339566 599,568.461009 C599,561.580939 604.57564,556.006279 611.453541,556.006279 L648.27874,556.006279 L648.27874,556.006279 C649.404342,532.788646 670.557938,516.932618 696.488372,516.932618 C698.712483,516.932618 700.901451,517.049268 703.045652,517.27721 C710.972015,502.881142 727.322947,493 746.207442,493 C772.858906,493 794.464187,512.680608 794.464187,536.957869 C794.464187,537.286557 794.460227,537.612163 794.452347,537.934712 C794.456294,537.934711 794.46024,537.934711 794.464187,537.934711 C813.577863,537.934711 829.072559,549.936739 829.072559,567.332257 C829.072559,568.343617 829.020185,569.288245 828.917769,570.170481 Z" id="FCloud_L3" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

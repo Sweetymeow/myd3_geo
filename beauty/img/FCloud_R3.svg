@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="426px" height="186px" viewBox="0 0 426 186" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>FCloud_R3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feMorphology radius="2" in="SourceAlpha" operator="dilate" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="2" dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.31114477   0 0 0 0 0.31114477   0 0 0 0 0.31114477  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="2" in="SourceAlpha" operator="dilate" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="2" dy="2" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.31114477   0 0 0 0 0.31114477   0 0 0 0 0.31114477  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Long_Portrait-iPhone5" sketch:type="MSArtboardGroup" transform="translate(-557.000000, -748.000000)" fill="#FAF1DD">
+            <g id="Front_Clouds" sketch:type="MSLayerGroup" transform="translate(561.000000, 190.000000)">
+                <g id="FCloud_R3" transform="translate(0.000000, 562.000000)" sketch:type="MSShapeGroup">
+                    <rect id="Rectangle-23" filter="url(#filter-1)" x="156.086064" y="145.426029" width="257.75722" height="27.8884861" rx="25"></rect>
+                    <path d="M246.005458,57.3041092 C246.010467,57.3041079 246.015476,57.3041072 246.020486,57.3041072 C269.488246,57.3041072 288.657701,71.5524171 289.884447,92.4598045 L289.884447,92.4598045 L296.129078,92.4598045 C307.305183,92.4598045 316.38146,101.530409 316.38146,112.719567 C316.38146,123.911186 307.31416,132.97933 296.129078,132.97933 L20.5643336,132.97933 C9.38822878,132.97933 0.311951208,123.908726 0.311951208,112.719567 C0.311951208,101.527949 9.37925166,92.4598045 20.5643336,92.4598045 L61.5936294,92.4598045 C60.821299,89.679051 60.4162703,86.4522226 60.4162703,82.7091164 C60.4162703,51.9098012 87.8385567,30.6598293 121.665661,30.6598293 C124.488591,30.6598293 127.266917,30.8078182 129.988424,31.0969957 C140.04888,12.8334433 160.802137,0.297745222 184.771095,0.297745222 C218.598199,0.297745222 246.020486,25.2655233 246.020486,56.0648385 C246.020486,56.4818273 246.015459,56.8949078 246.005458,57.3041092 Z" id="Rectangle-27" filter="url(#filter-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

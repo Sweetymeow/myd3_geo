@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="238px" height="79px" viewBox="0 0 238 79" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3 (11970) - http://www.bohemiancoding.com/sketch -->
+    <title>BClouds_R2@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.357488308   0 0 0 0 0.357488308   0 0 0 0 0.357488308  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Long_Portrait-iPhone5" sketch:type="MSArtboardGroup" transform="translate(-1000.000000, -364.000000)" filter="url(#filter-1)" fill="#FAF1DD">
+            <g id="BackClouds" sketch:type="MSLayerGroup" transform="translate(370.000000, 34.000000)">
+                <path d="M769.130976,392.001187 C769.215926,392.508015 769.260141,393.028668 769.260141,393.559659 C769.260141,398.725118 765.075919,402.910493 759.91442,402.910493 L643.798002,402.910493 C638.634637,402.910493 634.45228,398.723982 634.45228,393.559659 C634.45228,388.3942 638.636502,384.208825 643.798002,384.208825 L669.901789,384.208825 C669.144147,382.742326 668.738673,380.769044 668.738673,378.141988 C668.738673,362.826828 682.519272,352.260141 699.518502,352.260141 C700.503556,352.260141 701.477803,352.295622 702.439187,352.365453 L702.439187,352.365453 C708.398982,340.363025 721.771017,332 737.311457,332 C752.936864,332 766.37009,340.454724 772.280817,352.562647 C782.543066,354.071344 790.299518,361.096272 790.299518,370.770426 C790.299518,371.105464 790.290215,371.428871 790.271827,371.741046 L853.4091,371.741046 C859.002945,371.741046 863.54772,376.276433 863.54772,381.871116 C863.54772,387.46703 859.008505,392.001187 853.4091,392.001187 L769.130976,392.001187 Z" id="BClouds_R2" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

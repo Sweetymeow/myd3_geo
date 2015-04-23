@@ -82,3 +82,16 @@ div.map div.container{
 div.container{
     text-align: center;
 }
+
+/** background & clouds **/
+img{
+    position:absolute;
+}
+#frontClouds{
+    top: 0;
+    left: 0;
+}
+#backClouds{
+    top: 0;
+    left 0;
+}

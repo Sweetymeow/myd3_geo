@@ -9,28 +9,28 @@ var beautyUserID = localStorage.getItem("userID");
 var userCountry;
 console.log("beautyUserID in localStorage: " + beautyUserID);
 
-var scrWidth = $(window).width(),
-    scrHeight = $(window).height();
-
 /** D3: Timer & Speed **/
 var t0 = Date.now();
-var aniTimer = [6,8,10,12],
+var aniTimer = [6,3,3,3],
     dataYear = [2006, 2010, 2014],
     dataIndex = 0,
     velocity = new Array(),
     svgAniName;
 
+var scrWidth = $(window).width(),
+    scrHeight = $(window).height();
+
 /* Set Tooptip hiden */
 d3.select("#tooltip").classed("hidden", true);
 
-d3.timer(function() {
-    var time = Date.now() - t0,
-        sec = Math.round(time/1000);
-    if(sec > aniTimer[0]+1){
-        console.log("Stop Timer " + time + "; Data Index: " + dataIndex);
-        return true;
-    }
-}); // make sure your timer function returns true when done!
+//d3.timer(function() {
+//    var time = Date.now() - t0,
+//        sec = Math.round(time/1000);
+//    if(sec > aniTimer[0]+1){
+//        console.log("Stop Timer " + time + "; Data Index: " + dataIndex);
+//        return true;
+//    }
+//}); // make sure your timer function returns true when done!
 
 /** D3.js: obtain data from csv file **/
 var countryList = new Array(),
@@ -108,16 +108,67 @@ dispatch.on("load.menu", function(countryById) {
   });
 });
 
-dispatch.on("load.next", function(countryById) {
-    $('#next').on("click",function(d){
-        if(dataIndex<dataYear.length-1){
-            dataIndex++;
-            console.log(userCountry +","+dataYear[dataIndex]);
-            dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
+
+$(function() {
+//    if(!scrWidth){
+//        $('img#ground').css("bottom",0).css("width",1440);
+//    }else{
+//        $('img#ground').css("bottom",0).css("width",scrWidth);
+//    }
+
+    $('img#ground').css("bottom",0);
+    $(window).resize(function() {
+        scrWidth = $(window).width();
+        scrHeight = $(window).height();
+        $('img#ground').css("bottom",0).css("width",scrWidth);
+    });
+    
+    var frontHInter = scrHeight/($('img#frontClouds').length+3);
+    var frontWInter = scrWidth/($('img#frontClouds').length+2);
+    console.log("scr height: "+ scrHeight+"; scr width:" + scrWidth+"; front clouds length: " + $('img#frontClouds').length + "; cloud intervel: " + frontHInter);
+    $('img#frontClouds').each(function(i){
+        console.log("frontClouds height: "+ $(this).height()+"; frontClouds width:" + $(this).width());
+        $(this).css("top", frontHInter*(i+0.5));
+        if(i%2){
+            $(this).css("left", frontWInter*Math.random());
         }else{
-            alert("NEXT: no more data ");
+            $(this).css("left", scrWidth - frontWInter*Math.random()-300);
         }
     });
+    
+    dispatch.on("load.next", function(countryById) {
+        /** 测试用按钮 **/
+        $('#next').on("click",function(d){
+            if(dataIndex<dataYear.length-1){
+                dataIndex++;
+                console.log(userCountry +","+dataYear[dataIndex]);
+                dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
+            }else{
+                alert("NEXT: no more data ");
+            }
+        });// JQ_next button click
+
+        /** jQ Timer 测试: aniTimer = [6,3,3,3] **/
+        $('#timer-1').timer({
+            duration: aniTimer[dataIndex]+'s',
+            callback: function() {
+                console.log("##Timer##: " + aniTimer[dataIndex] + "s timer up! DataIndex is: "+dataIndex);
+                dataIndex++;
+                console.log("##Timer## country: " + userCountry +","+dataYear[dataIndex]+"; DataIndex is: "+dataIndex);
+                // Show #2 & #3 data ballons
+                dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
+                
+                if(dataIndex == dataYear.length-1){
+                    console.log("###Timer Remove####");
+                    $('#timer-1').timer('remove');
+                }
+            },
+            repeat: function() {
+                dataIndex<(dataYear.length-1)?true:false
+            }
+        }); // #timer-1: This repeat only when dataIndex == 1
+        
+    });// load.next
 });
 
 dispatch.on("load.parseCountry", function(countryById) {
@@ -133,6 +184,7 @@ dispatch.on("load.parseCountry", function(countryById) {
             if(userCountry && countryList.length>0){ //Parse返回用户选择国家并获得CSV国家列表
                 var compareResult = cntryInList(userCountry);
                 if(compareResult){
+                    // Show data ballon for first in each country
                     dispatch.statechange(countryById.get(userCountry +","+dataYear[dataIndex]));
                     console.log("load | parseCountry启动修改svg图为 "+ userCountry);
                 }else{
@@ -152,11 +204,10 @@ dispatch.on("load.parseCountry", function(countryById) {
         console.log("ParseCountry: LocalStorage Eempty! current country: " + userCountry + "or Country List: " + countryList.length);
     }
     /** Parse: beautyQuery.get get user selected country **/
-
-    dispatch.on("statechange.parseCountry", function(country) {
-      console.log("Statechange | Parse Country 启动: " + country.id);
-      console.log(country);
-    });
+//    dispatch.on("statechange.parseCountry", function(country) {
+//      console.log("Statechange | Parse Country 启动: " + country.id);
+//      console.log(country);
+//    });
 });
 
 
@@ -294,13 +345,21 @@ dispatch.on("load.pie", function(countryById) {
 	  ageText.attr("text-anchor", "middle")
 		  	.attr("id", "age")
 		  .text(function(d) { return maAge; });
+      
+      var ballonHeight = d.rank_rate*(scrHeight-height/2);
        
-      if(dataIndex <= dataYear.length){
+      if(dataIndex < dataYear.length){
         $('svg.'+svgClassName).animate({
-            top: d.rank_rate*(scrHeight-height)/2+'px',
+            top: ballonHeight+'px',
             left: (scrWidth-width)/2+'px'
-        },(aniTimer[dataIndex+1]-aniTimer[dataIndex])*1000);
+        },aniTimer[dataIndex]*1000);
+      }else{
+          $('svg.'+svgClassName).animate({
+            top: ballonHeight+'px',
+            left: (scrWidth-width)/2+'px'
+        },aniTimer[1]*1000);
       } // if-dataIndex
+      console.log("###Ballon Height### Rank_Rate is: " + d.rank_rate + "; Ballon height is: " + ballonHeight);
     }); // dispatch.on("statechange.pie")
 });
 
