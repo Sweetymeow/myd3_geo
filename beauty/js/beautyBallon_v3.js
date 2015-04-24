@@ -11,7 +11,7 @@ console.log("beautyUserID in localStorage: " + beautyUserID);
 
 /** D3: Timer & Speed **/
 var t0 = Date.now();
-var aniTimer = [10,6,3,3],
+var aniTimer = [5,6,3,3],
     dataYear = [2006, 2010, 2014],
     dataIndex = 0,
     velocity = new Array(),
@@ -111,7 +111,7 @@ dispatch.on("load.menu", function(countryById) {
 $(function(){
     var curLeftF = new Array();
     
-    $('img#ground').css("bottom",0);
+    $('img#ground').css("bottom",0).css("width",scrWidth);
     $(window).resize(function() {
         scrWidth = $(window).width();
         scrHeight = $(window).height();
@@ -251,6 +251,10 @@ dispatch.on("load.pie", function(countryById) {
 	var width = 600,
 		height = 480,	
 		radius = 70; //radius = Math.min(width, height) / 2;
+    var bkt_w = 208,
+        bkt_h = 160,
+        bkts_w = 124,
+        bkts_h = 107;
 
 	var color2 = d3.scale.category20();
 
@@ -270,6 +274,11 @@ dispatch.on("load.pie", function(countryById) {
 	
 	var cirGroup = svg_g.append("g")
 				.attr("class","circles");
+    
+    var bkt_img = cirGroup.append("svg").append("image")
+                    .attr("class","bucketSvg")
+                    .attr("opacity",0)
+                    .attr("xlink:href","img/Bbucket.svg");
 	
 	var pppCircle = cirGroup.append("circle")
 						.attr("class","ppp");
@@ -328,9 +337,9 @@ dispatch.on("load.pie", function(countryById) {
 	 
 	  var barXY =[0,0],
           barRxy = (Math.PI*radius/14)/3;
+      
       // Bar data
       bars.data(pie.value(function(g) { return d[g];})(groups))
-		 // .attr("width", 0)
         .attr("width", function(d) {
             return radius*d.value+"px"; // char bar height
         })
@@ -364,6 +373,20 @@ dispatch.on("load.pie", function(countryById) {
         //Show the tooltip
         d3.select("#tooltip").classed("hidden", false);
 	  }); // bars.on("click")
+      
+      // choose the different size of bucket based on cyPPP
+      if(cyPPP>100){
+          bkt_img.attr("opacity",1)
+            .attr("width",bkt_w)
+            .attr("height",bkt_h)
+            .attr("transform", "translate(" + (-1*(bkt_w/2)) + ","+ 0.8*cyPPP+")");
+      }else{
+        bkt_img.attr("opacity",1)
+            .attr("width",bkts_w)
+            .attr("height",bkts_h)
+            .attr("xlink:href","img/Bbucket_sm.svg")
+            .attr("transform", "translate(" + (-1*(bkts_w/2))+","+cyPPP+")");
+      }
       
       equalCircle.attr("cx",0)
 	  			.attr("cy",0)

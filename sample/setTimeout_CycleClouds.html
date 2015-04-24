@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="../js/jquery-2.1.3.min.js"></script>
 <script src="../beauty/js/jquery.cycle.all.js"></script>
 <script>
 var c=0;
@@ -26,28 +27,33 @@ function stopCount(){
     timer_is_on=0;
 }
 $(function(){
-    
+    $("div#frontcloud").each(function(){
+        $(this).css("left", Math.random()*200).css("top", Math.random()*400);
+    });
     var m=$("#frontcloud img");
+    
     for(i=0;i<m.length;i++){
-        module_animate(m.eq(i));
+        var leftNum = Math.random()*200;
+        module_animate(m.eq(i), leftNum);
     }
 });
     
-function module_animate(m){
+function module_animate(m, left){
         var f = function(){
-            m.animate({top:""},2000);
-            m.animate({top:"40px"},2000);};
-        setInterval(f,parseInt(10000*Math.random()));
+            m.animate({left: left+"px"},3000);
+            m.animate({left:-left+"px"},3000);
+        };
+        setInterval(f,2000);
 }
 </script>
 <style>
-div#frontClouds{
+div#frontcloud{
     width: 250px;
     position:absolute;
     top: 0;
     left: 0;
 }
-#frontClouds img{
+#frontcloud img{
     position: relative;
     top: 0;
     left: 0;
@@ -61,13 +67,15 @@ div#frontClouds{
         <input type="button" value="Start count!" onclick="doTimer()" />
         <input type="text" id="txt" />
         <input type="button" value="Stop count!" onclick="stopCount()" />
+    </form>
+    <div class="animation">
         <div id="frontcloud">
             <img src="../beauty/img/FCloud_L1.svg" alt="">
         </div>
         <div id="frontcloud">
             <img src="../beauty/img/FCloud_L3.svg" alt="">
         </div>
-    </form>
+    </div>
     <p> Click on the "Start count!" button above to start the timer. The input field will count forever, starting at 0. Click on the "Stop count!" button to stop the counting. Click on the "Start count!" button to start the timer again.
     </p>
 </body>
