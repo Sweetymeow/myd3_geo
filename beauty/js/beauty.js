@@ -294,7 +294,7 @@ function strogeToParse(method){
         if(method == "wall"){
             window.open('BallonData_v3.html');
         }else{
-            window.open('thesis_beauty_phoneQr.html');
+            window.open('beauty_qr.html');
         } // open new page if the new beautyUser saved;
       },
       error: function(beautyUser, error) {

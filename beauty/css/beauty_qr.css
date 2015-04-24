@@ -11,16 +11,6 @@ h1{
 h1 a{ 
     color: white; 
 }
-p{
-    font-size: 1.3em;
-    text-align: left;
-    line-height: 1.2em;
-    display: block;
-    -webkit-margin-before: 0.5em;
-    -webkit-margin-after: 0.5em;
-    -webkit-margin-start: 2em;
-    -webkit-margin-end: 2em;
-}
 svg{
 /*  -webkit-margin-before: 1em;
     -webkit-margin-end: 1em; */
@@ -122,6 +112,9 @@ a.btn-large{
 .card .card-content h5{
 	margin:0;
 }
+.card .card-content p{
+    margin: 4px 16px;
+}
 
 .card .card-content .row{
 	margin-bottom: 0;
@@ -149,14 +142,14 @@ a.btn-large{
     font-weight: 700;
 }
 #introduction p{
-    font-size: 0.8em;
+    font-size: 1em;
 }
 #introduction p em{
-    font-size: 0.9em;
+    font-size: 1.1em;
     font-weight: 700;
 }
 #intro-p p:first-child{
-    font-size: 1em;
+    font-size: 1.2em;
     color: #ec407a;
     padding-bottom: 5px;
 }

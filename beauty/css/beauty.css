@@ -79,11 +79,13 @@ text{
 
 /** d3 geo global **/
 #infoBox{
-    margin: 0 15px;
+    max-width: 310px;
+    margin-right: 10px;
     padding: 0;
 }
 #svgmap{
-    margin: 20px 15px auto 15px;
+    margin: 20px 10px auto 10px;
+    padding: 0;
 }
 .info {
     margin: 0 auto;
