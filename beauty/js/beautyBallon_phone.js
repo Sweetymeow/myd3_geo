@@ -109,8 +109,6 @@ dispatch.on("load.menu", function(countryById) {
 });
 
 $(function(){
-    var curLeftF = new Array();
-    
     $('img#ground').css("bottom",0).css("width",scrWidth);
     $(window).resize(function() {
         scrWidth = $(window).width();
@@ -119,15 +117,14 @@ $(function(){
     });
     
     var frontHInter = scrHeight/($('div#frontClouds').length+3);
-    var frontWInter = scrWidth/($('div#frontClouds').length+2);
+    var frontWInter = scrWidth/$('div#frontClouds').length;
 //    console.log("scr height: "+ scrHeight+"; scr width:" + scrWidth+"; front clouds length: " + $('img#frontClouds').length + "; cloud intervel: " + frontHInter);
     $('div#frontClouds').each(function(i){
         var curLeft = Math.floor(100*Math.random());
-        $(this).css("top", frontHInter*(i+0.5));
+        $(this).css("top", frontHInter*(i-0.4));
         
-        if(i%2 == 0){ curLeft = scrWidth-curLeft-300;}
+        if(i%2 == 0){ curLeft = scrWidth-curLeft;}
         $(this).css("left", curLeft);
-        //curLeftF.push(curLeft);
     });
     
     var $image = $('#frontClouds img'),
