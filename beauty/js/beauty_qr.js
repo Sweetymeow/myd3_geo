@@ -1,106 +1,15 @@
-<!-- http://bl.ocks.org/dwtkns/4686432 -->
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title> Thesis Work3 </title>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-        <script src="http://d3js.org/queue.v1.min.js"></script>
-        <script src="http://d3js.org/topojson.v0.min.js"></script>
-<!--        <script src="js/script.js"></script>-->
-        
-<!-- Compiled and minified CSS -->
-		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
-        <!--Import jQuery before materialize.js-->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>		
-        <script type="text/javascript" src="../js/materialize.min.js"></script>
-        <!-- Compiled and minified JavaScript -->
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
+/** Parse: save user's select country **/
+// current only allow one country
+// Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
+Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
 
-        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/beauty.css"> 
-    </head>
-    <body>
-		<div class="card-panel pink accent-4" id="title">
-       		<h1><a href="#svgmap">Thesis: Take Beauty to Go</a></h1>
-		</div>
-		<div class="mapcontainer">
-			<div class="row">
-				<div class="map col s12 l8" id="svgmap">
-					
-				</div><!-- map -->
-				<div class="info col s12 l4">
-					<div class="card" id="fun-panel">
-						<div class="card-content pink-text" id="introduction">
-							<h3 class="card-title pink-text">Introduction :</h3>
-							<p class="pink-text text-lighten-3">This project to provide visulization for Finance and Gender Gap data</p>
-							<p class="pink-text text-lighten-3">Step1: Rotate the global by swipe the global.</p>
-							<p class="pink-text text-lighten-3">Step2: Click to find the country you want to know more.</p>
-						</div>
-						<div class="card-content" id="insturctor thin">
-							<h5 class="pink-text">Instructor: </h5>
-							<div class="row">
-								<div class="col offset-s1 s4 card-panel pink accent-1" id="int-icon">
-									<i class="white-text medium mdi-hardware-keyboard-backspace"></i>
-									<h class="white-text">Move</h>
-								</div>
-								<div class="col offset-s2 s4 card-panel pink accent-1" id="int-icon">
-									<i class="white-text medium mdi-content-redo"></i>
-									<h class="white-text">Rotate</h>
-								</div>
-							</div>
-				 		</div><!--	card-content / instructor-->
-				 		<div class="card-panel countryname pink">
-                                <h5 class="white-text">Countries:</h5>
-                                <h5></h5>
-						</div><!--card-panel countryname pink-->
-						
-						<div class="card-action">
-						
-							<a class="waves-effect waves-light btn-large pink lighten-2" id="onWall">
-								<i class="mdi-av-videocam left"></i>Show on Gallery Wall </a>
-							<a class="waves-effect waves-light btn-large purple lighten-2" id="onPhone">
-								<i class="mdi-hardware-smartphone left"></i>Show on Smart Phone</a>
-        
-						</div>
-					</div><!-- introduction -->
-				</div><!-- info -->
-			</div><!-- row -->
-		</div><!--  container-->
-      
-        <div class="container">
-            <div class="card pink accent-3">
-                <div class="label card-content white-text ">
-                    <div class="labelBox"> 
-                    	<h4>This contain the basic info</h4>
-                    	<p>country information</p>
-                    </div>
-                    <div class="card-action">
-                    	<a href="http://bl.ocks.org/mbostock/4180634">Help Link for sample</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-		<!--  Fixed Action Button -->
-        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-			<a class="btn-floating btn-large red">
-			  <i class="large mdi-editor-mode-edit"></i>
-			</a>
-			<ul>
-			  <li><a class="btn-floating red"><i class="large mdi-editor-insert-chart"></i></a></li>
-			  <li><a class="btn-floating yellow darken-1"><i class="large mdi-editor-format-quote"></i></a></li>
-			  <li><a class="btn-floating green"><i class="large mdi-editor-publish"></i></a></li>
-			  <li><a class="btn-floating blue"><i class="large mdi-editor-attach-file"></i></a></li>
-			</ul>
-		 </div><!--   fixed-action-btn  -->
-<script>
-// Lots of code from:
-//  http://bl.ocks.org/3757125
+var BeautyUser = Parse.Object.extend("BeautyUser");
+var beautyUser = new BeautyUser();
+
+// Lots of code from:  http://bl.ocks.org/3757125
 //  http://bl.ocks.org/3795040
 
+/** D3.js - Global **/
 d3.select(window)
 	.on("click", mouseup)
 	.on("mousemove", mousemove)
@@ -246,9 +155,8 @@ function ready(error, world, names, places) {
 	 	.attr("stroke", "#673ab7")
 		.on("click", function(d,i) {
 			var mouse = d3.mouse(svg.node()).map( function(d) { return parseInt(d); } );
-			tooltip.classed("hidden", false)
-			  //.attr("style", "left:"+(mouse[0]+25)+"px;top:"+(mouse[1]+30)+"px")
-			  .html(d.name);
+			tooltip.classed("hidden", false).html(d.name);
+            mouseclick(d.name);
 		  })
 		.on("mouseout", function(d,i) {
 			tooltip.classed("hidden", true)
@@ -289,7 +197,7 @@ function position_labels() {
 var m0, o0;
 
 function mouseclick(place){
-	console.log(place);
+//	console.log(place);
 }
 
 function mousedown() {
@@ -327,20 +235,72 @@ function refresh() {
   position_labels();
 }
 
-	/** jquery to pass country when click button**/
-	var $countryname = $('.tooltip').text();
+/** jquery to pass country when click button**/
+var $countryname = $('.tooltip').text();
 //	$('.tooltip').on("change", function(){
 //		$countryname = $(this).text();
 //		console.log("$countryname: " + $countryname);
 //	}); // save country name to this object 为什么有时候可以，有时候不可以？
-	
-	$('.map').on("click", function(){
-		$countryname = $('.tooltip').text();
-		console.log("$countryname: " + $countryname);
-	}); // save country name to this object
-	
-	
-</script>
-        
-    </body>
-</html>
+
+$('.map').on("click", function(){
+    $countryname = $('.tooltip').text();
+    console.log("$countryname: " + $countryname);
+}); // save country name to this object
+
+
+$('#onWall').on("click", function(){
+    strogeToParse("wall");
+});
+
+$('#onPhone').on("click", function(){
+    strogeToParse("phone");
+});
+
+$('#clear').on("click", function(){
+    localStorage.clear();
+    console.log("userIndex: " + localStorage.getItem("userIndex") + "; userID: " + localStorage.getItem("userID") );
+});
+
+function strogeToParse(method){
+     /* get user index from localStorage */
+    var userIndex = localStorage.getItem("userIndex");
+    
+    if(userIndex){  // Not the first user
+        localStorage.setItem("userIndex", ++userIndex);
+    }else{    // first user 
+        userIndex = 1;
+        localStorage.setItem("userIndex", userIndex);    
+    }
+    console.log("userIndex AF: " + userIndex);
+    
+    /* Parse: set data */
+    beautyUser.set("userIndex", userIndex); 
+    if($countryname){
+        beautyUser.set("countryName", $countryname);
+    }
+    beautyUser.set("showMethod", method); 
+    
+    // Save Data to Parse server
+    beautyUser.save(null, {
+      success: function(beautyUser) {
+        // Execute any logic that should take place after the object is saved.
+        beautyUser.save();
+        localStorage.setItem("userID", beautyUser.id);
+      // Save ID to localStorage, 注意sessionStorage不能跨标签页使用
+    
+        // Access some stored data
+        console.log('Parse objectId: ' + beautyUser.id + "; localStorage ID: " + localStorage.getItem("userID"));
+          
+        if(method == "wall"){
+            window.open('BallonData_v3.html');
+        }else{
+            window.open('thesis_beauty_phoneQr.html');
+        } // open new page if the new beautyUser saved;
+      },
+      error: function(beautyUser, error) {
+        // Execute any logic that should take place if the save fails.
+        // error is a Parse.Error with an error code and description.
+        alert('Failed to create new object, with error code: ' + error.description);
+      }
+    }); // Parse data save
+}

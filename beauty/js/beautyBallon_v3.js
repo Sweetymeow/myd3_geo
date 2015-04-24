@@ -16,6 +16,7 @@ var aniTimer = [5,6,3,3],
     dataIndex = 0,
     velocity = new Array(),
     svgAniName;
+ $('#backBtn').hide();
 
 var scrWidth = $(window).width(),
     scrHeight = $(window).height();
@@ -194,6 +195,7 @@ $(function() {
                         if(dataIndex == dataYear.length-1){
                             console.log("###Timer Remove#### dataindex:"+dataIndex);
                             $('#timer-2').timer('remove');
+                            $('#backBtn').show(1000);
                         }
                     },
                     repeat: function() {
@@ -381,26 +383,28 @@ dispatch.on("load.pie", function(countryById) {
         //Show the tooltip
         d3.select("#tooltip").classed("hidden", false);
 	  }); // bars.on("click")
-      
+      var bkt_txt_offset;
       // choose the different size of bucket based on cyPPP
       if(cyPPP>100){
           bkt_img.attr("opacity",1)
             .attr("width",bkt_w)
             .attr("height",bkt_h)
             .attr("transform", "translate(" + (-1*(bkt_w/2)) + ","+ 0.8*cyPPP+")");
+          bkt_txt_offset = cyPPP+bkt_h/2;
       }else{
         bkt_img.attr("opacity",1)
             .attr("width",bkts_w)
             .attr("height",bkts_h)
             .attr("xlink:href","img/Bbucket_sm.svg")
             .attr("transform", "translate(" + (-1*(bkts_w/2))+","+cyPPP+")");
+        bkt_txt_offset = cyPPP+bkts_h/2+14;
       }
       
       bkt_textT.text(function(){  return d.country;}); 
       var bkt_txt_width = $('.bktText_top').width();
       console.log(bkt_txt_width);
-      bkt_textT.attr("transform", "translate("+(-bkt_txt_width /2)+","+ 1.45*cyPPP+")");
-      bkt_textB.attr("transform", "translate(-26,"+ (1.45*cyPPP+25) +")")
+      bkt_textT.attr("transform", "translate("+(-bkt_txt_width/2+4)+","+bkt_txt_offset +")");
+      bkt_textB.attr("transform", "translate(-26,"+ (bkt_txt_offset+25) +")")
               .text(function(){
                     console.log(d);
                     return d.year;
