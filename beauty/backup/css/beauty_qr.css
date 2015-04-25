@@ -1,0 +1,198 @@
+body {
+    font-family: 'Play', 'Quicksand', serif;
+    background-color: #593d6a;
+}
+h1{
+    color: white;
+    font-size: 2.6em;
+    /*  padding: 0.5em 0 0.5em 0;*/
+    text-align: center;
+}
+h1 a{ 
+    color: white; 
+}
+svg{
+/*  -webkit-margin-before: 1em;
+    -webkit-margin-end: 1em; */
+    border: 1px solid #DEDEDE;
+    margin: 0.5em auto;
+    text-align: center;
+}
+
+text{
+    fill: pink;
+	text-shadow: 2px 2px 1px #444;
+	font-weight: 700;
+}
+
+.land {
+  fill: white;
+  stroke-opacity: 1;
+}
+
+.countries path {
+  stroke: white;  
+  stroke-linejoin: round;
+  stroke-width:.5;
+  fill: white;
+  opacity: .1;
+}
+
+.countries path:hover {
+  fill-opacity:.1;
+  stroke-width:1;
+  opacity: 1;
+  fill: red; 
+}
+
+.graticule {
+  fill: none;
+  stroke: black;
+  stroke-width:.5;
+  opacity:.2;
+}
+
+.labels {
+    font-family: 'PT Sans', serif;
+    font: 10px;
+    fill: black;
+    opacity: .8;
+}
+
+.noclicks {
+  pointer-events:none;
+}
+
+.point{
+  opacity:.6;
+}
+
+/** d3 geo global **/
+#infoBox{
+    margin: 0 15px;
+    padding: 0;
+}
+#svgmap{
+    margin: 20px 15px auto 15px;
+}
+.info {
+    margin: 0 auto;
+    text-align: center;
+}
+.map {
+    margin: 0 auto;
+    text-align: center;
+}
+#title{
+    margin: 0;
+    max-height: 120px;
+}
+div#title h1 {
+    margin: 10px 0;
+	line-height: 0.8em;
+}
+.mapcontainer{
+    margin: 1em 0;
+}
+
+a.btn-large{
+    color: #fff8e1;
+}
+
+/** Intruduction-Panel **/
+.card .card-content{
+	padding: 5px 15px;
+}
+
+.card .card-content h3{
+	margin: 5px 0;
+	line-height: 20px;
+}
+
+.card .card-content h5{
+	margin:0;
+}
+.card .card-content p{
+    margin: 4px 16px;
+}
+
+.card .card-content .row{
+	margin-bottom: 0;
+}
+#int-icon{
+	margin-bottom: 0;
+}
+
+.card .card-panel{
+	padding: 10px 15px;
+}
+
+.card .card-action{
+	padding: 10px 15px;
+}
+.card .card-action a{
+	margin-right: 0;
+}
+
+/** Introduction **/
+.card-panel h5{
+	margin: 0.2em 0;
+}
+#introduction h3{
+    font-weight: 700;
+}
+#introduction p{
+    font-size: 1em;
+}
+#introduction p em{
+    font-size: 1.1em;
+    font-weight: 700;
+}
+#intro-p p:first-child{
+    font-size: 1.2em;
+    color: #ec407a;
+    padding-bottom: 5px;
+}
+#intro-p p:first-child span{
+    font-weight: 700;
+}
+/** int-icon **/
+#int-icon{
+	padding: 5px 10px;
+	
+}
+
+/** Tooltip **/
+
+div.tooltip {
+	color: #222; 
+	background: #fff; 
+	padding: .5em; 
+	text-shadow: #f5f5f5 0 1px 0;
+	border-radius: 2px; 
+	box-shadow: 0px 0px 2px 0px #a6a6a6; 
+	opacity: 0.9; 
+/*  position: absolute;*/
+	text-align: center;
+	font-size: 1.4em;
+    
+}
+.countryname{
+    padding-bottom: 20px;
+}
+
+/**  countries border  **/
+.countries path{
+	stroke: #d81b60;
+	  stroke-width: 1;
+}
+
+/** footer **/
+div#footer{
+    position: absolute;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #4E375C;
+    width: 100%;
+}
