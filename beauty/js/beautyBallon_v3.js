@@ -124,7 +124,11 @@ $(function(){
 //    console.log("scr height: "+ scrHeight+"; scr width:" + scrWidth+"; front clouds length: " + $('img#frontClouds').length + "; cloud intervel: " + frontHInter);
     $('div#frontClouds').each(function(i){
         var curLeft = Math.floor(100*Math.random());
-        $(this).css("top", frontHInter*(i+0.5));
+        $(this).animate({
+            opacity: 1,
+            top: frontHInter*(i+0.5)
+        }, 5000);
+        // $(this).css("top", frontHInter*(i+0.5));
         
         if(i%2 == 0){ curLeft = scrWidth-curLeft-300;}
         $(this).css("left", curLeft);
@@ -155,7 +159,12 @@ $(function(){
    
     $('div#backClouds').each(function(i){
 //        console.log("frontClouds height: "+ $(this).height()+"; frontClouds width:" + $(this).width());
-        $(this).css("top", frontHInter*(i+0.5)).css("opacity",0.8);
+        $(this).animate({
+            opacity: 0.8,
+            top: frontHInter*(i+0.5)
+        }, 5000);
+        
+        // $(this).css("top", frontHInter*(i+0.5)).css("opacity",0.8);
         if(i%2 == 0){
             $(this).css("left", frontWInter*(Math.random()+0.2));
         }else{
@@ -182,6 +191,10 @@ $(function() {
             callback: function() {
                 console.log("## Timer-1 out!!: remove!! ##");
                 $('#timer-1').timer('remove');
+                $('#ground').animate({ 
+                    opacity:0,
+                    bottom: -200
+                },2000);
                 /* timer 2 */
                 $('#timer-2').timer({
                     duration: aniTimer[2]+'s',

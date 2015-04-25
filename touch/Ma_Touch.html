@@ -1,0 +1,220 @@
+<!-- HTML Sample -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <!--Let browser know website is optimized for mobile
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>-->
+        <title>iOS Touch test</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        
+         <!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+        <!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>		
+        <script type="text/javascript" src="../js/materialize.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>-->
+
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Play', 'Quicksand', serif;
+                font-weight: 400;
+				color: #FD5247;
+				background-color: #37474f;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+				box-shadow: 3px 3px 3px lightgray;
+            }
+            path {
+              fill: #f88e22;
+              stroke: #fff;
+              stroke-width: 2px;
+            }
+			a{	color: #FD5247;}
+            .map{  text-align: center; border: 4px solid white; }
+			div.card{  /*	width: 960px;*/	}
+			a{ color: #FD5247; }
+			.content{ margin: 20px 0; text-align: center; }
+			#title{	margin-top: 0;}
+            #title h4{ padding-left: 1.2em; }
+            .test{
+                height: 100%; margin:0; padding:0;
+            }
+            .spirit { /* 方块的class名称*/
+                     position: absolute;
+                     width: 50px;
+                     height: 50px;
+                     background-color: pink;
+            }
+            #canvas{
+                position: relative;
+                width: 98%;
+                height: 100%;
+            }
+        </style>
+	</head>
+
+    <body>
+       	<div class="card-panel pink accent-3" id="title">
+       		<h4 class="white-text">iOS Touch/Drag</h4>
+		</div>
+		<div class="touchDist content">
+           <p>Vertical Move: </p><p id="dist"></p>
+           <p>Start XY: <span id="startX"></span>;<span id="startY"></span></p>
+           <p>End XY: <span id="endX"></span>;<span id="endY"></span></p>
+        </div>
+		<div class="test map">
+		    <div id="canvas"> </div>
+		</div>
+		<div class="touchevent">
+            <h3 id="touch_tips">touch tips</h3>
+        </div>
+		<!-- Page Content goes here -->
+<!-- Import jQuery before materialize.js -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<!-- Compiled and minified CSS -->
+<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+<!--d3 code-->
+<script>
+    var canvas = document.getElementById("canvas"),
+        verDist = document.getElementById("dist"),
+        startX = document.getElementById("startX"),
+        startY = document.getElementById("startY"),
+        endX = document.getElementById("endX"),
+        endY = document.getElementById("endY"),
+        stacks = [{ color: "red" }, {color: "blue"}, { color: "green"}, 
+                  { color: "black" }, { color: "yellow" }, { color: "orange"}];
+
+    function getEmptyStack() {
+        var i = 0, s, l = stacks.length;
+        for (; i < l; i++) {
+            s = stacks[i]; // color object
+            if (!s.touchId)
+                return s;
+        }
+        return null;
+    }
+
+    function getStackByTouchId(touchId) {
+        var i = 0, s, l = stacks.length;
+        for (; i < l; i++) {
+            s = stacks[i];
+            if (s.touchId == touchId)
+                return s;
+        }
+        return null;
+    }
+    
+    function touchStart(e) {
+        e.preventDefault(); 
+        // event.preventDefault() 方法阻止元素发生默认的行为/ 阻止URL的链接
+        var touches = e.changedTouches,
+            // A TouchList listing all the Touch objects for touch points that contributed to this touch event.
+            i = 0, l = touches.length, touch, stack;
+        for (; i < l; i++) {
+            touch = touches[i];
+            stack = getStackByTouchId(touch.identifier);
+            if (stack) return;
+            stack = getEmptyStack();
+            if (stack) {
+                stack.touchId = touch.identifier;
+                
+                stack.spirit = document.createElement("div");
+                stack.spirit.className = "spirit";
+                
+                stack.startX = touch.pageX;
+                stack.startY = touch.pageY;
+                
+                stack.spirit.style.left = touch.pageX + "px";
+                stack.spirit.style.top = touch.pageY + "px";
+                stack.spirit.style.backgroundColor = stack.color;
+                canvas.appendChild(stack.spirit);
+                
+                startX.innerHTML = stack.startX;
+                startY.innerHTML = stack.startY;
+            } else { // stack list is full
+                return;
+            }
+        }
+    }
+
+    function touchMove(e) {
+        e.preventDefault();
+        var touches = e.targetTouches,
+            i = 0, l = touches.length, touch, stack;
+        for (; i < l; i++) {
+            touch = touches[i];
+            stack = getStackByTouchId(touch.identifier);
+            if (stack) {
+                var x = touch.pageX - stack.startX,
+                    y = touch.pageY - stack.startY,
+                    spirit = stack.spirit;
+                spirit.style.webkitTransform = 'translate(' + x + 'px, ' + y + 'px)';
+            }
+        }
+    }
+
+    function touchEnd(e) {
+        var touches = e.changedTouches,
+            i = 0, l = touches.length, touch, stack;
+//        alert(e.targetTouches.length);
+        for (;i < l; i++) {
+            touch = touches[i];
+            stack = getStackByTouchId(touch.identifier);
+            if (stack) {
+                stack.touchId = null;
+                canvas.removeChild(stack.spirit);
+                stack.spirit = null;
+                endX.innerHTML = touch.pageX;
+                endY.innerHTML = touch.pageY;
+                verDist.innerHTML = (touch.pageX - stack.startX) +"; Move to "+ moveDirection(touch.pageX - stack.startX);
+            }
+        }
+    }
+
+    function touchCancel(e) {
+        var touches = e.changedTouches,
+            i = 0, l = touches.length, touch, stack;
+        for (;i < l; i++) {
+            touch = touches[i];
+            stack = getStackByTouchId(touch.identifier);
+            if (stack) {
+                stack.touchId = null;
+                canvas.removeChild(stack.spirit);
+                stack.spirit = null;
+            }
+        }
+    }
+    
+    function moveDirection(x){
+        return x>0?"Right":"Left";
+    }
+    canvas.addEventListener("touchstart", touchStart, false);
+    canvas.addEventListener("touchmove", touchMove, false);
+    canvas.addEventListener("touchend", touchEnd, false);
+    canvas.addEventListener("touchCancel", touchCancel, false);
+ /*   
+client / clientY：// 触摸点相对于浏览器窗口viewport的位置 
+pageX / pageY：// 触摸点相对于页面的位置 
+screenX /screenY：// 触摸点相对于屏幕的位置 
+identifier： // touch对象的unique ID 
+*/
+    $('.touchevent').bind({    
+        'touchstart mousedown' : function(){        
+            $('#touch_tips').text('按下或触摸');  },
+        'touchmove mousemove' : function(){       
+            $('#touch_tips').text('移动中');    },    
+        'touchend touchcancel mouseup' : function(){       
+            $('#touch_tips').text('松开');    
+        }});
+    
+</script>
+    </body>
+</html>

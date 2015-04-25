@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+    <title>jQueryTouch test page (swipe)</title>
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.touch.js"></script>
+    <script type="text/javascript" src="../js/jquery.swipe.js"></script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34830963-1']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<style>
+    body{
+        -ms-content-zoom-boundary-max: 100%;   
+        -ms-content-zoom-boundary-min: 100%;}
+    #test-area a{
+        color: darksalmon;
+    }
+    #test-area{
+        background-color: black;
+        color: white;
+        height: 800px;
+        text-align: center;
+    }
+    #last-event{
+        color: pink;
+        font-size: 1.2em;
+        position: absolute;
+        top: 0;
+        right: 20px;
+    }
+    #touchEventHist{
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        right: 0;
+        height: 300px;
+        overflow: hidden;
+    }
+</style>
+<body>
+    <div id="test-area">
+       <h2>Test area</h2>
+        <a href="http://a-fung.github.io/jQueryTouch/swipe.html">jq.swipe Doc Link</a></div>
+    <div id="last-event">
+        <p id="last-event-name"></p>
+    </div>
+    <div id="touchEventHist"></div>
+    <script>
+        var timeout_id = null;
+        var last_original_event = null;
+        
+        var handler = function (e) {
+            $("#last-event-name").text(e);
+
+            last_original_event = e;
+            //It will be a string type and have one of the eight values representing the direction of the swipe. The possible values are "left", "upleft", "up", "upright", "right", "downright", "down" or "downleft".
+            $("#touchEventHist").append(timeout_id+": "+ e+ "; ");
+            
+            if (timeout_id !== null) window.clearTimeout(timeout_id);
+            timeout_id = window.setTimeout(
+                function () {
+                    $("#touchEventHist").html("");
+                    $("#touchEventHist").append("clear touch event history! Previous touch ID end at:  " + timeout_id + "</br>");
+                },
+                5000);
+        };
+
+        $("#test-area").swipe(handler,{
+            preventDefault: true,
+            mouse: true,
+            pen: true,
+            distance: 50
+            // The distance for a touch point to travel before triggering a swipe.
+        });
+        
+        // clearTimeout的例子
+        var alarm = {
+          remind: function(aMessage) {
+            alert(aMessage);
+            delete this.timeoutID;
+          },
+
+          setup: function() {
+            this.cancel();
+            var self = this;
+            this.timeoutID = window.setTimeout(function(msg) {self.remind(msg);}, 2000, "2s time out!");
+          },
+
+          cancel: function() {
+            if(typeof this.timeoutID == "number") {
+              window.clearTimeout(this.timeoutID);
+              delete this.timeoutID;
+            }
+          }
+        };
+        window.onclick = function() { alarm.setup() };
+    </script>
+</body>
+</html>

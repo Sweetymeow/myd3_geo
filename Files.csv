@@ -1,5 +1,16 @@
 File Name,Date Modified,Size,Path
-BallonData_v3.html,2015-04-22 05:28:32 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/BallonData_v3.html
+Ma_Touch.html,2015-04-25 01:42:08 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/Ma_Touch.html
+drag_red.html,2015-04-25 01:20:38 +0000,3 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/event/drag_red.html
+drag.html,2015-04-25 01:17:56 +0000,1 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/event/drag.html
+beauty_touch.html,2015-04-24 20:11:49 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/beauty_touch.html
+BallonData_v3.html,2015-04-24 19:13:53 +0000,3 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/BallonData_v3.html
+beauty_qr.html,2015-04-24 05:53:56 +0000,4 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/beauty_qr.html
+thesis_beauty.html,2015-04-24 05:30:47 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/thesis_beauty.html
+BallonData_phone.html,2015-04-24 04:45:40 +0000,3 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/BallonData_phone.html
+requestAnimationFrame.html,2015-04-24 04:07:46 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/requestAnimationFrame.html
+setTimeout_CycleClouds.html,2015-04-24 01:56:50 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/setTimeout_CycleClouds.html
+thesis_beauty_backup.html,2015-04-23 16:17:39 +0000,6 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/thesis_beauty_backup.html
+Ma_CSSPattern.html,2015-04-23 15:40:10 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/Ma_CSSPattern.html
 BallonData_v2.html,2015-04-20 20:49:57 +0000,1 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/BallonData_v2.html
 AngularD3_ReusableBar.html,2015-04-20 20:35:05 +0000,3 KB,/Users/SweetyMEOW/Sites/myd3_geo/AngularD3_Exp/AngularD3_ReusableBar.html
 BallonData_v2web.html,2015-04-20 14:35:11 +0000,3 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/BallonData_v2web.html
@@ -7,7 +18,6 @@ OUR_ForceImages.html,2015-04-19 22:57:19 +0000,7 KB,/Users/SweetyMEOW/Sites/myd3
 OUT_Ma_DragMap.html,2015-04-19 22:53:35 +0000,8 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/OUT_Ma_DragMap.html
 OUR_RotateWorldMap.html,2015-04-19 22:18:29 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/OUR_RotateWorldMap.html
 CollisionDetection.html,2015-04-19 21:31:08 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/CollisionDetection.html
-thesis_beauty.html,2015-04-19 19:57:00 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/thesis_beauty.html
 Ma_GeodesicRainbow.html,2015-04-19 17:53:12 +0000,6 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/Ma_GeodesicRainbow.html
 Ma_RotatingIcosahedron.html,2015-04-19 17:35:10 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/Ma_RotatingIcosahedron.html
 HtmlSmpMaterializeDark2.html,2015-04-19 17:34:16 +0000,5 KB,/Users/SweetyMEOW/Sites/myd3_geo/HtmlSmpMaterializeDark2.html
@@ -26,8 +36,6 @@ clock.html,2015-04-17 03:22:30 +0000,4 KB,/Users/SweetyMEOW/Sites/myd3_geo/sampl
 index.html,2015-04-16 15:20:29 +0000,9 KB,/Users/SweetyMEOW/Sites/myd3_geo/index.html
 index_test.html,2015-04-16 15:17:40 +0000,9 KB,/Users/SweetyMEOW/Sites/myd3_geo/index_test.html
 thesis_beauty_phone.html,2015-04-16 14:12:53 +0000,11 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/thesis_beauty_phone.html
-thesis_beauty_phoneQr.html,2015-04-16 14:12:53 +0000,11 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/thesis_beauty_phoneQr.html
-thesis_beauty_wall.html,2015-04-16 14:12:53 +0000,11 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/thesis_beauty_wall.html
 touch.html,2015-04-16 14:12:53 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/touch.html
 TakeBeautyToGo_1.html,2015-04-15 21:41:21 +0000,13 KB,/Users/SweetyMEOW/Sites/myd3_geo/beauty/TakeBeautyToGo_1.html
 jsReplaceString.html,2015-04-15 21:41:21 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/jsReplaceString.html
@@ -146,3 +154,4 @@ colorWorldMap_pattersonZoom.html,2015-03-18 03:45:52 +0000,5 KB,/Users/SweetyMEO
 Nils Types Commercial License.html,2015-03-18 03:45:52 +0000,6 KB,/Users/SweetyMEOW/Sites/myd3_geo/fonts/Licenses/Nils Types Commercial License.html
 jQueryMap.html,2015-03-18 03:45:52 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/jQueryMap/jQueryMap.html
 newInfoMap.html,2015-03-18 03:45:52 +0000,2 KB,/Users/SweetyMEOW/Sites/myd3_geo/jQueryMap/newInfoMap.html
+ios-multi.html,2010-09-11 14:54:48 +0000,4 KB,/Users/SweetyMEOW/Sites/myd3_geo/sample/event/ios-multi.html

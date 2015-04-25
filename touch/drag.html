@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+.droptarget {
+    float: left; 
+    width: 100px; 
+    height: 35px;
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+</style>
+</head>
+<body>
+<p>该实例演示了如何使用 addEventListener() 方法向文档对象添加 "ondragstart", "ondrag", "ondragover" 和 "ondrop" 事件。 </p>
+
+<p>在两个矩形框中来回拖动 p 元素:</p>
+
+<div class="droptarget">
+  <p draggable="true" id="dragtarget">拖动我!</p>
+</div>
+
+<div class="droptarget"></div>
+
+<p style="clear:both;"><strong>注意：</strong>Internet Explorer 8 及更早 IE 版本或 Safari 5.1 及更早版本的浏览器不支持 drag 事件。</p>
+
+<p id="demo"></p>
+
+<script>
+/* Events fired on the drag target */
+document.addEventListener("dragstart", function(event) {
+    event.dataTransfer.setData("Text", event.target.id);
+});
+
+document.addEventListener("drag", function(event) {
+    document.getElementById("demo").innerHTML = "p 元素正在拖动";
+});
+
+/* Events fired on the drop target */
+document.addEventListener("dragover", function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener("drop", function(event) {
+    event.preventDefault();
+    if ( event.target.className == "droptarget" ) {
+        var data = event.dataTransfer.getData("Text");
+        event.target.appendChild(document.getElementById(data));
+        document.getElementById("demo").innerHTML = "p 元素已被拖动";
+    }
+});
+</script>
+
+</body>
+</html>
+			

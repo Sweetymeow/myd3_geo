@@ -1,0 +1,93 @@
+<!-- http://bl.ocks.org/dwtkns/4686432 -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> Thesis Work3 </title>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="http://d3js.org/topojson.v0.min.js"></script>
+        <script src="js/parse-1.4.2.min.js"></script>
+        <script src="js/jquery.touch.js"></script>
+        <script src="js/jquery.swipe.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script><!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="../js/materialize.min.js"></script>    
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>--> 
+        
+        <!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" href="../beauty/data/icon.png" />
+        <link rel="stylesheet" href="css/beauty.css"> 
+    </head>
+    <body>
+		<div class="card-panel pink accent-4" id="title">
+       		<h1><a href="#svgmap">Gender Gap: Floating in air</a></h1>
+		</div>
+		<div class="mapcontainer">
+			<div class="row">
+				<div class="map col m12 l8" id="svgmap"></div><!-- map -->
+				<div class="info col m12 l4" id="infoBox">
+					<div class="card" id="fun-panel">
+						<div class="card-content pink-text" id="introduction">
+							<h3 class="card-title pink-text">Introduction :</h3>
+							<div id="intro-p">
+							    <p class="pink-text text-lighten-1">Choose a country in the Global on the left. In this project, I try to relate the enqual of gender with,by country and over time.</p>
+							    <p class="pink-text text-lighten-1">Please feel free to choose "show on smart phone" to take the to go</p>
+                               
+                                <p class="pink-text text-lighten-3">Step1: Rotate the global by swipe the global.</p>
+                                <p class="pink-text text-lighten-3">Step2: Click to find the country you want to know more.</p>
+							</div>
+						</div>
+						<div class="card-content" id="insturctor thin">
+							<h5 class="pink-text">Instructor: </h5>
+							<div class="row">
+								<div class="col offset-s1 s4 card-panel pink accent-1" id="int-icon">
+									<i class="white-text medium mdi-hardware-keyboard-backspace"></i>
+									<h class="white-text">Move</h>
+								</div>
+								<div class="col offset-s2 s4 card-panel pink accent-1" id="int-icon">
+									<i class="white-text medium mdi-content-redo"></i>
+									<h class="white-text">Rotate</h>
+								</div>
+							</div>
+				 		</div><!--	card-content / instructor-->
+				 		<div class="card-panel countryname pink">
+                                <h5 class="white-text">Countries:</h5>
+                                <h5></h5>
+						</div><!--card-panel countryname pink-->
+						
+						<div class="card-action">
+							<a class="waves-effect waves-light btn-large pink lighten-2" id="onWall" href="javascript:void(0)">
+								<i class="mdi-av-videocam left" id="onWall"></i>Show on Gallery Wall </a>
+							<a class="waves-effect waves-light btn-large purple lighten-2" id="onPhone" href="javascript:void(0)">
+								<i class="mdi-hardware-smartphone left" id="onPhone"></i>Show on Smart Phone</a>
+						</div>
+					</div><!-- introduction -->
+				</div><!-- info -->
+			</div><!-- row -->
+		</div><!--  container-->
+     <div class="footer-copyright" id="footer">
+        <div class="container white-text">
+            © 2015 Xin Wen, Penn State Univ | Art, MIT Lisence.
+            <a class="grey-text text-lighten-4 right" href="#!"><i class="mdi-action-account-balance"></i> More Links</a>
+        </div>
+    </div>
+		<!--  Fixed Action Button -->
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+			<a class="btn-floating btn-large red">
+			  <i class="large mdi-editor-mode-edit"></i>
+			</a>
+			<ul>
+			  <li><a class="btn-floating red" id="clear"><i class="large mdi-action-delete"></i></a></li>
+			  <li><a class="btn-floating yellow darken-1"><i class="large mdi-editor-format-quote"></i></a></li>
+			  <li><a class="btn-floating green"><i class="large mdi-editor-publish"></i></a></li>
+			  <li><a class="btn-floating blue"><i class="large mdi-editor-attach-file"></i></a></li>
+			</ul>
+		 </div><!--   fixed-action-btn  -->
+<script src="js/beauty.js"></script>
+    </body>
+</html>
