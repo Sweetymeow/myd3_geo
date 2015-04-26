@@ -1,9 +1,12 @@
-body {
+html, body {
     font-family: 'Play', 'Quicksand', serif;
-    background-color: #593d6a;
+/*    background-color: #593d6a;*/
+    background-color: #1B3945;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 h1{
-    color: white;
     font-size: 2em;
     /*  padding: 0.5em 0 0.5em 0;*/
     text-align: center;
@@ -19,6 +22,7 @@ p{
     -webkit-margin-start: 2em;
     -webkit-margin-end: 2em;
 }
+/** svg elements **/
 svg{
 /*  -webkit-margin-before: 1em;
     -webkit-margin-end: 1em; */
@@ -28,8 +32,10 @@ svg{
 }
 
 text{
-    fill: pink;
-	text-shadow: 2px 2px 1px #444;
+    //fill: #8bc34a;
+    fill: #01579b;
+    opacity: 1;
+	text-shadow: 1px 1px 1px #fff;
 	font-weight: 700;
 }
 
@@ -50,13 +56,9 @@ text{
   fill-opacity:.3;
   stroke-width:1;
   opacity: 1;
-  fill: #C2185B; 
+/*  fill: #C2185B; */
+   fill: #2196f3;
 }
-
-.mapcontainer{
-    margin: 0;
-}
-
 .graticule {
   fill: none;
   stroke: black;
@@ -90,6 +92,7 @@ a#onWall, a#onPhone{
 i#onWall, i#onPhone{
     line-height: 40px;
 }
+
 /** d3 geo global **/
 #infoBox{
     max-width: 310px;
@@ -178,7 +181,7 @@ a.btn-large{
 }
 #intro-p p:first-child{
     font-size: 1em;
-    color: #ec407a;
+    //color: #ec407a;
     padding-bottom: 5px;
 }
 #intro-p p:first-child span{
@@ -215,18 +218,28 @@ div.tooltip {
 
 /**  countries border  **/
 .countries path{
-	stroke: #d81b60;
-	  stroke-width: 1;
+	//stroke: #d81b60;
+    stroke: #1565c0;
+    stroke-width: 1;
 }
-
+/*** Main Page ***/
+.mapcontainer{
+    min-height: 100%;
+    margin: 5px 0;
+    padding: 0;
+    padding-bottom: 36px;
+}
 /** footer **/
 div#footer{
     position: absolute;
     bottom: 0;
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: #4E375C;
+/*    background-color: #4E375C;*/
+    background-color: #fff;
     width: 100%;
+    height: 36px;/*脚部的高度*/
+    clear:both;
 }
 
 /** touch info **/

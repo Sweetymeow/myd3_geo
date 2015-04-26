@@ -6,6 +6,7 @@ Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFe
 var BeautyUser = Parse.Object.extend("BeautyUser");
 var beautyUser = new BeautyUser();
 var ctryname;
+var touch0, rotate0;
 
 // Lots of code from:  http://bl.ocks.org/3757125
 //  http://bl.ocks.org/3795040
@@ -74,7 +75,8 @@ function ready(error, world, names, places) {
 		  .attr("cy", "25%")
 			.append("stop")
 			.attr("offset", "5%")
-			.attr("stop-color", "#C2185B");
+			//.attr("stop-color", "#C2185B");
+			.attr("stop-color", "#419CB3");
 
 	var globe_shading = svg.append("defs").append("radialGradient")
 		.attr("id", "globe_shading")
@@ -84,9 +86,6 @@ function ready(error, world, names, places) {
 	globe_shading.append("stop")
 		.attr("offset","50%").attr("stop-color", "#F48FB1")
 		.attr("stop-opacity","0")
-//	globe_shading.append("stop")
-//		.attr("offset","100%").attr("stop-color", "#E91E63")
-//		.attr("stop-opacity","0.3")
 
 // 地球仪投影颜色  
   var drop_shadow = svg.append("defs").append("radialGradient")
@@ -118,7 +117,8 @@ function ready(error, world, names, places) {
 		.datum(topojson.object(world, world.objects.land))
 		.attr("class", "land")
 		.attr("d", path)
-		.attr("stroke", "#880e4f");
+		.attr("stroke", "#307384");
+		//.attr("stroke", "#880e4f");
 
 	svg.append("path")
 		.datum(graticule)
@@ -154,7 +154,7 @@ function ready(error, world, names, places) {
 		.data(countries)
 		.enter().append("path")
 		.attr("d", path)
-	 	.attr("stroke", "#673ab7")
+	 	.attr("stroke", "#1565c0")
         .on("click", function(d,i) {
             var mouse = d3.mouse(svg.node()).map(function(d){ return parseInt(d); });
             tooltip.html(d.name);
@@ -162,13 +162,39 @@ function ready(error, world, names, places) {
             $('p.touchinfo1').text(d.name);
         })
         .on("touchstart", function(d){
-            //alert("touch start: "+ d.name);
-            var touch = d3.touch(svg.node()).map(function(d){ return parseInt(d); });
-            //tooltip.text(d.name);
-            d3.select(".tooltip").text(d.name);
-            ctryname = d.name;
-            alert("country name " + d.name);
-            $('.tooltip').text(d.name);
+            tooltip.text(d.name);
+        });
+    
+    d3.select(window)
+        .on("touchstart", function(){
+            d3.event.preventDefault();
+            touch0 = d3.touches(svg.node())[0];
+            rotate0 = proj.rotate();
+            $('.touchinfo1').text("Start | touchX: " + touch0[0] + "; touchY: " + touch0[1]);
+        })
+        .on("touchmove", function(){
+             d3.event.preventDefault();
+            //touch0 = [touch.pageX, touch.pageY];
+            if(touch0){
+                var touch1 = d3.touches(svg.node())[0],
+                    rotate1 = [
+                      rotate0[0]+(touch1[0]-touch0[0])/4, 
+                      rotate0[1]+(touch0[1]-touch1[1])/4];
+
+                rotate1[1] = rotate1[1]>30?
+                    30:rotate1[1]<-30?-30 : rotate1[1];
+                $('.touchinfo2').text("Move| touchX: " + touch1[0] + "; touchY: " + touch1[1]);    
+
+            proj.rotate(rotate1);
+            refresh();
+            }
+        })
+        .on("touchend", function(){
+            if(touch0){
+                touchmove();
+                touch0 = null;
+                $('.touchinfo3').text("Clear Touch 0!"); 
+            }
         });
 
 	position_labels();
@@ -233,44 +259,35 @@ function mouseup() {
 	m0 = null;
   }
 }
-
-var touch0, rotate0;
 /** touch & mouse event **/
-function touchend(e) {
-    var touches = e.changedTouches,
-        i = 0, l = touches.length, touch;
-    touch = touches[0];
-    var touch1 = [touch.pageX, touch.pageY],
-        rotate1 = [
-          rotate0[0]+(touch1[0]-touch0[0])/4, 
-          rotate0[1]+(touch0[1]-touch1[1])/4];
-
-    rotate1[1] = rotate1[1]>30?
-        30:rotate1[1]<-30?-30 : rotate1[1];
-    proj.rotate(rotate1);
-    refresh();
-    touch0 = null;
-    $('.touchinfo2').text("End| touchX: " + touch0[0] + "; touchY: " + touch0[1] + "");
-}
-
-function touchmove(e) {
-}
-
-function touchstart(e){
-    e.preventDefault();
-    var touches = e.changedTouches,
-            i = 0, l = touches.length, touch;
-    for (; i < l; i++) {
-        touch = touches[i];
-        touch0 = [touch.pageX, touch.pageY];
-        rotate0 = proj.rotate();
-    }
-    var d3touch = d3.touch();
-    $('.touchinfo1').text("Start| touchX: " + touch0[0] + "; touchY: " + touch0[1] + "");
-}
-svgmap.addEventListener("touchstart", touchstart, false);
-svgmap.addEventListener("touchmove", touchmove, false);
-svgmap.addEventListener("touchend", touchend, false);
+//function touchend(e) {
+//    if(touch0){
+//        touchmove();
+//        touch0 = null;
+//        $('.touchinfo3').text("Clear Touch 0!");  
+//    }
+//}
+//
+//function touchmove(){
+//    d3.event.preventDefault();
+//    //touch0 = [touch.pageX, touch.pageY];
+//    if(touch0){
+//        var touch1 = d3.touches(svg.node())[0],
+//            rotate1 = [
+//              rotate0[0]+(touch1[0]-touch0[0])/4, 
+//              rotate0[1]+(touch0[1]-touch1[1])/4];
+//
+//        rotate1[1] = rotate1[1]>30?
+//            30:rotate1[1]<-30?-30 : rotate1[1];
+//        $('.touchinfo2').text("Move| touchX: " + touch1[0] + "; touchY: " + touch1[1]);    
+//    
+//    proj.rotate(rotate1);
+//    refresh();
+//    }
+//}
+//svgmap.addEventListener("touchstart", touchstart, false);
+//svgmap.addEventListener("touchmove", touchmove, false);
+//svgmap.addEventListener("touchend", touchend, false);
 //svgmap.addEventListener("touchCancel", touchCancel, false);
 
 
