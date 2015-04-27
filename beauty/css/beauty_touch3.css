@@ -1,27 +1,84 @@
+@import url(http://fonts.googleapis.com/css?family=Exo+2:400,200,300,400italic,500,600,600italic,700,800,900);
 html, body {
-    font-family: 'Play', 'Quicksand', serif;
+    font-family: 'Exo 2', 'Quicksand', sans-serif;
 /*    background-color: #593d6a;*/
-    background-color: #1B3945;
+    background-color: hsl(198, 49%, 16%);
     height: 100%;
     margin: 0;
     padding: 0;
+    background-image:
+    radial-gradient(white, rgba(73, 123, 144, .2) 2px, transparent 40px),
+    radial-gradient(white, rgba(205, 223, 225, .15) 1px, transparent 30px),
+    radial-gradient(white, rgba(76, 187, 200,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+    background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
 }
-h1{
-    font-size: 2em;
-    /*  padding: 0.5em 0 0.5em 0;*/
+/** Header Navigation 导航标志**/
+header.title{
+    margin: 10px 0; /* top&bottom: 30px left&right: 0px */ 
+    transition: all .5s ease-out;
+}
+header.title img{
+    margin: 10px 0 10px 14px;
+}
+header.title a h4{ /* main title */
+    margin: 10px 0;
+    text-shadow: 1px 1px hsl(340, 71%, 58%);
+}
+header.title h5{ /* main title */
+    font-size: 1.4em;
+    margin: 16px 0;
+    padding: 0 30px;
+    text-shadow: 1px 1px hsl(340, 71%, 58%);
+}
+header.title span.subtitle{
+	display: block;/**/
+	font-size: 0.6em;
+	font-weight: 200;
+    color: hsl(340, 80%, 66%);
+    text-shadow: 1px 1px #fff;
+}
+
+/* instructor toggle button fixed-action-btn */
+.fixed-action-btn .btn-large i{
+    font-size: 3.4em;
+}
+.fixed-action-btn ul{
+    width: 56px;
+}
+
+/* buttonGroup */
+div.buttonGroup{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+div.buttonGroup .row{
+    width: 100%;
+    margin-bottom: 0;
+}
+div.buttonGroup #country{
+    margin-top: 120px;
+}
+div.buttonGroup #country h5{
+    font-size: 1.2em;
+}
+div.buttonGroup #nextview{
+    background-color: transparent;
+}
+
+/*** SVG Main Map ***/
+.mapcontainer{
+/*    padding-left: 150px;*/
     text-align: center;
 }
-h1 a{ color: white; }
-p{
-    font-size: 1.3em;
-    text-align: left;
-    line-height: 1.2em;
-    display: block;
-    -webkit-margin-before: 0.5em;
-    -webkit-margin-after: 0.5em;
-    -webkit-margin-start: 2em;
-    -webkit-margin-end: 2em;
+.mapcontainer .map{
+    position: relative;
+    bottom: 50px;
+    padding: 0;
 }
+
 /** svg elements **/
 svg{
 /*  -webkit-margin-before: 1em;
@@ -32,44 +89,45 @@ svg{
 }
 
 text{
-    //fill: #8bc34a;
-    fill: #01579b;
+/*    fill: #01579b;*/
+    fill: #fff;
     opacity: 1;
-	text-shadow: 1px 1px 1px #fff;
+	text-shadow: 1px 1px 1px #444;
 	font-weight: 700;
 }
 
-.land {
-  fill: white;
-  stroke-opacity: 1;
+.land {  /*  fill: white;*/
+    fill: hsl(79, 69%, 57%);
+    stroke-opacity: 1;
 }
 
+/* country path */ 
 .countries path {
-  stroke: white;  
-  stroke-linejoin: round;
-  stroke-width:.5;
-  fill: white;
-  opacity: .1;
+    stroke: #1B3945;  
+    stroke-linejoin: round;
+    stroke-width:1;
+    fill: white;
+    opacity: .1;
 }
-
 .countries path:hover {
-  fill-opacity:.3;
-  stroke-width:1;
-  opacity: 1;
-/*  fill: #C2185B; */
-   fill: #2196f3;
+    fill-opacity:.3;
+    stroke-width:1.4;
+    opacity: 0.8;
+    stroke: #fff;
+    fill: #1D4758;
 }
+/**  countries border  **/
 .graticule {
   fill: none;
-  stroke: black;
+  stroke: #bbb;
   stroke-width:.5;
-  opacity:.2;
+  opacity:0.6;
 }
 
 .labels {
-    font-family: 'PT Sans', serif;
-    font: 10px;
-    fill: black;
+    font-family: 'Exo 2',sans-serif;
+    font: 12px;
+    fill: #fff;
     opacity: .8;
 }
 
@@ -98,30 +156,6 @@ i#onWall, i#onPhone{
     max-width: 310px;
     margin-right: 10px;
     padding: 0;
-}
-#svgmap{
-    margin: 0;
-    padding: 0;
-}
-.info {
-    margin: 0 auto;
-    text-align: center;
-}
-.map {
-    margin: 0 auto;
-    text-align: center;
-}
-#title{
-    padding: 10px;
-    margin: 0;
-    max-height: 120px;
-}
-div#title h1 {
-    margin: 10px 0;
-	line-height: 0.8em;
-}
-.mapcontainer{
-    margin: 1em 0;
 }
 
 a.btn-large{
@@ -196,39 +230,22 @@ a.btn-large{
 /** Tooltip **/
 
 div.tooltip {
-	color: #222; 
-	background: #fff; 
-	padding: 0 0.5em; 
-	text-shadow: #f5f5f5 0 1px 0;
+	color: hsl(262, 23%, 34%);
+	padding: 0.5em 0.5em; 
+/*	text-shadow: #f5f5f5 0 1px 0;
 	border-radius: 2px; 
-	box-shadow: 0px 0px 2px 0px #a6a6a6; 
+	box-shadow: 0px 0px 2px 0px #a6a6a6; */
 	opacity: 0.9; 
 /*  position: absolute;*/
 	text-align: center;
-	font-size: 1.1em;
+	font-size: 1.2em;
     
 }
 .countryname{
     min-height: 60px;
-    padding-bottom: 20px;
-}
-.countryname h5{
-    font-size: 1.2em;
+    padding: 10px 0;
 }
 
-/**  countries border  **/
-.countries path{
-	//stroke: #d81b60;
-    stroke: #1565c0;
-    stroke-width: 1;
-}
-/*** Main Page ***/
-.mapcontainer{
-    min-height: 100%;
-    margin: 5px 0;
-    padding: 0;
-    padding-bottom: 36px;
-}
 /** footer **/
 div#footer{
     position: absolute;
@@ -240,9 +257,4 @@ div#footer{
     width: 100%;
     height: 36px;/*脚部的高度*/
     clear:both;
-}
-
-/** touch info **/
-.touchinfo{
-    
 }

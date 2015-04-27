@@ -1,25 +1,25 @@
 .color-1 {
     color: hsl(185, 63%, 58%);
 }
-.color-2 {
-    color: hsl(79, 69%, 57%);
+.color-2 {/*  green */
+    color: hsl(79, 69%, 57%); 
 }
-.color-3 {
+.color-3 { /*  light pink  */
     color: hsl(340, 80%, 76%);
 }
 .color-4 {
     color: hsl(340, 71%, 58%);
 }
-.color-5 {
+.color-5 { /* purple */
     color: hsl(262, 23%, 34%);
 }
-.color-6 {
+.color-6 { /* dark blue - bg */
     color: hsl(198, 49%, 16%);
 }
-.color-7 {
+.color-7 { /* pure pink */
     color: hsl(340, 100%, 63%);
 }
-.color-8 {
+.color-8 { /* purple 2 */
     color: hsl(278, 26%, 35%);
 }
 .color-9 {

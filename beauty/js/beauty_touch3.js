@@ -18,7 +18,7 @@ d3.select(window)
 	.on("mousedown", mousedown)
 	.on("mouseup", mouseup);
 
-var width = 640,
+var width = 680,
 	height = 580;
 
 var proj = d3.geo.orthographic()
