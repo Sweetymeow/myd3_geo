@@ -3167,7 +3167,7 @@ $(document).ready(function(){
     // jQuery reverse
     $.fn.reverse = [].reverse;
 
-    $(document).on('mouseenter.fixedActionBtn', '.fixed-action-btn', function(e) {
+    $(document).on('mouseenter.fixedActionBtn touchstart', '.fixed-action-btn', function(e) {
       var $this = $(this);
 
       $this.find('ul .btn-floating').velocity(
@@ -3184,7 +3184,7 @@ $(document).ready(function(){
 
     });
 
-    $(document).on('mouseleave.fixedActionBtn', '.fixed-action-btn', function(e) {
+    $(document).on('mouseleave.fixedActionBtn touchend', '.fixed-action-btn', function(e) {
       var $this = $(this);
 
       var time = 0;

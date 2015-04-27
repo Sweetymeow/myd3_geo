@@ -7,10 +7,10 @@ html, body {
     margin: 0;
     padding: 0;
     background-image:
-    radial-gradient(white, rgba(73, 123, 144, .2) 2px, transparent 40px),
-    radial-gradient(white, rgba(205, 223, 225, .15) 1px, transparent 30px),
-    radial-gradient(white, rgba(76, 187, 200,.1) 2px, transparent 40px),
-    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+    radial-gradient(rgb(73, 123, 144), rgba(73, 123, 144, .2) 2px, transparent 40px),
+    radial-gradient(rgb(205, 223, 225), rgba(205, 223, 225, .15) 1px, transparent 30px),
+    radial-gradient(rgb(76, 187, 200), rgba(76, 187, 200,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,198,200,.4), rgba(255,255,255,.1) 2px, transparent 30px);
     background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
 }
@@ -41,13 +41,37 @@ header.title span.subtitle{
 }
 
 /* instructor toggle button fixed-action-btn */
-.fixed-action-btn .btn-large i{
-    font-size: 3.4em;
-}
-.fixed-action-btn ul{
+.fixed-action-btn{
     width: 56px;
 }
-
+.fixed-action-btn .btn-large i{
+    font-size: 56px;
+}
+.btn-floating.btn-large{
+    width: 56px;
+    height: 56px;
+}
+.btn-floating.btn-large i{
+    line-height: 56px;
+}
+.btn-floating i 
+.fixed-action-btn ul{
+    width: 56px;
+    left: 3px;
+}
+div.guideImg{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/floatingGuide.png);
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-attachment:fixed;
+    background-position:center; 
+    background-size: cover;
+}
 /* buttonGroup */
 div.buttonGroup{
     position: fixed;
@@ -59,10 +83,7 @@ div.buttonGroup .row{
     margin-bottom: 0;
 }
 div.buttonGroup #country{
-    margin-top: 120px;
-}
-div.buttonGroup #country h5{
-    font-size: 1.2em;
+    margin-top: 90px;
 }
 div.buttonGroup #nextview{
     background-color: transparent;
@@ -77,6 +98,56 @@ div.buttonGroup #nextview{
     position: relative;
     bottom: 50px;
     padding: 0;
+}
+/** Step1 country panel **/
+
+.card .card-content .card-title{
+    line-height: 40px;
+}
+.buttonGroup #country{
+    margin-bottom: 0;
+}
+.buttonGroup #country .card-content{
+    margin-bottom: 0;
+    width: 100%;
+}
+.buttonGroup #country span#step1{
+    font-weight: 400;
+    text-shadow: 1px 1px #ad1457;
+}
+.buttonGroup #country span#step1{
+    font-weight: 400;
+}
+/** Tooltip **/
+.buttonGroup #country .countryname{
+    min-height: 60px;
+    padding: 0;
+}
+
+.buttonGroup #country .countryname div.tooltip {
+	color: hsl(262, 23%, 34%);
+	padding: 0.5em 0.5em; 
+	opacity: 0.9; 
+	text-align: center;
+	font-size: 1.4em;
+}
+/** Step2 button group **/
+.buttonGroup #nextview a#onWall, .buttonGroup #nextview a#onPhone{
+    height: 40px;
+    line-height: 40px;
+    width: 210px;
+}
+.buttonGroup #nextview{
+    margin-bottom: 15px;
+}
+.buttonGroup #nextview #nexttitle{
+    text-shadow: 1px 1px #880e4f;
+}
+.buttonGroup #nextview a#onPhone{
+    margin-bottom: 0;
+}
+.buttonGroup #nextview a#onWall:hover, .buttonGroup #nextview a#onPhone:hover{
+    color: #fff;
 }
 
 /** svg elements **/
@@ -136,19 +207,7 @@ text{
 }
 
 .point{
-  opacity:.6;
-}
-
-/** d3 button **/
-.card-action{
-    padding: 0 5px;
-}
-a#onWall, a#onPhone{
-    height: 40px;
-    line-height: 40px;
-}
-i#onWall, i#onPhone{
-    line-height: 40px;
+  opacity:.8;
 }
 
 /** d3 geo global **/
@@ -228,23 +287,20 @@ a.btn-large{
 }
 
 /** Tooltip **/
-
+/*
 div.tooltip {
 	color: hsl(262, 23%, 34%);
 	padding: 0.5em 0.5em; 
-/*	text-shadow: #f5f5f5 0 1px 0;
+	text-shadow: #f5f5f5 0 1px 0;
 	border-radius: 2px; 
-	box-shadow: 0px 0px 2px 0px #a6a6a6; */
+	box-shadow: 0px 0px 2px 0px #a6a6a6; 
 	opacity: 0.9; 
-/*  position: absolute;*/
+      position: absolute;
 	text-align: center;
-	font-size: 1.2em;
+	font-size: 1.4em;
     
 }
-.countryname{
-    min-height: 60px;
-    padding: 10px 0;
-}
+*/
 
 /** footer **/
 div#footer{

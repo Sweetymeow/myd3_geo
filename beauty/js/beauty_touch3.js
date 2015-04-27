@@ -306,25 +306,31 @@ var $countryname = $('.tooltip').text();
 //		console.log("$countryname: " + $countryname);
 //	}); // save country name to this object 为什么有时候可以，有时候不可以？
 
-$('.map').on("click", function(){
+$('.map').on("click touchstart", function(){
     $countryname = $('.tooltip').text();
     console.log("$countryname: " + $countryname);
 }); // save country name to this object
 
 
-$('#onWall').on("click", function(){
+$('#onWall').on("click touchstart", function(){
     strogeToParse("wall");
 });
 
-$('#onPhone').on("click", function(){
+$('#onPhone').on("click touchstart", function(){
     strogeToParse("phone");
 });
 
-$('#clear').on("click", function(){
+$('#clear').on("click touchstart", function(){
     localStorage.clear();
     console.log("userIndex: " + localStorage.getItem("userIndex") + "; userID: " + localStorage.getItem("userID") );
 });
 
+$('#guide').on("click touchstart", function(){
+    $("div.guideImg").fadeToggle(1000);
+});
+$('a#guideBtn').on("click touchstart", function(){
+    $("div.guideImg").fadeOut(1000);
+});
 
 //$(function(){
 //    var isMobile = false;
@@ -413,7 +419,7 @@ function strogeToParse(method){
         console.log('Parse objectId: ' + beautyUser.id + "; localStorage ID: " + localStorage.getItem("userID"));
           
         if(method == "wall"){
-            window.open('BallonData_v3.html');
+            window.open('beautyBallon_v3.html');
         }else{
             window.open('beauty_qr.html');
         } // open new page if the new beautyUser saved;

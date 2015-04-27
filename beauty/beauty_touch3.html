@@ -13,7 +13,7 @@
         <script type="text/javascript" src="../js/jquery.touch.js"></script>
         <script type="text/javascript" src="../js/jquery.swipe.js"></script>
 		<!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="../js/materialize.min.js"></script>    
+        <script type="text/javascript" src="js/materialize.js"></script>    
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>--> 
         <!-- Compiled and minified CSS -->
 		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
@@ -26,15 +26,15 @@
     <div class="col l1">
         <img src="img/global_icon.png" alt="global icon">
     </div>
-    <div class="col l8">
+    <div class="col l9">
        <a href="#svgmap">
             <h4 class="white-text">Floating in air
                 <span class="subtitle">Global Gender Gap</span>
             </h4>
         </a>
     </div><!--col l10-->
-    <div class="col l3">
-        <h5><a class="white-text" id="aboutauthor" href="">About</a></h5>
+    <div class="col l2">
+        <h5><a class="white-text" id="aboutauthor" href="beauty_about.html">About</a></h5>
     </div>
 </header><!--title row-->
 <div class="mapcontainer">
@@ -45,35 +45,44 @@
        <div class="card col l6 offset-l3 pink lighten-4" id="country">
           <div class="card-content">
                 <div class="card-title">
-                    <h5 class="pink-text text-darken-1" id="step1">Step1: 
-                        <span class="step1-country white-text">Select Country</span>
-                    </h5>
+                    <span class="pink-text text-darken-1" id="step1">Step1: 
+                        <span class="step1-country white-text"><strong>Select Country</strong></span>
+                    </span>
                 </div>
-                <div class="card-panel countryname">
-                </div><!--card-panel countryname pink-->
           </div><!--card-content-->
+          <div class="card-panel countryname"></div><!--card-panel countryname-->
        </div><!--.card #country-->
        <div class="card col l3" id="nextview">
-            <div class="card-content white-text">
+            <div class="card-content white-text" id="nexttitle">
                 <span class="card-title">Step2: </span><!--card-title-->
-                <p>I am a very simple card. I am good at containing small bits of information.</p>
-                <a class="waves-effect waves-light btn-large pink lighten-1" id="onWall" href="javascript:void(0)">on Gallery Wall </a>
-                <a class="waves-effect waves-light btn-large pink lighten-2" id="onPhone" href="javascript:void(0)">on Smartphone</a>
+                <p>Please feel free to choose show on <strong>Smartphone</strong>button, and scan the QR code with your phone.</p>
             </div><!--card-content-->
+            <div class="card-content" id="nextstepbtn">
+                 <a class="waves-effect waves-light btn-large pink lighten-1" id="onWall" href="javascript:void(0)">on Gallery Wall </a>
+                <a class="waves-effect waves-light btn-large pink lighten-2" id="onPhone" href="javascript:void(0)">on Smartphone</a>
+            </div>
        </div><!--.card #nextview-->
    </div><!--row-->
 </div><!--buttonGroup-->
     
 <!--  Fixed Action Button -->
-<div class="fixed-action-btn" style="bottom: 45px; left: 24px;">
+<div class="fixed-action-btn" style="bottom: 10px; left: 24px;">
     <a class="btn-floating btn-large white">
       <i class="large mdi-action-help pink-text"></i>
     </a>
     <ul>
       <li><a class="btn-floating red" id="clear"><i class="large mdi-action-delete"></i></a></li>
-      <li><a class="btn-floating yellow darken-1"><i class="large mdi-editor-format-quote"></i></a></li>
+      <li><a class="btn-floating light-blue darken-1" id="guide"><i class="large mdi-action-info"></i></a></li>
     </ul>
  </div><!--   fixed-action-btn  -->
+ <div class="guideImg">
+    <div class="fixed-action-btn" style="top: 20px; right 20px;">
+         <a class="btn-floating btn-large pink" id="guideBtn">
+              <i class="large mdi-action-highlight-remove"></i>
+        </a>
+    </div>
+ </div>
+ 
 <script src="js/beauty_touch3.js"></script>
 </body>
 </html>
