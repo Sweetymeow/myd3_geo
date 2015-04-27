@@ -1,0 +1,144 @@
+<!-- http://bl.ocks.org/mbostock/4063423 -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> data explaination </title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="js/html5-qrcode.min.js"></script><!--QRReader-->
+        <script src="js/dataautoplay.js"></script>
+
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+        <![endif]-->
+        <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+        <!--<![endif]-->
+        <style>
+            .l-box{
+                padding: 0.8em;
+                text-align: center;
+            }
+            
+            body {
+                font-family: 'PT Sans', serif;
+            }
+            h1{
+				font-family: 'PT Sans', serif;
+                color: white;
+                font-size: 3em;
+                background: #E91E63;
+                padding: 0.5em 0 0.5em 0;
+                text-align: center;
+            }
+			h2{
+				font-family: 'PT Sans', serif;
+                color: white;
+                font-size: 2em;
+                background: #E91E63;
+                text-align: center;
+				padding: 0 0 0.5em 0;
+            }
+			#title{
+				margin: 0;
+			}
+			#subtitle{
+				margin: 0;
+				font-size: 1.4em;
+			}
+			#centext{
+				text-align: center;
+			}
+            p{
+				font-family: 'PT Sans', serif;
+                font-size: 1.3em;
+                text-align: left;
+                line-height: 1.2em;
+                display: block;
+                -webkit-margin-before: 0.5em;
+                -webkit-margin-after: 0.5em;
+                -webkit-margin-start: 2em;
+                -webkit-margin-end: 2em;
+            }
+            svg{
+                -webkit-margin-before: 2em;
+                border: 1px solid #DEDEDE;
+				pointer-events: none;
+            }
+            
+            body {
+              font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+              margin: auto;
+              position: relative;
+              width: 960px;
+            }
+
+            form {
+              position: absolute;
+              right: 10px;
+              top: 300px;
+            }
+			
+			text{
+				font-family: 'PT Sans', serif;
+				font-weight: 500;
+				text-anchor: middle;
+				pointer-events: auto; 
+			}
+			button{
+				margin: 0.5em 0 0.5em 0;
+				font-weight: 600;
+				font-family: 'PT Sans', serif;
+                font-size: 1.3em;
+				width: 10%;
+				color: #E91E63;
+			}
+			button :hover{
+				color: lightcoral;
+			}
+			.explanation{
+				font-weight: 600;
+				font-family: 'PT Sans', serif;
+				font-size: 1.3em;
+			}
+           
+        </style>
+	</head>
+
+    <body>
+        <div class="pure-g">
+            <div class="pure-u-1 l-box">
+				<h2 id="title"> Explaination for each sectiona in each <span id="subtitle"> Data Bucket</span></h2>
+				<h2 id="subtitle">Height for each bar</h2>
+                <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>
+                <div class="map">
+					<form>
+					  <label><input type="radio" name="mode" value="size"> Size</label>
+					  <label><input type="radio" name="mode" value="count" checked> Count</label>
+					</form>
+				</div>
+                <div class="control"><button id="nextbtn">next</button></div>
+                <p>This page should be 
+                    <a href="/mythesis/DispatchingEvents_data.html">auto jumping</a> by the info which is readed from QR Code on the bottom of each bucket</p>
+                <p><a href="SunburstPartition.html">Go back to basic version</a></p>
+            </div>
+            <div class="pure-u-1 l-box">
+                <div id="reader" style="width:300px;height:250px"></div>
+                <h6 class="center">Result</h6>
+                <span id="read" class="center"></span>
+                <br>
+                <h6 class="center">Read Error (Debug only)</h6>
+                <span class="center">Will constantly show a message, can be ignored</span>
+                <span id="read_error" class="center"></span>
+                <br>
+                <h6 class="center">Video Error</h6>
+                <span id="vid_error" class="center"></span>
+                <br>
+        </div>
+    </div>
+<script></script>
+</body>
+</html>
