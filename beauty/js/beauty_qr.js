@@ -5,36 +5,30 @@ Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFe
 
 var BeautyUser = Parse.Object.extend("BeautyUser");
 var beautyUser = new BeautyUser();
-var ctryname;
+var beautyQuery = new Parse.Query(BeautyUser);
 var userID = localStorage.getItem("userID");
+
+var localUrl = window.location.href,
+	localHost = window.location.host;
+var userCountry;
 console.log("Current User ID is: " + userID);
 
-/** jquery to pass country when click button**/
-var $countryname = $('.tooltip').text();
-
-($function(){
+$(function(){
     $("div.guideImg").hide();
- });
-
-$('.map').on("click touchstart", function(){
-    $countryname = $('.tooltip').text();
-    console.log("$countryname: " + $countryname);
-}); // save country name to this object
-
-
-$('#onWall').on("click touchstart", function(){
-    strogeToParse("wall");
+	getFromParse(userID);
+	console.log("local Host is: "+localHost);
+	jQuery('#qrimage').qrcode(localHost);
 });
 
-$('#onPhone').on("click touchstart", function(){
-    strogeToParse("phone");
-});
+//$('#onWall').on("click touchstart", function(){
+//    strogeToParse("wall");
+//});
+//
+//$('#onPhone').on("click touchstart", function(){
+//    strogeToParse("phone");
+//});
 
-$('#clear').on("click touchstart", function(){
-    localStorage.clear();
-    console.log("userIndex: " + localStorage.getItem("userIndex") + "; userID: " + localStorage.getItem("userID") );
-});
-
+/** Toggle guide image **/
 $('#guide').on("click touchstart", function(){
     $("div.guideImg").fadeToggle(1000);
 });
@@ -42,8 +36,29 @@ $('a#guideBtn').on("click touchstart", function(){
     $("div.guideImg").fadeOut(1000);
 });
 
-function getFromParse(){
-}
+/** Clear button in fixed-action-btn group **/
+$('#clear').on("click touchstart", function(){
+    localStorage.clear();
+});
+
+function getFromParse(beautyUserID){
+	console.log("userIndex: " + localStorage.getItem("userIndex") + "; userID: " + localStorage.getItem("userID") );
+	if(beautyUserID){
+		beautyQuery.get(beautyUserID, {
+		  success: function(beautyUser) {
+			  // The object was retrieved successfully.
+			  userCountry = beautyUser.get("countryName");
+			  console.log("Parse: beautyUser ID: " + beautyUser.id + "; Get country name from user: " + userCountry);
+			  /** jquery to Show user selected country to div **/
+			  $('.countryname').text(userCountry);
+		  },
+		  error: function(object, error) {
+			// The object was not retrieved successfully, error is a Parse.Error with an error code and description.
+			alert('Failed to get object from server: ' + error.description);
+		  }
+		}); 
+	} // if get beauty user id from localStorage
+} // getFromParse(beautyUserID)
 
 
 function strogeToParse(method){

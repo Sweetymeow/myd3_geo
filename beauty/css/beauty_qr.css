@@ -73,151 +73,45 @@ div.guideImg{
     background-position:center; 
     background-size: cover;
 }
-/* buttonGroup */
-div.buttonGroup{
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-}
-div.buttonGroup .row{
-    width: 100%;
-    margin-bottom: 0;
-}
-div.buttonGroup #country{
-    margin-top: 90px;
-}
-div.buttonGroup #nextview{
-    background-color: transparent;
-}
 
-/*** SVG Main Map ***/
-.mapcontainer{
-/*    padding-left: 150px;*/
-    text-align: center;
-}
-.mapcontainer .map{
-    position: relative;
-    bottom: 50px;
-    padding: 0;
-}
 /** Step1 country panel **/
-
-.card .card-content .card-title{
-    line-height: 40px;
+div#selectedCountry .card-content{
+	padding: 10px 20px;
 }
-.buttonGroup #country{
-    margin-bottom: 0;
+div#selectedCountry .card-title h5{
+	font-weight: 500;
+	font-size: 1.3em;
 }
-.buttonGroup #country .card-content{
-    margin-bottom: 0;
-    width: 100%;
+div#selectedCountry .card-title #step1{
+	font-weight: 300;
+	font-size: 1em;
 }
-.buttonGroup #country span#step1{
-    font-weight: 400;
-    text-shadow: 1px 1px #ad1457;
-}
-.buttonGroup #country span#step1{
-    font-weight: 400;
-}
-/** Tooltip **/
-.buttonGroup #country .countryname{
-    min-height: 60px;
-    padding: 0;
-}
-
-.buttonGroup #country .countryname div.tooltip {
-	color: hsl(262, 23%, 34%);
-	padding: 0.5em 0.5em; 
-	opacity: 0.9; 
+div#selectedCountry .card-panel{
+	padding: 10px 20px;
 	text-align: center;
+}
+div#selectedCountry .countryname{
+/*	min-height: 30px;*/
 	font-size: 1.4em;
+	color: hsl(262, 23%, 34%);
 }
+
 /** Step2 button group **/
-.buttonGroup #nextview a#onWall, .buttonGroup #nextview a#onPhone{
-    height: 40px;
-    line-height: 40px;
-    width: 210px;
+div#qrView #qrGuide .card-title{
+	text-align: left;
 }
-.buttonGroup #nextview{
-    margin-bottom: 15px;
+div#qrView #qrGuide #step2{
+	font-size: 1em;
 }
-.buttonGroup #nextview #nexttitle{
-    text-shadow: 1px 1px #880e4f;
+div#qrView #qrGuide .card-title p{
+	font-size: 0.8em;
+	  line-height:15px;
 }
-.buttonGroup #nextview a#onPhone{
-    margin-bottom: 0;
+div#qrView #qrGuide{
+	text-align: center;
 }
-.buttonGroup #nextview a#onWall:hover, .buttonGroup #nextview a#onPhone:hover{
-    color: #fff;
-}
-
-/** svg elements **/
-svg{
-/*  -webkit-margin-before: 1em;
-    -webkit-margin-end: 1em; */
-    border: 1px solid rgba(255,255,255,.1);
-    margin: 0.5em auto;
-    text-align: center;
-}
-
-text{
-/*    fill: #01579b;*/
-    fill: #fff;
-    opacity: 1;
-	text-shadow: 1px 1px 1px #444;
-	font-weight: 700;
-}
-
-.land {  /*  fill: white;*/
-    fill: hsl(79, 69%, 57%);
-    stroke-opacity: 1;
-}
-
-/* country path */ 
-.countries path {
-    stroke: #1B3945;  
-    stroke-linejoin: round;
-    stroke-width:1;
-    fill: white;
-    opacity: .1;
-}
-.countries path:hover {
-    fill-opacity:.3;
-    stroke-width:1.4;
-    opacity: 0.8;
-    stroke: #fff;
-    fill: #1D4758;
-}
-/**  countries border  **/
-.graticule {
-  fill: none;
-  stroke: #bbb;
-  stroke-width:.5;
-  opacity:0.6;
-}
-
-.labels {
-    font-family: 'Exo 2',sans-serif;
-    font: 12px;
-    fill: #fff;
-    opacity: .8;
-}
-
-.noclicks {
-  pointer-events:none;
-}
-
-.point{
-  opacity:.8;
-}
-
-/** d3 geo global **/
-#infoBox{
-    max-width: 310px;
-    margin-right: 10px;
-    padding: 0;
-}
-
-a.btn-large{
-    color: #fff8e1;
+div#qrView #qrGuide .card-panel{
+	margin: 10px auto;
+	width: 140px;
+	height: 140px;
 }

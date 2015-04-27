@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title> Thesis: Floating in Air </title>
+        <title> Thesis: Floating in Air</title>
         <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="http://d3js.org/queue.v1.min.js"></script>
@@ -27,7 +27,7 @@
     </div>
     <div class="col l9">
        <a href="beauty_touch3.html">
-            <h4 class="white-text">Floating in air
+            <h4 class="white-text">Floating in Air
                 <span class="subtitle">Global Gender Gap</span>
             </h4>
         </a>
@@ -38,30 +38,32 @@
 </header><!--title row-->
 <!--<div class="mapcontainer"><div class="map" id="svgmap"></div></div>mapcontainer-->
 <div class="container">
-   <div class="card pink lighten-4" id="qrguide">
+   <div class="card pink lighten-4" id="selectedCountry">
       <div class="card-content">
             <div class="card-title">
-                <h5 class="pink-text text-darken-1"> 
-                    Show on Smartphone - QR Guide
-                </h5>
-                <h6 class="step1-country white-text" id="step1">Step1: <span>You selected <strong>Country</strong></span></h6>
+                <h5 class="pink-text text-darken-1">Show on Smartphone - QR Guide</h5>
+                <h6 class="step1-country white-text" id="step1">Step1: <span>Check you selected <strong>Country</strong></span></h6>
             </div>
       </div><!--card-content-->
-      <div class="card-panel countryname"></div><!--card-panel countryname-->
-   </div><!--.card #country-->
+      <div class="card-panel"><h6 class="countryname">?</h6></div><!--card-panel countryname-->
+   </div><!--.card #selectedCountry-->
    
-   <div class="card" id="nextview">
-        <div class="card-content white-text" id="nexttitle">
-            <span class="card-title">Step2: </span><!--card-title-->
-            <p>Please feel free to choose show on <strong>Smartphone</strong>button, and scan the QR code with your phone.</p>
-        </div><!--card-content-->
-        <div class="card-content" id="nextstepbtn">
+   <div class="card" id="qrView">
+        <div class="card-content pink-text" id="qrGuide">
+           <div class="card-title pink-text">
+           		<h6 class="card-title pink-text" id="step2">Step2: </h6><!--card-title-->
+           		<p>Please feel free to choose show on <strong>Smartphone</strong>button, and scan the QR code with your phone.</p>
+           </div>
+           <div class="card-panel pink">
+            	<div id="qrImage"></div>
+           </div>
+        </div><!--.card-content #qrGuide-->
+        <div class="card-content" id="nextStepBtn">
              <a class="waves-effect waves-light btn-large pink lighten-1" id="onWall" href="javascript:void(0)">on Gallery Wall </a>
-            <a class="waves-effect waves-light btn-large pink lighten-2" id="onPhone" href="javascript:void(0)">on Smartphone</a>
-        </div>
-   </div><!--.card #nextview-->
-   
-</div><!--buttonGroup-->
+<!--         <a class="waves-effect waves-light btn-large pink lighten-2" id="onPhone" href="javascript:void(0)">on Smartphone</a>   -->
+        </div><!-- #nextStepBtn-->
+   </div><!--.card #qrView-->
+</div><!--.container-->
     
 <!--  Fixed Action Button -->
 <div class="fixed-action-btn" style="bottom: 10px; left: 24px;">
@@ -72,14 +74,14 @@
       <li><a class="btn-floating red" id="clear"><i class="large mdi-action-delete"></i></a></li>
       <li><a class="btn-floating light-blue darken-1" id="guide"><i class="large mdi-action-info"></i></a></li>
     </ul>
- </div><!--   fixed-action-btn  -->
+ </div><!--  Fixed Action Button -->
  <div class="guideImg">
     <div class="fixed-action-btn" style="top: 20px; right 20px;">
          <a class="btn-floating btn-large pink" id="guideBtn">
               <i class="large mdi-action-highlight-remove"></i>
         </a>
     </div>
- </div>
+ </div><!-- .guideImg-->
  
 <script src="js/beauty_qr.js"></script>
 </body>
