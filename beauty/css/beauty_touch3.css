@@ -1,0 +1,248 @@
+html, body {
+    font-family: 'Play', 'Quicksand', serif;
+/*    background-color: #593d6a;*/
+    background-color: #1B3945;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+h1{
+    font-size: 2em;
+    /*  padding: 0.5em 0 0.5em 0;*/
+    text-align: center;
+}
+h1 a{ color: white; }
+p{
+    font-size: 1.3em;
+    text-align: left;
+    line-height: 1.2em;
+    display: block;
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+    -webkit-margin-start: 2em;
+    -webkit-margin-end: 2em;
+}
+/** svg elements **/
+svg{
+/*  -webkit-margin-before: 1em;
+    -webkit-margin-end: 1em; */
+    border: 1px solid #DEDEDE;
+    margin: 0.5em auto;
+    text-align: center;
+}
+
+text{
+    //fill: #8bc34a;
+    fill: #01579b;
+    opacity: 1;
+	text-shadow: 1px 1px 1px #fff;
+	font-weight: 700;
+}
+
+.land {
+  fill: white;
+  stroke-opacity: 1;
+}
+
+.countries path {
+  stroke: white;  
+  stroke-linejoin: round;
+  stroke-width:.5;
+  fill: white;
+  opacity: .1;
+}
+
+.countries path:hover {
+  fill-opacity:.3;
+  stroke-width:1;
+  opacity: 1;
+/*  fill: #C2185B; */
+   fill: #2196f3;
+}
+.graticule {
+  fill: none;
+  stroke: black;
+  stroke-width:.5;
+  opacity:.2;
+}
+
+.labels {
+    font-family: 'PT Sans', serif;
+    font: 10px;
+    fill: black;
+    opacity: .8;
+}
+
+.noclicks {
+  pointer-events:none;
+}
+
+.point{
+  opacity:.6;
+}
+
+/** d3 button **/
+.card-action{
+    padding: 0 5px;
+}
+a#onWall, a#onPhone{
+    height: 40px;
+    line-height: 40px;
+}
+i#onWall, i#onPhone{
+    line-height: 40px;
+}
+
+/** d3 geo global **/
+#infoBox{
+    max-width: 310px;
+    margin-right: 10px;
+    padding: 0;
+}
+#svgmap{
+    margin: 0;
+    padding: 0;
+}
+.info {
+    margin: 0 auto;
+    text-align: center;
+}
+.map {
+    margin: 0 auto;
+    text-align: center;
+}
+#title{
+    padding: 10px;
+    margin: 0;
+    max-height: 120px;
+}
+div#title h1 {
+    margin: 10px 0;
+	line-height: 0.8em;
+}
+.mapcontainer{
+    margin: 1em 0;
+}
+
+a.btn-large{
+    color: #fff8e1;
+}
+
+/** Intruduction-Panel **/
+.card .card-content{
+	padding: 5px 15px;
+}
+
+.card .card-content h3{
+	margin: 5px 0;
+	line-height: 20px;
+}
+
+.card .card-content h5{
+	margin:0;
+    font-size: 1.4em;
+    font-weight: 700;
+}
+
+.card .card-content .row{
+	margin-bottom: 0;
+}
+#int-icon{
+	margin-bottom: 0;
+}
+#int-icon i{
+	font-size: 1.2em;
+}
+
+.card .card-panel{
+	padding: 0px 5px;
+}
+
+.card .card-action{
+	padding: 10px 15px;
+}
+.card .card-action a{
+	margin-right: 0;
+}
+
+/** Introduction **/
+.card-panel h5{
+	margin: 0.2em 0;
+}
+#introduction h3{
+    font-weight: 700;
+}
+#introduction p{
+    font-size: 0.8em;
+}
+#introduction p em{
+    font-size: 0.9em;
+    font-weight: 700;
+}
+#intro-p p:first-child{
+    font-size: 1em;
+    //color: #ec407a;
+    padding-bottom: 5px;
+}
+#intro-p p:first-child span{
+    font-weight: 700;
+}
+/** int-icon **/
+#int-icon{
+	padding: 5px 10px;
+	
+}
+
+/** Tooltip **/
+
+div.tooltip {
+	color: #222; 
+	background: #fff; 
+	padding: 0 0.5em; 
+	text-shadow: #f5f5f5 0 1px 0;
+	border-radius: 2px; 
+	box-shadow: 0px 0px 2px 0px #a6a6a6; 
+	opacity: 0.9; 
+/*  position: absolute;*/
+	text-align: center;
+	font-size: 1.1em;
+    
+}
+.countryname{
+    min-height: 60px;
+    padding-bottom: 20px;
+}
+.countryname h5{
+    font-size: 1.2em;
+}
+
+/**  countries border  **/
+.countries path{
+	//stroke: #d81b60;
+    stroke: #1565c0;
+    stroke-width: 1;
+}
+/*** Main Page ***/
+.mapcontainer{
+    min-height: 100%;
+    margin: 5px 0;
+    padding: 0;
+    padding-bottom: 36px;
+}
+/** footer **/
+div#footer{
+    position: absolute;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+/*    background-color: #4E375C;*/
+    background-color: #fff;
+    width: 100%;
+    height: 36px;/*脚部的高度*/
+    clear:both;
+}
+
+/** touch info **/
+.touchinfo{
+    
+}
