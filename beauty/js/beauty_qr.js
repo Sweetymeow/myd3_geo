@@ -2,6 +2,9 @@
 // current only allow one country
 // Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
 Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
+var pathname = "/beautyBallon_phone.html?country=",
+    phoneUrl = "beauty_qr.html",
+    wallUrl = "BallonData_v3.html";
 
 var BeautyUser = Parse.Object.extend("BeautyUser");
 var beautyUser = new BeautyUser();
@@ -16,17 +19,7 @@ console.log("Current User ID is: " + userID);
 $(function(){
     $("div.guideImg").hide();
 	getFromParse(userID);
-	console.log("local Host is: "+localHost);
-	jQuery('#qrimage').qrcode(localHost);
 });
-
-//$('#onWall').on("click touchstart", function(){
-//    strogeToParse("wall");
-//});
-//
-//$('#onPhone').on("click touchstart", function(){
-//    strogeToParse("phone");
-//});
 
 /** Toggle guide image **/
 $('#guide').on("click touchstart", function(){
@@ -34,6 +27,10 @@ $('#guide').on("click touchstart", function(){
 });
 $('a#guideBtn').on("click touchstart", function(){
     $("div.guideImg").fadeOut(1000);
+});
+
+$('#onPhone').on("click touchstart", function(){
+    strogeToParse("phone");
 });
 
 /** Clear button in fixed-action-btn group **/
@@ -51,6 +48,10 @@ function getFromParse(beautyUserID){
 			  console.log("Parse: beautyUser ID: " + beautyUser.id + "; Get country name from user: " + userCountry);
 			  /** jquery to Show user selected country to div **/
 			  $('.countryname').text(userCountry);
+              
+            console.log("local Host is: "+localHost);
+            console.log("Phone Ballon URL is: "+localHost+pathname+userCountry);
+            jQuery('#qrimage').qrcode(localHost+pathname+userCountry);
 		  },
 		  error: function(object, error) {
 			// The object was not retrieved successfully, error is a Parse.Error with an error code and description.
@@ -92,9 +93,9 @@ function strogeToParse(method){
         console.log('Parse objectId: ' + beautyUser.id + "; localStorage ID: " + localStorage.getItem("userID"));
           
         if(method == "wall"){
-            window.open('BallonData_v3.html');
+            window.open(wallUrl);
         }else{
-            window.open('beauty_qr.html');
+            window.open(phoneUrl);
         } // open new page if the new beautyUser saved;
       },
       error: function(beautyUser, error) {
@@ -105,6 +106,40 @@ function strogeToParse(method){
     }); // Parse data save
 }
 
+/* 明天改 */
+function resizeCanvas(width){
+    /* important! for alignment, you should make things
+ * relative to the canvas' current width/height.
+ */
+      var ctx = (a canvas context);
+      ctx.canvas.width  = window.innerWidth;
+      ctx.canvas.height = window.innerHeight;
+      //...drawing code...
+
+}
+// Display custom canvas.
+// In this case it's a blue, 5 pixel border that 
+// resizes along with the browser window.					
+function redraw() {
+    context.strokeStyle = 'blue';
+    context.lineWidth = '5';
+    context.strokeRect(0, 0, window.innerWidth, window.innerHeight);
+}
+
+// Runs each time the DOM window resize event fires.
+// Resets the canvas dimensions to match window,
+// then draws the new borders accordingly.
+function resizeCanvas() {
+    htmlCanvas.width = window.innerWidth;
+    htmlCanvas.height = window.innerHeight;
+    redraw();
+}
+
+
+//$('#onWall').on("click touchstart", function(){
+//    strogeToParse("wall");
+//});
+//
 
 // Lots of code from:  http://bl.ocks.org/3757125
 //  http://bl.ocks.org/3795040
