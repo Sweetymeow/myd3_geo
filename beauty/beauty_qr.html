@@ -22,52 +22,50 @@
     </head>
 <body>
 <header class="row title">
-    <div class="col l1">
+    <div class="col m1">
         <img src="img/global_icon.png" alt="global icon">
     </div>
-    <div class="col l9">
+    <div class="col m8" id="mainTitle">
        <a href="beauty_touch3.html">
-            <h4 class="white-text">Floating in Air
+            <h4 class="white-text">Floating in Air - Show on Smartphone
                 <span class="subtitle">Global Gender Gap</span>
             </h4>
         </a>
     </div><!--col l10-->
-    <div class="col l2">
+    <div class="col m2" id="">
         <h5><a class="white-text" id="aboutauthor" href="beauty_about.html">About</a></h5>
     </div>
 </header><!--title row-->
 <!--<div class="mapcontainer"><div class="map" id="svgmap"></div></div>mapcontainer-->
 <div class="container">
-   <div class="card pink lighten-4" id="selectedCountry">
+   <div class="card row pink lighten-4" id="selectedCountry">
       <div class="card-content">
-            <div class="card-title">
-                <h5 class="pink-text text-darken-1">Show on Smartphone - QR Guide</h5>
-                <h6 class="step1-country white-text" id="step1">Step1: <span>Check you selected <strong>Country</strong></span></h6>
-            </div>
+		<span class="card-title pink-text">Step1: Check you selected Country</span>
       </div><!--card-content-->
       <div class="card-panel"><h6 class="countryname">?</h6></div><!--card-panel countryname-->
    </div><!--.card #selectedCountry-->
    
-   <div class="card" id="qrView">
-        <div class="card-content pink-text" id="qrGuide">
-           <div class="card-title pink-text">
-           		<h6 class="card-title pink-text" id="step2">Step2: </h6><!--card-title-->
-           		<p>Please feel free to choose show on <strong>Smartphone</strong>button, and scan the QR code with your phone.</p>
-           </div>
-           <div class="card-panel pink">
-            	<div id="qrimage"></div>
-           </div>
-        </div><!--.card-content #qrGuide-->
-        <div class="card-content" id="nextStepBtn">
-             <a class="waves-effect waves-light btn-large pink lighten-1" id="onPhone" href="javascript:void(0)"> Send to Phone </a>
+   <div class="card row pink lighten-4 row" id="qrView">
+		<div class="card-content white-text col m6" id="qrLeft">
+			<div class="card-content" id="qrGuide">
+				<span class="card-title pink-text" id="step2">Step2: QR Guide</span><!--card-title-->
+				<p>Please feel free to choose show on <strong>Smartphone</strong>button, and scan the QR code with your phone. You can download free QR reader app from App store on iPhone or Anroid mobile phone.</p>
+			</div><!--.card-content #qrGuide-->
+			<div class="card-action">
+				<a class="waves-effect waves-light btn-large pink lighten-1" id="onPhone" href="javascript:void(0)"> Send to Phone</a>
+			</div>
+		</div> 
 <!--         <a class="waves-effect waves-light btn-large pink lighten-2" id="onPhone" href="javascript:void(0)">on Smartphone</a>   -->
+        <div class="card-content pink col m6" id="qrPanel">
+			<div class="card-panel" id="qrimage">
+			</div>
         </div><!-- #nextStepBtn-->
    </div><!--.card #qrView-->
 </div><!--.container-->
     
 <!--  Fixed Action Button -->
 <div class="fixed-action-btn" style="bottom: 10px; left: 24px;">
-    <a class="btn-floating btn-large white">
+    <a class="btn-floating btn-large white" id="guide">
       <i class="large mdi-action-help pink-text"></i>
     </a>
     <ul>

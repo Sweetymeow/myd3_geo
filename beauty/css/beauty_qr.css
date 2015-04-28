@@ -19,6 +19,9 @@ header.title{
     margin: 10px 0; /* top&bottom: 30px left&right: 0px */ 
     transition: all .5s ease-out;
 }
+header.title #mainTitle{
+	margin: 0 0 0 0.6em;
+}
 header.title img{
     margin: 10px 0 10px 14px;
 }
@@ -38,6 +41,12 @@ header.title span.subtitle{
 	font-weight: 200;
     color: hsl(340, 80%, 66%);
     text-shadow: 1px 1px #fff;
+}
+
+/* Main container */
+.container .row {
+  margin-left: 0.6em;
+  margin-right: 0.6em;
 }
 
 /* instructor toggle button fixed-action-btn */
@@ -78,13 +87,11 @@ div.guideImg{
 div#selectedCountry .card-content{
 	padding: 10px 20px;
 }
-div#selectedCountry .card-title h5{
+div#selectedCountry .card-content .card-title{
 	font-weight: 500;
-	font-size: 1.3em;
-}
-div#selectedCountry .card-title #step1{
-	font-weight: 300;
-	font-size: 1em;
+	font-size: 1.6em;
+	line-height: 36px;
+	text-shadow: 1px 1px #fff;
 }
 div#selectedCountry .card-panel{
 	padding: 10px 20px;
@@ -97,21 +104,40 @@ div#selectedCountry .countryname{
 }
 
 /** Step2 button group **/
-div#qrView #qrGuide .card-title{
+div#qrView #qrLeft{
 	text-align: left;
 }
-div#qrView #qrGuide #step2{
-	font-size: 1em;
+div#qrView #qrLeft #qrGuide{
+	padding: 0 0 20px 0;
 }
-div#qrView #qrGuide .card-title p{
-	font-size: 0.8em;
-	  line-height:15px;
+div#qrView .card-content span#step2{
+	font-weight: 500;
+	font-size: 1.6em;
+	line-height: 36px;
+	text-shadow: 1px 1px #fff;
 }
-div#qrView #qrGuide{
+div#qrView #qrLeft #qrGuide p{
+	padding: 10px 0 10px 0;
+	font-size: 16px;
+	font-weight: 400;
+}
+div#qrView .card-action{
 	text-align: center;
+	position: relative;
+	padding: 15px 20px 0 20px;
+	bottom: 0;
+	left: 0;
 }
-div#qrView #qrGuide .card-panel{
-	margin: 10px auto;
-	width: 140px;
-	height: 140px;
+div#qrView .card-action a{
+	margin: 0;
+	color: #fce4ec;
+}
+div#qrView #qrPanel .card-panel{
+	margin: 0;
+	padding: 15px 10px;
+}
+div#qrView #qrPanel .card-panel #qrimage{
+	width: 276px;
+	height: 286px;
+	
 }
