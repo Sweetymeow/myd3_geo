@@ -7,6 +7,7 @@ var BeautyUser = Parse.Object.extend("BeautyUser");
 var beautyQuery = new Parse.Query(BeautyUser);
 var beautyUserID = localStorage.getItem("userID");
 var userCountry;
+
 console.log("beautyUserID in localStorage: " + beautyUserID);
 
 /** D3: Timer & Speed **/

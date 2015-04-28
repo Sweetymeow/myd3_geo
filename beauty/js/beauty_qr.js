@@ -2,7 +2,7 @@
 // current only allow one country
 // Parse.initialize("APPLICATION_ID", "JAVASCRIPT_KEY");
 Parse.initialize("sr4B0s62RshtQG2MwvVUXWYNWCnE6qvzHdjKDNfy", "4OnAG23buEs16uMkFeearCADfkTAnNeqMreS8l60");
-var pathname = "/beautyBallon_phone.html?country=",
+var pathname = "/myd3_geo/beauty/beautyBallon_phone.html?country=",
     phoneUrl = "beauty_qr.html",
     wallUrl = "BallonData_v3.html";
 
