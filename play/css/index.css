@@ -49,6 +49,11 @@ header.title span.subtitle{
     text-align: center;
 }
 
+/** 2nd Part - instructor card **/
+div#operate{
+    margin: 0.5em auto;
+}
+
 /* instructor toggle button fixed-action-btn */
 .fixed-action-btn{
     width: 56px;
@@ -140,15 +145,22 @@ h2{
 div.content #d3Sunburst{
     background-color: transparent;
 }
+div.map{
+    max-width: 800px;
+    max-height: 800px;
+    margin: auto;
+}
 svg{
     -webkit-margin-before: 2em;
     border: 1px solid #DEDEDE;
     pointer-events: none;
+    top: -120px;
+    position: relative;
 }
-form {
-  position: fixed;
-  left: 100px;
-  top: 110px;
+div.map form {
+  position: relative;
+  left: 10px;
+  top: 10px;
 }
 text{
     font-family: 'PT Sans', serif;

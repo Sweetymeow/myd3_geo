@@ -19,6 +19,7 @@ var explains = [
     [" The labor force participation rate  is the percentage of working-age persons  in an economy who: Are employed  and Are unemployed but looking for a job.  Typically 'working-age persons'  is defined as people between the ages of 16-64."], ["explaination part II. "]
 ];
 
+$('.guideImg').hide();
 //////function for QR //////
 $(function(){
     
@@ -112,12 +113,18 @@ function dataTitle(){
                 .attr("opacity",0)
                 .style("font-size", function(d,i){
                     if(d.depth === 1){
-                        return "16px";
-                    }else if(d.depth === 0){ return "28px"; }
-                    else{	return "14px"; }
+                        return "20px";
+                    }else if(d.depth === 0){ return "36px"; }
+                    else{  return "16px"; }
                 })
                 .style("font-family", "PT Sans")
-                .attr("text-anchor","middle")
+                .attr("text-anchor", function(d){
+                    if(d.depth === 0){
+                        return "left";
+                    }else{
+                        return "middle";
+                    }
+                })
                 .text(function(d) { return d.name; })
                 .call(wrap, 40);
 		
@@ -210,6 +217,7 @@ function dataTitle(){
         }
         
     });
+    //****  Click next button  ****//
                             
 // Stash the old values for transition.
 function stash(d){
@@ -253,22 +261,25 @@ function wrap(text, width) {
             lineHeight = 1, // ems
             y = text.attr("y"),
             dy = parseFloat(text.attr("dy")),
-            tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", "1em");
+            tspan = text.text(null).append("tspan")
+                        .attr("x", 0).attr("y", y).attr("dy", "1em");
 		
-		if(width > 100){ // center text
-			while (word = words.pop()) {
-			  line.push(word);
-			  tspan.text(line.join(" "));
-			  if (tspan.node().getComputedTextLength() > width) {
-				line.pop();
-				tspan.text(line.join(" "));
-				line = [word];
-	//            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy","1em").text(word);
-				tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy",  ++midlineNum * lineHeight + "em").text(word);
-				  console.log("lineNumber: "+ lineNumber);
-				  console.log("lineHeight: "+ lineHeight);
-			  }
-			}
+		if(width > 100){ // center text - for explaination 
+            while (word = words.pop()) {
+                line.push(word);
+                tspan.text(line.join(" "));
+                if (tspan.node().getComputedTextLength() > width) {
+                    line.pop();
+                    tspan.text(line.join(" "));
+                    line = [word];
+                    //tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy","1em").text(word);
+                    tspan = text.append("tspan")
+                        .attr("x", 0).attr("y", y)
+                        .attr("dy",  ++midlineNum * lineHeight + "em").text(word);
+                        console.log("lineNumber: "+ lineNumber);
+                        console.log("lineHeight: "+ lineHeight);
+                }
+            }
 		}else{
 			while (word = words.pop()) {
 			  line.push(word);
@@ -278,7 +289,8 @@ function wrap(text, width) {
 				tspan.text(line.join(" "));
 				line = [word];
 	//            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy","1em").text(word);
-				tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + "em").text(word);
+				tspan = text.append("tspan").attr("x", 0)
+                    .attr("y", y).attr("dy", ++lineNumber * lineHeight + "em").text(word);
 
 			  }
 			}

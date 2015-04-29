@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> data explaination </title>
-    <script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/jquery-2.1.3.min.js"></script>
+<!--    <script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>-->
     <script src="js/html5-qrcode.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="js/parse-1.4.2.min.js"></script>
@@ -43,13 +44,13 @@
                   <label for="test1">Size</label>
                 </p>
                 <p>
-                  <input name="mode" type="radio" id="test2" value="count"  checked/>
+                  <input name="mode" type="radio" id="test2" value="count" checked/>
                   <label for="test2">Count</label>
                 </p>
             </form>
         </div><!--d3 svg map-->
     </div><!-- div#d3Sunburst-->
-    <div class="card" id="operate">
+    <div class="container card" id="operate">
         <div class="card-content" id="introduction">
             <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>
             <p>This page should be 
@@ -61,19 +62,21 @@
             <a class="waves-effect waves-light btn-large pink lighten-1" id="nextbtn" href="#d3Sunburst">next</a>
         </div>
     </div><!--div.card #operate-->
-    <div class="container">
-        <div class="card">
-            <div id="reader" style="width:300px;height:250px"></div>
-            <h4 class="center">Result</h4>
-            <span id="read" class="center"></span>
-            <br>
-            <h5 class="center">Read Error (Debug only)</h5>
-            <span class="center">Will constantly show a message, can be ignored</span>
-            <span id="read_error" class="center"></span>
-            <br>
-            <h6 class="center">Video Error</h6>
-            <span id="vid_error" class="center"></span>
-            <br>
+    <div class="container" id="camDebug">
+        <div class="card row">
+            <div class="col m6" id="reader" style="max-width:300px; max-height:250px"></div>
+            <div class="col m6"> 
+                <h4 class="center">Result</h4>
+                <span id="read" class="center"></span>
+                <br>
+                <h5 class="center">Read Error (Debug only)</h5>
+                <span class="center">Will constantly show a message, can be ignored</span>
+                <span id="read_error" class="center"></span>
+                <br>
+                <h6 class="center">Video Error</h6>
+                <span id="vid_error" class="center"></span>
+                <br>
+            </div>
         </div><!--card-->
     </div><!--container-->
 </div>
