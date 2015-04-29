@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2><a href="http://www.w3cschool.cc/js/js-function-closures.html">Javascript 闭包</a> / Closures</h2>
+<h4>实例解析</h4>
+<button type="button" onclick="myFunction()">计数!</button>
+<p>局部变量计数。</p><p id="demo">0</p>
+<p> 变量 add 指定了函数自我调用的返回字值。自我调用函数只执行一次。设置计数器为 0。并返回函数表达式。 add变量可以作为一个函数使用。非常棒的部分是它可以访问函数上一层作用域的计数器。 这个叫作 JavaScript 闭包。它使得函数拥有私有变量变成可能。 计数器受匿名函数的作用域保护，只能通过 add 方法修改。</p>
+
+<p>The variable add is assigned the return value of a self invoking function. The self-invoking function only runs once. It sets the counter to zero (0), and returns a function expression. This way add becomes a function. The "wonderful" part is that it can access the counter in the parent scope. This is called a JavaScript closure. It makes it possible for a function to have "private" variables. The counter is protected by the scope of the anonymous function, and can only be changed using the add function.</p>
+
+<h4>JavaScript 内嵌函数</h4>
+<p id="indemo">0</p>
+
+<p>所有函数都能访问全局变量。 实际上，在 JavaScript 中，所有函数都能访问它们上一层的作用域。 JavaScript 支持嵌套函数。嵌套函数可以访问上一层的函数变量。 该实例中，内嵌函数 plus() 可以访问父函数的 counter 变量：</p>
+
+<script>
+document.getElementById("indemo").innerHTML = add();
+function add() {
+	var counter = 0;
+    function plus() {counter += 1;}
+    plus();    
+    return counter; 
+}
+    
+var add = (function () {
+    var counter = 0;
+    return function () {return counter += 1;}
+})();
+
+function myFunction(){
+    document.getElementById("demo").innerHTML = add();
+}
+</script>
+
+</body>
+</html>
+		

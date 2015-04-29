@@ -1,144 +1,101 @@
 <!-- http://bl.ocks.org/mbostock/4063423 -->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title> data explaination </title>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
-        <script src="js/html5-qrcode.min.js"></script><!--QRReader-->
-        <script src="js/dataautoplay.js"></script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> data explaination </title>
+    <script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/html5-qrcode.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="js/parse-1.4.2.min.js"></script>
+    <script src="js/jquery.qrcode.min.js"></script>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="js/materialize.js"></script>    
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>--> 
+    <!-- Compiled and minified CSS -->
+    <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css" />
+    <link rel="shortcut icon" href="img/icon.png" />
+    <link rel="stylesheet" href="css/index.css" />
+</head>
 
-        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-        <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
-        <!--<![endif]-->
-        <style>
-            .l-box{
-                padding: 0.8em;
-                text-align: center;
-            }
-            
-            body {
-                font-family: 'PT Sans', serif;
-            }
-            h1{
-				font-family: 'PT Sans', serif;
-                color: white;
-                font-size: 3em;
-                background: #E91E63;
-                padding: 0.5em 0 0.5em 0;
-                text-align: center;
-            }
-			h2{
-				font-family: 'PT Sans', serif;
-                color: white;
-                font-size: 2em;
-                background: #E91E63;
-                text-align: center;
-				padding: 0 0 0.5em 0;
-            }
-			#title{
-				margin: 0;
-			}
-			#subtitle{
-				margin: 0;
-				font-size: 1.4em;
-			}
-			#centext{
-				text-align: center;
-			}
-            p{
-				font-family: 'PT Sans', serif;
-                font-size: 1.3em;
-                text-align: left;
-                line-height: 1.2em;
-                display: block;
-                -webkit-margin-before: 0.5em;
-                -webkit-margin-after: 0.5em;
-                -webkit-margin-start: 2em;
-                -webkit-margin-end: 2em;
-            }
-            svg{
-                -webkit-margin-before: 2em;
-                border: 1px solid #DEDEDE;
-				pointer-events: none;
-            }
-            
-            body {
-              font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-              margin: auto;
-              position: relative;
-              width: 960px;
-            }
-
-            form {
-              position: absolute;
-              right: 10px;
-              top: 300px;
-            }
-			
-			text{
-				font-family: 'PT Sans', serif;
-				font-weight: 500;
-				text-anchor: middle;
-				pointer-events: auto; 
-			}
-			button{
-				margin: 0.5em 0 0.5em 0;
-				font-weight: 600;
-				font-family: 'PT Sans', serif;
-                font-size: 1.3em;
-				width: 10%;
-				color: #E91E63;
-			}
-			button :hover{
-				color: lightcoral;
-			}
-			.explanation{
-				font-weight: 600;
-				font-family: 'PT Sans', serif;
-				font-size: 1.3em;
-			}
-           
-        </style>
-	</head>
-
-    <body>
-        <div class="pure-g">
-            <div class="pure-u-1 l-box">
-				<h2 id="title"> Explaination for each sectiona in each <span id="subtitle"> Data Bucket</span></h2>
-				<h2 id="subtitle">Height for each bar</h2>
-                <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>
-                <div class="map">
-					<form>
-					  <label><input type="radio" name="mode" value="size"> Size</label>
-					  <label><input type="radio" name="mode" value="count" checked> Count</label>
-					</form>
-				</div>
-                <div class="control"><button id="nextbtn">next</button></div>
-                <p>This page should be 
-                    <a href="/mythesis/DispatchingEvents_data.html">auto jumping</a> by the info which is readed from QR Code on the bottom of each bucket</p>
-                <p><a href="SunburstPartition.html">Go back to basic version</a></p>
-            </div>
-            <div class="pure-u-1 l-box">
-                <div id="reader" style="width:300px;height:250px"></div>
-                <h6 class="center">Result</h6>
-                <span id="read" class="center"></span>
-                <br>
-                <h6 class="center">Read Error (Debug only)</h6>
-                <span class="center">Will constantly show a message, can be ignored</span>
-                <span id="read_error" class="center"></span>
-                <br>
-                <h6 class="center">Video Error</h6>
-                <span id="vid_error" class="center"></span>
-                <br>
-        </div>
+<body>
+   <header class="row title">
+    <div class="col m1">
+        <img src="img/global_icon.png" alt="global icon">
     </div>
-<script></script>
+    <div class="col m8" id="mainTitle">
+       <a href="beauty_touch3.html">
+            <h4 class="white-text">Play with Global Gender Gap
+                <span class="subtitle">Explaination for each bar of <em>Data Bucket</em></span>
+            </h4>
+        </a>
+    </div><!--col l10-->
+    <div class="col m2" id="navTab">
+        <h5><a class="white-text" id="aboutauthor" href="beauty_about.html">About</a></h5>
+    </div>
+</header><!--title row-->
+<div class="content">
+    <div class="card" id="d3Sunburst">
+        <div class="map">
+            <form action="#">
+                <p>
+                  <input name="mode" type="radio" id="test1" value="size"/>
+                  <label for="test1">Size</label>
+                </p>
+                <p>
+                  <input name="mode" type="radio" id="test2" value="count"  checked/>
+                  <label for="test2">Count</label>
+                </p>
+            </form>
+        </div><!--d3 svg map-->
+    </div><!-- div#d3Sunburst-->
+    <div class="card" id="operate">
+        <div class="card-content" id="introduction">
+            <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>
+            <p>This page should be 
+                <a href="/mythesis/DispatchingEvents_data.html">auto jumping</a> by the info which is readed from QR Code on the bottom of each bucket
+            </p>
+            <p><a href="SunburstPartition.html">Go back to basic version</a></p>
+        </div><!--#introduction-->
+        <div class="control card-action">
+            <a class="waves-effect waves-light btn-large pink lighten-1" id="nextbtn" href="#d3Sunburst">next</a>
+        </div>
+    </div><!--div.card #operate-->
+    <div class="container">
+        <div class="card">
+            <div id="reader" style="width:300px;height:250px"></div>
+            <h4 class="center">Result</h4>
+            <span id="read" class="center"></span>
+            <br>
+            <h5 class="center">Read Error (Debug only)</h5>
+            <span class="center">Will constantly show a message, can be ignored</span>
+            <span id="read_error" class="center"></span>
+            <br>
+            <h6 class="center">Video Error</h6>
+            <span id="vid_error" class="center"></span>
+            <br>
+        </div><!--card-->
+    </div><!--container-->
+</div>
+
+<!--  Fixed Action Button -->
+<div class="fixed-action-btn" style="bottom: 10px; left: 24px;">
+    <a class="btn-floating btn-large white" id="guide">
+      <i class="large mdi-action-help pink-text"></i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red" id="clear"><i class="large mdi-action-delete"></i></a></li>
+      <li><a class="btn-floating light-blue darken-1" id="guide"><i class="large mdi-action-info"></i></a></li>
+    </ul>
+</div><!--  Fixed Action Button -->
+<div class="guideImg">
+    <div class="fixed-action-btn" style="top: 20px; right 20px;">
+         <a class="btn-floating btn-large pink" id="guideBtn">
+              <i class="large mdi-action-highlight-remove"></i>
+        </a>
+    </div>
+</div><!-- .guideImg-->
+ 
+<script src="js/index.js"></script>
 </body>
 </html>

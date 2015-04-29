@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parse Url with jQuery</title>
+    <script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        html{
+            background-color:#f4f4f4;
+            font:14px/1.4 sans-serif;
+            color:#666;
+        }
+        ul{
+            list-style:none;
+            width:600px;
+            margin:50px auto;
+        }
+        li{
+            padding:4px;
+        }
+        input{
+            font:inherit;
+            border:1px solid #ccc;
+            border-radius:2px;
+            padding:2px 5px;
+            width: 400px;
+        }
+        label{
+            width:90px;
+            display:inline-block;
+            text-align:right;
+        }
+        #localURL{
+            color: hotpink;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul id="sample">
+        <li><label for="host">Host:</label> <input type="text" id="host" /></li>
+        <li><label for="path">Path:</label> <input type="text" id="path" /></li>
+        <li><label for="query">Query String:</label> <input type="text" id="query" /></li>
+        <li><label for="hash">Hash:</label> <input type="text" id="hash" /></li>
+        <input type="button" value="Load new document" onclick="newDoc()">
+    </ul> 
+    <ul id="local">
+        <li><h3>Local URL is: <span id="localURL"></span></h3></li>
+        <li><label for="host">Host:</label> <input type="text" id="host" /></li>
+        <li><label for="path">Path:</label> <input type="text" id="path" /></li>
+        <li><label for="query">Query String:</label> <input type="text" id="query" /></li>
+        <li><label for="hash">Hash:</label> <input type="text" id="hash" /></li>
+    </ul>
+</div>
+<script>
+    $(function(){
+        
+        // The URL we want to parse
+        var urleg = 'http://tutorialzine.com/2013/07/quick-tip-parse-urls/?key=value#comments',
+            url = location.href?location.href:'http://tutorialzine.com/2013/07/quick-tip-parse-urls/?key=value#comments';
+        // The magic: create a new anchor element, and set the URL as its href attribute.
+        // Notice that I am accessing the DOM element inside the jQuery object with [0]:
+        var eg = $('<a>', { href:urleg } )[0];
+        var a = $('<a>', { href:url } )[0];
+
+        $('ul#sample #host').val(eg.hostname);
+        $('ul#sample #path').val(eg.pathname);
+        $('ul#sample #query').val(eg.search);
+        $('ul#sample #hash').val(eg.hash);
+        
+        $('ul#local #localURL').text(url);
+        $('ul#local #host').val(a.hostname);
+        $('ul#local #path').val(a.pathname);
+        $('ul#local #query').val(a.search);
+        $('ul#local #hash').val(a.hash);
+
+        // Even more:
+        // a.port, a.protocol,
+        // a.origin (not available in older IE versions)
+    });
+    
+    function newDoc(){
+        var url = location.href;
+        window.location.assign(url+"?country=China");
+        // window.location.assign("url"+"?country=China");
+    }
+</script>    
+</body>
+</html>
