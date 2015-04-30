@@ -88,57 +88,20 @@ div.guideImg{
     background-size: cover;
 }
 
-
 /** OLD Stylesheet **/
-.button-next{
-    margin: 0.5em 0 0.5em 0;
-    font-family: 'PT Sans', serif;
-    font-weight: 600;
-    font-size: 1.3em;
-    width: 10%;
-    background-color: #FDC74B;
-    color: #393033;
-}
-.button-next:hover{
-    color: #FD5247;
-}
-h1{
-    font-family: 'PT Sans', serif;
-    color: white;
-    font-size: 3em; 
-    padding: 0.5em 0 0.5em 0;
-    text-align: center;
-}
-h2{
-    font-family: 'PT Sans', serif;
-    color: white;
-    font-size: 2em;
-/*                background: #E91E63;*/
-    text-align: center;
-    padding: 0 0 0.5em 0;
-}
-.titlewrap{
-    background-color: #FD5247;
-}
-.maintitle{
-    color: white;
-}
-#title{
-    color: white;
-    margin: 0;
-    padding: 1em 0 0.5em 0;
-}
 #subtitle{
     margin: 0;
     font-size: 1.4em;
-}
-#centext{
-    text-align: center;
 }
 .explanation{
     font-weight: 600;
     font-family: 'PT Sans', serif;
     font-size: 1.3em;
+}
+
+/** form radio **/
+form input[type=radio]:checked{
+	
 }
 
 /** SVG Sunbrust & Animation **/

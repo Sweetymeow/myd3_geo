@@ -10,6 +10,7 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="js/parse-1.4.2.min.js"></script>
     <script src="js/jquery.qrcode.min.js"></script>
+    <script src="js/timer.jquery.js"></script>
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="js/materialize.js"></script>    
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>--> 
@@ -40,17 +41,18 @@
         <div class="map">
             <form action="#">
                 <p>
-                  <input name="mode" type="radio" id="test1" value="size"/>
+                  <input class="with-gap pink" name="mode" type="radio" id="test1" value="size"/>
                   <label for="test1">Size</label>
                 </p>
                 <p>
-                  <input name="mode" type="radio" id="test2" value="count" checked/>
+                  <input class="with-gap" name="mode" type="radio" id="test2" value="count" checked/>
                   <label for="test2">Count</label>
                 </p>
             </form>
         </div><!--d3 svg map-->
     </div><!-- div#d3Sunburst-->
     <div class="container card" id="operate">
+       	<p id="divId pink-text"></p>
         <div class="card-content" id="introduction">
             <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>
             <p>This page should be 
@@ -59,7 +61,7 @@
             <p><a href="SunburstPartition.html">Go back to basic version</a></p>
         </div><!--#introduction-->
         <div class="control card-action">
-            <a class="waves-effect waves-light btn-large pink lighten-1" id="nextbtn" href="#d3Sunburst">next</a>
+            <a class="waves-effect waves-light btn pink lighten-1" id="nextbtn" href="#d3Sunburst">next</a>
         </div>
     </div><!--div.card #operate-->
     <div class="container" id="camDebug">

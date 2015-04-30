@@ -16,7 +16,19 @@ var pathdelay = 600,
 	pathdura = 1000;
 
 var explains = [
-    [" The labor force participation rate  is the percentage of working-age persons  in an economy who: Are employed  and Are unemployed but looking for a job.  Typically 'working-age persons'  is defined as people between the ages of 16-64."], ["explaination part II. "]
+    [" The labor force participation rate  is the percentage of working-age persons  in an economy who: Are employed  and Are unemployed but looking for a job.  Typically 'working-age persons'  is defined as people between the ages of 16-64."], ["explaination part II. "],
+	["explaination part 3. "],
+	["explaination part 4. "],
+	["explaination part 5. "],
+	["explaination part 6. "],
+	["explaination part 7. "],
+	["explaination part 8. "],
+	["explaination part 9. "],
+	["explaination part 10. "],
+	["explaination part 11. "],
+	["explaination part 12. "],
+	["explaination part 13. "],
+	["explaination part 14. "],
 ];
 
 $('.guideImg').hide();
@@ -30,16 +42,18 @@ $(function(){
             playintro = true;
         }
         nextindex++;
+		$('#divId').timer(); 
     });
 
     $('#reader').html5_qrcode(function(data){
-        // 在reader标签实现数据
+			// 在reader标签实现读取QR数据
 			$('#read').html(data);
             if(data!= "" && !playintro){
-                qrread_data = data;
-                dataTitle();
+                qrread_data = data; // 全局变量
+                dataTitle(); // 触发d3动画
+				$('#divId').timer(); // 启动计时器
                 playintro = true;
-                console.log("Play introduction");
+                console.log("Play introduction" + data);
             }
 		},
 		function(error){
@@ -82,6 +96,7 @@ function dataTitle(){
     var _path;
 
     d3.json("../jsons/Gengaptitle.json", function(error, root) {
+		console.log("Start Timer!");
         var path = svg.datum(root).selectAll("path")
                 .data(partition.nodes)
                 .enter();
@@ -96,7 +111,7 @@ function dataTitle(){
                 .style("fill-rule", "evenodd")
                 .attr("d",arc)
                 .each(stash);
-
+		
 		var seci = 0;
         paths.transition()
                 .duration(pathdura)
@@ -110,11 +125,8 @@ function dataTitle(){
         _path = paths;
 
         var title = path.append("text")
-                .attr("class", function(d){
-                    if(d.depth === 0){  return "genderGap";
-                    }else if(d.depth === 1){  return "mainSec";
-                    }else{ return "sebSec"; }
-                })
+                .attr("class", function(d,i){ 
+			return d.depth==0?"maintitle":d.depth==1?"title":"subTitle"+i; })
                 .attr("opacity",0)
                 .style("font-size", function(d,i){
                     if(d.depth === 1){
@@ -125,15 +137,18 @@ function dataTitle(){
                 .style("font-family", "PT Sans")
                 .attr("text-anchor", "middle")
                 .text(function(d) { return d.name; })
-                .call(wrap, 40);
+                .call(wrap, 40); // 
 		
 		var secj = 0;
         title.transition().duration(pathdura)
 			.delay(function(d,i){ 
 				if(d.depth == 1)  secj++;
-				return d.depth>1 ? ((i+10+secj*5)* textdelay) : (d.depth+secj)*textdelay*2;})
-			.attr("class", function(d,i){ 
-				return d.depth==0?"maintitle":d.depth==1?"title":"subTitle"+i; })
+				if(i === 18){ //pause an existing timer
+					$("#divId").timer('pause'); 
+					console.log("Last title id: " + i);
+				}
+				return d.depth>1 ? ((i+10+secj*5)* textdelay) : (d.depth+secj)*textdelay*2;
+			})
             .attr("transform",function(d,i){
                 //第一个元素（最中间的），只平移不旋转
                 if( i == 0 ){
@@ -156,7 +171,6 @@ function dataTitle(){
 
      // size/count 按钮，改变状态时候的动画	
       d3.selectAll("input").on("change", function change(){
-
         var value = this.value === "count"
             ? function() { return 1; }
             : function(d) { return d.size; };
@@ -191,26 +205,26 @@ function dataTitle(){
       });
     }); // d3.json
 
-	/*///////////////////////// Next Button /////////////////////////////////////*/
+	/*///////////////// Next Button /////////////////////*/
 	
     d3.select("#nextbtn").on("click",function(){
         console.log("click next button: " + nextindex + " times");
         /*Create wrapper for center text*/
         var textCenter = svg.append("g")
-            .attr("class", "explanationWrapper");
+            .attr("class", "explainWrap");
         
         /*Starting text middle top*/
         var middleTextTop = textCenter.append("text")
             .attr("class", "explanation")
             .attr("text-anchor", "middle")
             .attr("x", 0 + "px")
-            .attr("y", -24*14/2 + "px")
+            .attr("y", -18*14/2 + "px")
             .attr("opacity", 1);
         
 		/*///////////////// Press 3 Times ///////////////// */
         if(nextindex == 2){
 			d3.select(".maintitle").remove();
-			d3.select("refLine").remove();
+			d3.select(".refLine").remove();
             console.log("add explains[0] to top" + explains[0]);
             middleTextTop.text(explains[0]).call(wrap, 350);
         }
@@ -249,8 +263,8 @@ function arcTweenTest(a) { // 开始时候的动画函数
 
 // 文字换行函数
 function wrap(text, width) { 
-    console.log(text);
-    text.each(function() {
+    text.each(function(d) {
+		console.log(d);
         var text = d3.select(this),
             words = text.text().split(/\s+\s/).reverse(),
             word,
@@ -275,25 +289,27 @@ function wrap(text, width) {
                     tspan = text.append("tspan")
                         .attr("x", 0).attr("y", y)
                         .attr("dy",  ++midlineNum * lineHeight + "em").text(word);
-                        console.log("lineNumber: "+ lineNumber);
                         console.log("lineHeight: "+ lineHeight);
                 }
             }
 		}else{
 			while (word = words.pop()) {
-			  line.push(word);
-			  tspan.text(line.join(" "));
-			  if (tspan.node().getComputedTextLength() > width) {
-				line.pop();
+				line.push(word);
 				tspan.text(line.join(" "));
-				line = [word];
-	//            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy","1em").text(word);
-				tspan = text.append("tspan")
-				    .attr("x", 0).attr("y", y)
-                    .attr("dy", ++lineNumber * lineHeight + "em").text(word);
+				if (tspan.node().getComputedTextLength() > width) {
+					line.pop();
+					tspan.text(line.join(" "));
+					line = [word];
+					//tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy","1em").text(word);
+					tspan = text.append("tspan")
+						.attr("x", function(){
+							if(d.depth === 0) return 100;
+							else return 0;
+						}).attr("y", y)
+						.attr("dy", ++lineNumber * lineHeight + "em").text(word);
 
-			  }
-			}
+				}
+			} // While
 		}
     });
 
