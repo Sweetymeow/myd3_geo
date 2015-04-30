@@ -88,17 +88,6 @@ div.guideImg{
     background-size: cover;
 }
 
-/** OLD Stylesheet **/
-#subtitle{
-    margin: 0;
-    font-size: 1.4em;
-}
-.explanation{
-    font-weight: 600;
-    font-family: 'PT Sans', serif;
-    font-size: 1.3em;
-}
-
 /** form radio **/
 form input[type=radio]:checked{
 	
@@ -125,6 +114,12 @@ div.map form {
   left: 10px;
   top: 10px;
 }
+
+/** QR Reader - camDebug/Debug Only **/
+div#camDebug{
+	margin: 1em auto;
+}
+
 /**  fixed text issue in d3 SVG   **/
 text{
     font-family: 'PT Sans', serif;
@@ -135,4 +130,7 @@ text{
 }
 tspan{
     fill: white;
+}
+text.explainTop tspan{
+	font-size: 20px;
 }

@@ -52,8 +52,8 @@
         </div><!--d3 svg map-->
     </div><!-- div#d3Sunburst-->
     <div class="container card" id="operate">
-       	<p id="divId pink-text"></p>
         <div class="card-content" id="introduction">
+           <p class="pink-text">Timer: <span id="divId"></span></p>
             <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>
             <p>This page should be 
                 <a href="/mythesis/DispatchingEvents_data.html">auto jumping</a> by the info which is readed from QR Code on the bottom of each bucket
@@ -61,24 +61,21 @@
             <p><a href="SunburstPartition.html">Go back to basic version</a></p>
         </div><!--#introduction-->
         <div class="control card-action">
-            <a class="waves-effect waves-light btn pink lighten-1" id="nextbtn" href="#d3Sunburst">next</a>
+            <a class="waves-effect waves-light btn pink lighten-1" id="startBtn" href="#d3Sunburst">Start</a>
+            <a class="waves-effect waves-light btn pink lighten-1" id="nextBtn" href="#d3Sunburst">Next</a>
         </div>
     </div><!--div.card #operate-->
-    <div class="container" id="camDebug">
-        <div class="card row">
-            <div class="col m6" id="reader" style="max-width:300px; max-height:250px"></div>
-            <div class="col m6"> 
-                <h5 class="center">Result</h5>
-                <span id="read" class="center"></span>
-                <h5 class="center">Read Error (Debug only)</h5>
-                <span class="center">Will constantly show a message, can be ignored</span>
-                <span id="read_error" class="center"></span>
-                <br>
-                <h6 class="center">Video Error</h6>
-                <span id="vid_error" class="center"></span>
-                <br>
-            </div>
-        </div><!--card-->
+    <div class="container card" id="camDebug">
+		<div id="reader" style="width:300px; height:250px"></div>
+		<h6 class="center">Result</h6>
+		<span id="read" class="center"></span>
+		<h6 class="center">Read Error (Debug only)</h6>
+		<span class="center">Will constantly show a message, can be ignored</span>
+		<span id="read_error" class="center"></span>
+		<br>
+		<h6 class="center">Video Error</h6>
+		<span id="vid_error" class="center"></span>
+		<br>
     </div><!--container-->
 </div>
 
