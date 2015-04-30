@@ -141,7 +141,7 @@ h2{
     font-size: 1.3em;
 }
 
-/** SVG Animation **/
+/** SVG Sunbrust & Animation **/
 div.content #d3Sunburst{
     background-color: transparent;
 }
@@ -162,6 +162,7 @@ div.map form {
   left: 10px;
   top: 10px;
 }
+/**  fixed text issue in d3 SVG   **/
 text{
     font-family: 'PT Sans', serif;
     font-weight: 500;

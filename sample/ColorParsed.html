@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html>
+    
+    <head>
+        <title>A mashup of parse.com and d3.js</title>
+        <link rel="stylesheet" type="text/css" href="http://xliberation.com/parse/colortable/css/schemer.css">
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/tipsy/1.0/stylesheets/tipsy.css">
+        <style>
+            .tiptable TD
+                {
+                    color:white;
+                    background-color:chocolate;
+                }
+        </style>
+        <script type="text/javascript" src="//www.google.com/jsapi"></script>
+        <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js"></script>
+        <script src="//www.parsecdn.com/js/parse-1.2.2.min.js"></script>
+        <script src="//xliberation.com/parse/colortable/js/colortable.js"></script>
+        <script src="//xliberation.com/parse/colortable/js/parsch.js"></script>
+
+        <script type="text/javascript">
+            // globals
+            var schemeFromParse;
+        </script>
+        <script type="text/javascript">
+            google.load('visualization', '1');
+        </script>
+        <script type="text/javascript">
+
+        (function(){
+            google.setOnLoadCallback(function () {
+
+                // start with a random color
+                $('#hexinput').val('#'+Math.floor(Math.random()*16777215).toString(16));
+                
+                // the options
+                addSelectOptions($('#schemeselector'),getKnownSchemes());
+                addSelectOptions($('#modelselector'),getModels());
+                addSelectOptions($('#maxselector'),[1,2,3,4,5,6,7,8,9,10],4);
+                addSelectOptions($('#swatchselector'),[1,2,3,4,5,6,7,8,9,10],5);
+                addSelectOptions($('#textselector'),["yes","no"],"yes");
+                
+                addListeners();
+                
+                // get the useful code from google apps script
+                $('#status').text("...getting google apps script modules");
+                makeLight("gas","busy");
+                $.when.apply($,loadModules (["vEquivalents","hacks","usefulColors"],"mcpher")).then (
+                    function () {
+                        makeLight("gas","idle");
+                        makeLight("parse","busy");
+                        getSelectedScheme(getChosenScheme().split(":")[0])
+                            .done( function() {
+                                makeLight("parse","idle");
+                                changeDetected();
+                            });
+                        
+                    },
+                    function (error) {
+                        console.log(JSON.stringify(error));
+                    });
+            });
+            
+            function getUiOptions (label) {
+                return {
+                    swatchSize : getChosenSwatchSize(),
+                    maxNearest : getChosenMaxNearest(),
+                    scheme : getChosenScheme(),
+                    model : getChosenModel(),
+                    target: getChosenColor(),
+                    label : label ? label : getChosenColor()
+                };
+            }
+
+            function fillBar() {
+                // create random palette - different colored headers each time
+                var p = makeColorProps(htmlHexToRgb(getChosenColor()));
+                $('.paint')
+                    .css("background-color",p.htmlHex)
+                    .css("color",rgbToHex(p.textColor));
+                return p;
+            }
+
+            function constructData (options) {
+                // build data for sunburst chart
+                var promise = $.Deferred();
+                schemeFromParse.done ( function (schemeArray) {
+                    // make all the data
+                    makeLight("color","busy");
+                    var data = makeAllPalettes(options,schemeArray);
+                    promise.resolve(data);
+                    makeLight("color","idle");
+                });
+                return promise.promise();
+            }
+           
+            
+            function makeAllPalettes(options,schemeArray) {
+                var props = ["hue", "lightness", "saturation"];
+                var pBase = makeColorProps(htmlHexToRgb(options.target));
+                var base = 
+                    { name : "base" + getConfigKey() , 
+                        color: pBase, 
+                        options:options, 
+                        label:options.label,
+                        children :[],
+                        size:0
+                    };
+
+                // take a sorted copy of the schemearray
+                var nearest = sortClosestColors(pBase.rgb,schemeArray.slice(0)); 
+                // need to repeat nearest object for each prop
+                for (var j=0;j<arrayLength(props);j++) {
+                    // name type of palette
+                    var cBase = { 
+                        name : "na"+"pa"+j+"sa" + getConfigKey(),
+                        color: pBase,
+                        prop: props[j],
+                        label:props[j],
+                        children :[],
+                        size: 0
+                    };
+                    base.children.push(cBase);
+
+                    for (var k=0;k<options.maxNearest;k++) {
+                        var p = { 
+                            name : "n" + k + "p" + j + "sb" + getConfigKey(),
+                            color: nearest[k].colorProps,
+                            prop: props[j],
+                            label:nearest[k].label,
+                            children :[],
+                            size: compareColorProps(nearest[k].colorProps,pBase)
+                        }
+                        cBase.children.push(p);
+                        // now add a palette
+                        var palette = makeAPalette(p.color.rgb, options.model,
+                                                props[j], options.swatchSize, props[j] == "lightness");
+                        // find the nearest match to each item in the palette
+                        // each becomes a child to the previous palette member
+                        var t = p.children;
+                        for (var m =0; m < options.swatchSize ; m++) {
+                            var near = sortClosestColors(palette[m].rgb,schemeArray)[0];
+                            t.push ({ 
+                                name :  "n"+k+"p"+j+"s"+m + getConfigKey(),
+                                color: near.colorProps,
+                                prop: props[j],
+                                label: near.label,
+                                children :[],
+                                size: compareColorProps(near.colorProps,palette[m])
+                            });
+                            t = t[0].children;
+                        }
+                    }
+                }
+                return base;
+                
+            }
+
+            function addListeners () {
+                $(".detect").click(function(){
+                    changeDetected();
+                });
+                
+                $('#schemeselector').change(function() {
+                    makeLight("parse","busy");
+                    getSelectedScheme($(this).val().split(":")[0])
+                        .done( function() {
+                            makeLight("parse","idle");
+                            changeDetected();
+                        });
+                });
+                                   
+            }
+
+           // need this to be accessible globally    
+            var mGlob = {
+               height: 600,
+               padding: 5,
+               duration: 1200, 
+               counter:0,
+               configKey: ""
+            };
+
+            function changeDetected() {
+
+                // get the new data
+                fillBar();
+                makeLight("d3","busy");
+                mGlob.width = Math.min(mGlob.height,  $('#d3container').width());
+                mGlob.radius = mGlob.width/2;
+                var constructPromise = constructData (getUiOptions(getChosenColor()));
+                                                                    
+                var svg = mGlob.svg || d3.select("#d3container").append("svg:svg")
+                    .attr("width", mGlob.width)
+                    .attr("height", mGlob.height)
+                    .append("g")
+                    .attr("transform", "translate(" + mGlob.width / 2 + "," + mGlob.height /2 + ")");                
+                mGlob.svg  = svg;
+                
+                var partition =  d3.layout.partition()
+                    .sort(null)
+                    .size([2 * Math.PI, mGlob.radius])
+                    .value(function(d) { return 1; });
+                
+                var arc = d3.svg.arc()
+                    .startAngle(function(d) { return d.x; })
+                    .endAngle(function(d) { return d.x + d.dx; })
+                    .innerRadius(function(d) { return d.y; })
+                    .outerRadius(function(d) { return d.y + d.dy; });
+            
+                // transition to it
+                constructPromise.done( function(data) {
+
+                    var nodes = partition.nodes(data);
+                    var pathData = svg.selectAll("path").data(nodes,function(d){return d.name;});
+
+                    var pathEnter = pathData.enter();
+                    var path = pathEnter
+                      .append("svg:path")
+                        .attr("d", arc)
+                        .style("stroke", "#fff")
+                        .on("click", click);
+                    
+                        
+                    // start white for rescales
+                    if(mGlob.configKey != getConfigKey()) { 
+                        path.style("fill", "#ffffff");
+                        mGlob.configKey = getConfigKey();
+                    }
+                    
+
+                    // add new
+                    pathData.transition()
+                        .duration(mGlob.counter ? mGlob.duration : 0)
+                        .style("fill", function(d) { return  d.color.htmlHex; });
+               
+                                   // fade out old
+                    pathData.exit().transition()
+                       .duration(0)
+                       .style("fill", function(d) { return "#ffffff"});
+                    
+                    
+                    // add fancy tool tips
+                    $('path').tipsy({ 
+                        gravity: $.fn.tipsy.autoWE, 
+                        html: true, 
+                        delayIn: 1000,
+                        title: function() {
+                          return  makeTipsy(this.__data__); }
+                      });
+                    
+                    mGlob.counter++;
+                    makeLight("d3","idle");
+                });
+
+                function makeTipsy(d) {
+                    var c = d.color;
+                    return "<div style='background-color:" + 
+                        c.htmlHex + ";color:" + 
+                        rgbToHex(c.textColor) + ";'>" + 
+                        d.label + "(" + getChosenScheme() + ")" + "</div>" +
+                        "<table class='tiptable'><tbody>" + 
+                        makeATableRow ("rgb",c.htmlHex,c.red,c.green,c.blue) +
+                        makeATableRow ("lab",c.LStar.toFixed(1),c.aStar.toFixed(1),c.bStar.toFixed(1)) +
+                        makeATableRow ("lch",c.LStar.toFixed(1),c.cStar.toFixed(1),c.hStar.toFixed(1)) +
+                        makeATableRow ("xyz",c.x.toFixed(1),c.y.toFixed(1),c.z.toFixed(1)) +
+                        makeATableRow ("hsl-v",c.hue.toFixed(1),c.saturation.toFixed(1),c.lightness.toFixed(1),c.value.toFixed(1)) +
+                        makeATableRow ("cmyk",c.cyan.toFixed(2),c.magenta.toFixed(2),c.yellow.toFixed(2),c.black.toFixed(2)) +
+                        makeATableRow ("contrast",c.contrastRatio.toFixed(1),"closeness",d.size.toFixed(2)) +
+                        makeATableRow ("model",getChosenModel(),"palette",d.prop) +
+                        "</tbody></table>";
+                    
+                }
+                function makeATableRow() {
+                    var t= "<tr>";    
+                
+                    for (var i = 0; i < arguments.length; i++) {
+                        t += "<td>" + arguments[i] + "</td>";
+                    }
+                    return t + "</tr>";
+                    
+                }
+                function click(d) {
+                    $('#hexinput').val(d.color.htmlHex);
+                    changeDetected();
+                }
+
+            }
+            function makeLight (what,img) {
+                 $('#'+what+'busy').attr('src', "//xliberation.com/cdn/img/" +img + ".gif"); 
+            }
+            function getChosenColor() {
+                return $('#hexinput').val();
+            }
+            function getChosenScheme() {
+                return $('#schemeselector').val();
+            }
+            function getChosenSwatchSize() {
+               return $('#swatchselector').val(); 
+            }
+            function getChosenMaxNearest() {
+                return $('#maxselector').val();
+            }
+            function getChosenModel() {
+                return $('#modelselector').val();
+            }
+            function getChosenTextNeeded() {
+                return $('#textselector').val()=="yes";
+            }
+            function getConfigKey() {
+                // we use this to force a d3 data refresh if dimensions change 
+                return "s" + getChosenSwatchSize() + "m" + getChosenMaxNearest()  ;
+            }
+        }());
+        </script>
+    </head>
+    
+    <body>
+       <div><a href="http://xliberation.com/parse/colortable/parsed3.html">Original Link</a></div>
+        <div id="randombar" class="paint">
+            <div><h3>d3 sunburst chart from color schemes held in parse.com</h3>
+                <div>Sunburst design based on 
+                    <a href='http://www.cc.gatech.edu/gvu/ii/sunburst/'>John Stasko.</a>
+                    d3.js by <a href='http://bl.ocks.org/mbostock/4063423'>Mike Bostok.</a> 
+                    Mashup by <a href='http://ramblings.mcpher.com/Home/excelquirks/colorfiesta/nearest'> 
+                    Bruce McPherson</a>
+                </div>
+            </div>
+        </div>
+        <div>
+
+            <div class="label">
+                <div class = "button detect" id ="go">Apply this hex color or click on a color in the circle</div>
+                <input type="text" class ="text" id="hexinput">
+                <div class="text">
+                
+                gas<img id="gasbusy" class="busy" src="//xliberation.com/cdn/img/idle.gif"></img>
+                parse<img id="parsebusy" class="busy" src="//xliberation.com/cdn/img/idle.gif"></img>
+                color<img id="colorbusy" class="busy" src="//xliberation.com/cdn/img/idle.gif"></img>
+                d3<img id="d3busy" class="busy" src="//xliberation.com/cdn/img/idle.gif"></img>
+            </div>
+                <br>
+            </div>
+            <div class="label">Scheme <select name="schemeselector" id="schemeselector"></select></div>
+            <div class="label detect">Model <select name="modelselector" id="modelselector"></select></div>
+            <div class="label detect">Swatch size <select name="swatchselector" id="swatchselector"></select></div>
+            <div class="label detect">Maximum nearest <select name="maxselector" id="maxselector"></select></div>
+            <div class="text" id="status"></div>
+
+            <div id="d3container" style-"width:80%"></div>
+        </div>
+        
+        <div id="show" style="width:100%;"></div>
+        
+    </body>
+
+</html>
+
