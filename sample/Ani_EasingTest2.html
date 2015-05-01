@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <style> 
+          body{ margin: 0; font-family: helvetica;}
+          circle{
+            fill: none;
+            stroke-width: 1;
+            stroke: #aaa;
+          }
+          .ball{
+            fill: black;
+            stroke: none;
+          }
+          svg{ height: 1200px;}
+          h1{ text-align: center;}
+          #ease-type{ margin: auto; width: 100px;}
+          #controls{ text-align: center;}
+    </style>
+</head>
+<body>
+    <h1> D3's easing functions visualized in D3 </h1>
+    <h3><a href="http://blog.vctr.me/experiments/transition-tweens.html">transition-tweens</a></h3>
+    <div id="controls">
+          <select id="ease-type">
+            <option value="-in">ease in</option>
+            <option value="-out">ease out</option>
+            <option value="-in-out">ease in-out</option>
+          </select>
+    </div>
+<script>
+var types = ['linear', 'poly', 'quad', 'cubic', 'sin', 'exp', 'circle'
+  , 'elastic', 'bounce', 'cubic']
+  , svg = d3.select('body').append('svg')
+  , width = 800, spacing = 80, offset = 120, padding = 80, r = 10
+  , inOut = '-in'
+
+function redrawTweenPaths(){
+  var g = svg.selectAll('g').data(types)
+  var gEnter = g.enter().append('g')
+    .attr('transform', function(d, i){ 
+      return 'translate(0,' + (i * spacing + padding) + ')' 
+    })
+  gEnter.append('text').text(function(d){ return d }).attr({x: offset, y: 0})
+  var circle = g.selectAll('circle')
+    .data(function(type){
+      return d3.range(0, 1, 0.01).map(d3.ease(type + inOut, 10))
+    })
+  circle.enter().append('circle').attr({r: r, cy: r * 2 })
+  circle.attr('cx', function(d){ return offset + d * width })
+}
+
+svg.append('text').text('t=0').attr({x: offset, y: 30})
+svg.append('text').text('t=2000').attr({x: width + 80, y: 30})
+  svg.selectAll('.ball').data(types)
+    .enter().append('circle').attr({ 'class': 'ball', 'r': r})
+redrawTweenPaths('-in')
+
+d3.select('#ease-type').on("change", function(){
+  console.log('redraw tween paths', this.value)
+  inOut = this.value
+  redrawTweenPaths()
+})
+
+function step(){
+  svg.selectAll('.ball')
+  .attr('transform', function(d, i){ 
+    return 'translate(' + offset + ',' + (i * spacing + padding + r*2) + ')'
+  }).each(function(type, i){
+    d3.select(this).transition().duration(2000).ease(type + inOut, 10)
+      .attr('transform', function(d){
+        return 'translate(' + (offset + width) + ',' + (i * spacing + padding + r*2) + ')'})
+  })
+}
+step()
+setInterval(step, 3000)
+</script>
+  </body>
+</html>

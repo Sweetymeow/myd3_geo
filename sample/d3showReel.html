@@ -78,7 +78,7 @@
                 .x(function(d) { return x(d.date); })
                 .y1(function(d) { return y(d.price); });
 
-            d3.csv("stocks.csv", function(data) {
+            d3.csv("../jsons/stocks.csv", function(data) {
               var parse = d3.time.format("%b %Y").parse; // https://github.com/mbostock/d3/wiki/Time-Formatting
                 // %b - abbreviated month name. %Y - year with century as a decimal number.
                 // 读取时间格式的数据

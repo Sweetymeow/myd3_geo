@@ -154,7 +154,7 @@
 		.interpolate("cardinal-closed")
 		.angle(function(d) { return angle(d.time); })
 		.innerRadius(function(d) { return radius(d.y0); })
-		.outerRadius(function(d) { return radius(d.y0 + d.y); });
+		.outerRadius(function(d) { console.log(d); return radius(d.y0 + d.y); });
 
 	var svg = d3.select("div.map").append("svg")
 			.attr("width", width)
@@ -163,7 +163,6 @@
 			.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 	d3.csv("../jsons/gg_ic.csv", type, function(error, data) {
-		// console.log(data);
 		var layers = stack(nest.entries(data));
 
 		// Extend the domain slightly to match the range of [0, 2π].
@@ -171,11 +170,11 @@
 		radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
 		var layers = svg.selectAll(".layer")
-						  .data(layers)
-						  .enter().append("path")
-						  .attr("class", "layer")
-						  .attr("d", function(d) { return area(d.values); })
-						  .style("fill", function(d, i) { return color(i); });
+                      .data(layers)
+                      .enter().append("path")
+                      .attr("class", "layer")
+                      .attr("d", function(d) { return area(d.values); })
+                      .style("fill", function(d, i) { return color(i); });
 
 		svg.selectAll(".axis")
 			.data(d3.range(angle.domain()[1]))
