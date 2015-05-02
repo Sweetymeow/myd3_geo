@@ -114,6 +114,24 @@ div.map form {
   left: 10px;
   top: 10px;
 }
+/** SVG: Stacked Radical  **/
+/** SVG: Stacked Radical Axis **/
+.axis line { 
+	stroke: #ddd;
+}
+.axis path {  
+	fill: none; 
+	stroke: #ddd;
+}
+.axis + .axis g text { 
+	display: none; 
+/*	only show a group of axis number*/
+} 
+svg.StackedRadial g.axis text{ 
+	font-size: 1.2em; 
+	opacity: 0.7;
+	text-shadow: 1dx 1dx solid #000;
+}
 
 /** QR Reader - camDebug/Debug Only **/
 div#camDebug{

@@ -27,6 +27,15 @@ var explains = [[" The labor force participation rate  is the percentage of work
 	["explaination part 11. "],	["explaination part 12. "],
 	["explaination part 13. "],	["explaination part 14. "],
 ];
+var csvFiles = { cha:{file:"gg_cha.csv",country:"China"},  chi:{file:"gg_che.csv",country:"Chile"},
+			col:{file:"gg_col.csv",country:"Colombia"},  fra:{file:"gg_fra.csv",country:"France"},
+			ice:{file:"gg_ice.csv",country:"Iceland"},  ind:{file:"gg_ind.csv",country:"India"},
+			jap:{file:"gg_jap.csv",country:"Japan"},  new:{file:"gg_new.csv",country:"New Zealand"},
+			phi:{file:"gg_phi.csv",country:"Philippines"},  sou:{file:"gg_sa.csv",country:"South Africa"},
+			uga:{file:"gg_uga.csv",country:"Uganda"},  uk:{file:"gg_uk.csv",country:"United Kingdom"},
+			us:{file:"gg_us.csv",country:"United States"}
+			};
+console.log(csvFiles);
 
 $('.guideImg').hide();
 //////function for QR //////
@@ -66,8 +75,7 @@ $(function(){
 				//$('span#divId').timer(); // 启动计时器
                 playintro = true;
 				nextindex++;
-                console.log("QR Data: " + data);
-                console.log("Get QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
+                console.log("## Get QR Country: " + qrread_data.country + "## Year: " + qrread_data.year);
             }
 			$('span#divId').timer({
 				duration: aniTimers.start + 's',
@@ -274,136 +282,137 @@ function dataTitle(){
 function stackedRadial(){ 
     
     var textarray = ["Labour", "Wage", "Estimated","Legislators","Professional", "Literacy", "primary edu", ],
-        formatDay = function(d){ return textarray[d] },
-        titlearray = ["Labour force participation",
-                      "Wage equality for similar work (survey)",
-                      "Estimated earned income (PPP US$)",
-                      "Legislators senior officials & managers",
-                      "Professional and technical workers",
-                      "Literacy rate","Enrollment in primary education",
-                      "Enrollment in secondary education",
-                      "Enrollment in tertiary education",
-                      "Sex ratio at birth (female/male)",
-                      "Healthy life expectancy",
+        //formatDay = function(d){ return textarray[d] },
+        formatDay = function(d){ return titlearray[d] },
+        titlearray = ["Labour force  participation",
+                      "Wage equality for  similar work (survey)",
+                      "Estimated earned  income (PPP US$)",
+                      "Legislators senior  officials & managers",
+                      "Professional and  technical workers",
+                      "Literacy rate","Enrollment in  primary education",
+                      "Enrollment in  secondary education",
+                      "Enrollment in  tertiary education",
+                      "Sex ratio at  birth(female/male)",
+                      "Healthy life  expectancy",
                       "Women in parliament",
-                      "Women in ministerial positions",
-                      "Years with female head of state(last 50)"]
-        csvFiles = {  "Chile": "gg_che.csv",
-                      "Colombia": "gg_col.csv",
-                      "France": "gg_fra.csv",
-                      "Iceland": "gg_ice.csv",
-                      "India": "gg_ind.csv",
-                      "Japan": "gg_jap.csv",
-                      "New Zealand": "gg_new.csv",
-                      "Philippines": "gg_phi.csv",
-                      "South Africa": "gg_sa.csv",
-                      "Uganda": "gg_uga.csv",
-                      "United Kingdom": "gg_uk.csv",
-                      "United States": "gg_us.csv"
-                    };
+                      "Women in ministerial  positions",
+                      "Years with female  head of state(last 50)"];
     
-        var outerRadius = height/2 -40,
-            innerRadius = 120;
+	var outerRadius = height/2 - 70,
+		innerRadius = 120;
 
-        var margin = {top: 20, right: 20, bottom: 30, left: 50};
+	var margin = {top: 20, right: 20, bottom: 30, left: 50};
 
-        var angle = d3.time.scale()
-            .range([Math.PI/2, 2 * Math.PI+Math.PI/2]);
+	var angle = d3.time.scale()
+		.range([Math.PI/2, Math.PI/2-2 * Math.PI]);
 
-        var radius = d3.scale.linear()
-            .range([innerRadius, outerRadius]);
+	var radius = d3.scale.linear()
+		.range([innerRadius, outerRadius]);
 
-        var color = d3.scale.ordinal()
-                .domain([0,2])
-                .range([ "#F50057", "#FF80AB", "#FF4081"]);
+	var color = d3.scale.ordinal()
+			.domain([0,2])
+			.range([ "#F50057", "#FF80AB", "#FF4081"]);
 
-        var stack = d3.layout.stack()
-            .offset("zero")
-            .values(function(d) { return d.values; })
-            .x(function(d) { return d.time; })
-            .y(function(d) { return d.value; });
+	var stack = d3.layout.stack()
+		.offset("zero")
+		.values(function(d) { return d.values; })
+		.x(function(d) { return d.time; })
+		.y(function(d) { return d.value; });
 
-        var nest = d3.nest()
-            .key(function(d) { return d.key; });
+	var nest = d3.nest()
+		.key(function(d) { return d.key; });
 
-        var line = d3.svg.line.radial()
-            .interpolate("cardinal-closed")
-            .angle(function(d) { return angle(d.time); })
-            .radius(function(d) { return radius(d.y0 + d.y); });
+	var line = d3.svg.line.radial()
+		.interpolate("cardinal-closed")
+		.angle(function(d) { return angle(d.time); })
+		.radius(function(d) { return radius(d.y0 + d.y); });
 
-        var area = d3.svg.area.radial()
-            .interpolate("cardinal-closed")
-            .angle(function(d) { return angle(d.time); })
-            .innerRadius(function(d) { return radius(d.y0); })
-            .outerRadius(function(d) { console.log(d); return radius(d.y0 + d.y); });
+	var area = d3.svg.area.radial()
+		.interpolate("cardinal-closed")
+		.angle(function(d) { return angle(d.time); })
+		.innerRadius(function(d) { return radius(d.y0); })
+		.outerRadius(function(d) { return radius(d.y0 + d.y); });
 
-        var svg = d3.select("div.map").append("svg")
-            .attr("class", "StackedRadial")
-            .attr("width", width+strokeWidth*2)
-            .attr("height", height+strokeWidth*2)
-            .append("g")
-            .attr("transform", "translate(" + (width/2+strokeWidth) + "," + (height/2+strokeWidth) + ")");
+	var svg = d3.select("div.map").append("svg")
+		.attr("class", "StackedRadial")
+		.attr("width", width+strokeWidth*2)
+		.attr("height", height+strokeWidth*2)
+		.append("g")
+		.attr("transform", "translate(" + (width/2+strokeWidth) + "," + (height/2+strokeWidth) + ")");
+	
+	var csvName = checkCountry(qrread_data?qrread_data.country:"China");
 
-        d3.csv("data/gg_ice.csv", type, function(error, data) {
-            
-            var layers = stack(nest.entries(data));
+    console.log("###Country CSV: " + csvName + " ###");
+	d3.csv("data/"+csvName, function(error, data) {
+		var d, num;
+		for( d in data){
+			num = data[d];
+			//console.log(num);
+			for(var i in num){
+				num[i] = Number(num[i]);
+			}
+		} // 不知道为什么数据突然都变成字符串了？
+		
+		var layers = stack(nest.entries(data));
+		
+		
+		// Extend the domain slightly to match the range of [0, 2π].
+		angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
+		radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
-            // Extend the domain slightly to match the range of [0, 2π].
-            angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
-            radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+		var layers = svg.selectAll(".layer")
+					  .data(layers)
+					  .enter().append("path")
+					  .attr("class", "layer")
+					  .attr("d", function(d) { return area(d.values); })
+					  .style("fill", function(d, i) { return color(i); });
 
-            var layers = svg.selectAll(".layer")
-                          .data(layers)
-                          .enter().append("path")
-                          .attr("class", "layer")
-                          .attr("d", function(d) { return area(d.values); })
-                          .style("fill", function(d, i) { return color(i); });
-
-            svg.selectAll(".axis")
-                .data(d3.range(angle.domain()[1]))
-                .enter().append("g")
-                .attr("class", "axis")
-                .attr("fill", "white")
-                .attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
-                .call(d3.svg.axis()
-                    .scale(radius.copy().range([-innerRadius, -outerRadius]))
-                    .orient("left"))
-                .append("text")
-                .attr("y", -innerRadius + 6)
-                .attr("dy", "-16em")
-                .attr("text-anchor", "middle")
-                .text(function(d) { return formatDay(d); });
+		svg.selectAll(".axis")
+			.data(d3.range(angle.domain()[1]))
+			.enter().append("g")
+			.attr("class", "axis")
+			.attr("fill", "white")
+			.attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
+			.call(d3.svg.axis()
+				.scale(radius.copy().range([-innerRadius, -outerRadius]))
+				.orient("left"))
+			.append("text")
+			.attr("y", -innerRadius + 6)
+			.attr("dy", "-14em")
+			.attr("text-anchor", "middle")
+			.text(function(d) { return formatDay(d); })
+			.call(wrap, 60);
 
 
 
-            layers.on("mouseover", function(data,i){
-                console.log(data);
-                var m = d3.mouse(this);
+		layers.on("mouseover", function(data,i){
+			console.log(data);
+			var m = d3.mouse(this);
 
-                svg.selectAll(".layer").transition()
-                              .duration(250)
-                              .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
+			svg.selectAll(".layer").transition()
+						  .duration(250)
+						  .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
 
-                d3.select('#tooptip')
-                    .style('left', m[0]+'px')
-                    .style('top', m[1]+'px')
-                    .select('#year')
-                    .text(data.key)
-                    .classed('hidden', false);
-            })
-            .on("mouseout", function(){
-                d3.select('#tooptip').classed('hidden', true);
-                svg.selectAll(".layer").transition()
-                              .duration(250)
-                              .attr("opacity", 1);
-            });
-        }); // d3.csv
+			d3.select('#tooptip')
+				.style('left', m[0]+'px')
+				.style('top', m[1]+'px')
+				.select('#year')
+				.text(data.key)
+				.classed('hidden', false);
+		})
+		.on("mouseout", function(){
+			d3.select('#tooptip').classed('hidden', true);
+			svg.selectAll(".layer").transition()
+						  .duration(250)
+						  .attr("opacity", 1);
+		});
+	}); // d3.csv
 
-        function type(d) {
-          d.time = +d.time;
-          d.value = +d.value;
-          return d;
-        }
+	function type(d) {
+	  d.time = +d.time;
+	  d.value = +d.value;
+	  return d;
+	}
 } // 
 
 /*///////////////// Stacked Radial 第二部分动画 /////////////////////*/
@@ -440,7 +449,7 @@ d3.select("#nextBtn").on("click",function(){
 
 });//****  Click next button  ****//
 
-/*///////////////// Section 3 Button /////////////////////*/
+/*//////////////// Stacked Radical Button //////////////////*/
 
 d3.select("#stackBtn").on("click",function(){
     // Init middelText from 2nd click
@@ -448,13 +457,25 @@ d3.select("#stackBtn").on("click",function(){
     d3.select("div.map form").remove();
     d3.select("div.map svg").remove();
     stackedRadial();
+	$('svg.StackedRadial').css({
+		'top': 0,
+		'margin-top': 0
+	});
 
-});//****  Click next button  ****//
+});//****  Click Stacked Radical Button  ****//
 
 /*///////////////// Supported Functions /////////////////////*/
 function explainTimer(){
 	console.log("#### Start normal timer ####");
 }
+
+function checkCountry(countryName){
+	for(var i in csvFiles){
+		if(csvFiles[i].country === countryName){
+			return csvFiles[i].file;
+		}
+	}
+} // get country name & csv filename from QR Code
 
 // 文字换行函数
 function wrap(text, width) { 
@@ -501,7 +522,11 @@ function wrap(text, width) {
 							if(d.depth === 0) return 100;
 							else return 0;
 						}).attr("y", y)
-						.attr("dy", ++lineNumber * lineHeight + "em").text(word);
+						.attr("dy", function(){
+							if(width< 50){ return (++lineNumber * lineHeight + "em"); }
+							else{ return (++lineNumber * lineHeight - 14 + "em"); }
+						})
+						.text(word);
 
 				}
 			} // While

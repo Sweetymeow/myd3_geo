@@ -1,0 +1,15 @@
+{
+cha:{file:"gg_cha.csv",country:"China"},
+chi:{file:"gg_che.csv",country:"Chile"},
+col:{file:"gg_col.csv",country:"Colombia"},
+fra:{file:"gg_fra.csv",country:"France"},
+ice:{file:"gg_ice.csv",country:"Iceland"},
+ind:{file:"gg_ind.csv",country:"India"},
+jap:{file:"gg_jap.csv",country:"Japan"},
+new:{file:"gg_new.csv",country:"New Zealand"},
+phi:{file:"gg_phi.csv",country:"Philippines"},
+sou:{file:"gg_sa.csv",country:"South Africa"},
+uga:{file:"gg_uga.csv",country:"Uganda"},
+uk:{file:"gg_uk.csv",country:"United Kingdom"},
+us:{file:"gg_us.csv",country:"United States"}
+}
