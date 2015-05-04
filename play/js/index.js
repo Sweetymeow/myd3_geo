@@ -20,12 +20,16 @@ var pathDelay = 600,
 // D3: Global SVG Sunbrust
 var globalsvg;
 
-var explains = [["The project is visualize data to present gender-based gaps in access to resources and opportunities in countries rather than the actual levels of the available resources and opportunities in those countries."],["Through the Global Gender Gap Report 2006-2014, the data quantifies the magnitude of gender-based disparities and tracks their progress over time."], ["While no single measure can capture the complete situation, the Global Gender Gap presented in this project seeks to measure one important aspect of gender equality: the relative gaps between women and men across four key areas: health, education, economy and politics."],	["The third distinguishing feature of the project is that it ranks countries according to their proximity to gender equality rather than to women’s empowerment. "],	["explaination part 4. "]
+var explains = [["The project is visualize data  to present gender-based gaps  in access to resources and opportunities  in countries rather than the  actual levels of the available resources  and opportunities in those  countries."],
+                ["Through the Global Gender Gap  rank and scores in 2006, 2010 and 2014,  the data quantifies the magnitude  of gender-based disparities and  tracks their progress over time."], 
+                ["While no single measure  can capture the complete situation,  the Global Gender Gap presented in  this project seeks to measure  one important aspect of gender equality:  the relative gaps between  women and men across four key areas:  health, education, economy and politics."],	
+                ["The third distinguishing feature of  the project is that it  ranks countries according to  their proximity to gender equality rather  than to women’s empowerment. "],	
+                ["explaination part 4. "]
 ];
-//["explaination part 5. "],	["explaination part 6. "],	["explaination part 7. "],	["explaination part 8. "],	["explaination part 9. "],	["explaination part 10. "],	["explaination part 11. "],	["explaination part 12. "], ["explaination part 13. "],	["explaination part 14. "],
 
 //$('.guideImg').hide();
 $('div.control').hide();
+$('div.restartBtn').hide();
 //////function for QR //////
 $(function(){
     /************** Start Button **************/
@@ -106,12 +110,21 @@ function dataTitle(){
         .attr("transform", "translate(" + (width/2+strokeWidth) + "," + (height/2+strokeWidth) + ")");
    
     //D3: 参考线
-    svg.append("line")
-		.attr("class", "refLine")
-		.attr("x1", -width).attr("y1", 0).attr("x2", width).attr("y2", 0)
-        .attr("stroke-width", strokeWidth)
-        .attr("stroke", "#fff")
-		.attr("fill","#4D4044");
+    var textCenter = svg.append("g")
+        .attr("class", "refText")
+
+    var refText = textCenter.append("text")
+        .attr("text-anchor", "middle")
+        .attr("font-size", "28px")
+        .style("fill", "#ddd")
+        .attr("x", 0 + "px")
+        .attr("y", 20 + "px")
+        .attr("opacity", 0)
+        .text("(You can pick up the bucket now)");
+
+    refText.transition()
+            .duration(1000)
+            .attr("opacity",1);
 
     var partition = d3.layout.partition()
         .sort(d3.descending)
@@ -291,123 +304,168 @@ function stackedRadial(){
                       "Women in parliament",
                       "Women in ministerial  positions",
                       "Years with female  head of state(last 50)"]
-        csvFiles = {  "Chile": "gg_che.csv",
-                      "Colombia": "gg_col.csv",
-                      "France": "gg_fra.csv",
-                      "Iceland": "gg_ice.csv",
-                      "India": "gg_ind.csv",
-                      "Japan": "gg_jap.csv",
-                      "New Zealand": "gg_new.csv",
-                      "Philippines": "gg_phi.csv",
-                      "South Africa": "gg_sa.csv",
-                      "Uganda": "gg_uga.csv",
-                      "United Kingdom": "gg_uk.csv",
-                      "United States": "gg_us.csv"
+        csvFiles = {
+                    cha:{file:"gg_cha.csv",country:"China"}, chi:{file:"gg_che.csv",country:"Chile"},
+                    col:{file:"gg_col.csv",country:"Colombia"}, fra:{file:"gg_fra.csv",country:"France"},
+                    ice:{file:"gg_ice.csv",country:"Iceland"},
+                    ind:{file:"gg_ind.csv",country:"India"}, jap:{file:"gg_jap.csv",country:"Japan"},
+                    nz:{file:"gg_new.csv",country:"New Zealand"}, phi:{file:"gg_phi.csv",country:"Philippines"},
+                    sou:{file:"gg_sa.csv",country:"South Africa"}, uga:{file:"gg_uga.csv",country:"Uganda"},
+                    uk:{file:"gg_uk.csv",country:"United Kingdom"}, us:{file:"gg_us.csv",country:"United States"} 
                     };
+    var csvFile = findCSV();
+    console.log(csvFiles);
+    console.log("##### csvFile is: " + csvFile);
     
-        var outerRadius = height/2 -40,
-            innerRadius = 120;
+    var outerRadius = height/2 -40,
+        innerRadius = 120;
 
-        var margin = {top: 20, right: 20, bottom: 30, left: 50};
+    var margin = {top: 20, right: 20, bottom: 30, left: 50};
 
-        var angle = d3.time.scale()
-            .range([Math.PI/2, 2 * Math.PI+Math.PI/2]);
+    var angle = d3.time.scale()
+        .range([Math.PI/2, 2 * Math.PI+Math.PI/2]);
 
-        var radius = d3.scale.linear()
-            .range([innerRadius, outerRadius]);
+    var radius = d3.scale.linear()
+        .range([innerRadius, outerRadius]);
 
-        var color = d3.scale.ordinal()
-                .domain([0,2])
-                .range([ "#F50057", "#FF80AB", "#FF4081"]);
+    var color = d3.scale.ordinal()
+            .domain([0,2])
+            .range([ "#F50057", "#FF80AB", "#FF4081"]);
 
-        var stack = d3.layout.stack()
-            .offset("zero")
-            .values(function(d) { return d.values; })
-            .x(function(d) { return d.time; })
-            .y(function(d) { return d.value; });
+    var stack = d3.layout.stack()
+        .offset("zero")
+        .values(function(d) { return d.values; })
+        .x(function(d) { return d.time; })
+        .y(function(d) { return d.value; });
 
-        var nest = d3.nest()
-            .key(function(d) { return d.key; });
+    var nest = d3.nest()
+        .key(function(d) { return d.key; });
 
-        var line = d3.svg.line.radial()
-            .interpolate("cardinal-closed")
-            .angle(function(d) { return angle(d.time); })
-            .radius(function(d) { return radius(d.y0 + d.y); });
+    var line = d3.svg.line.radial()
+        .interpolate("cardinal-closed")
+        .angle(function(d) { return angle(d.time); })
+        .radius(function(d) { return radius(d.y0 + d.y); });
 
-        var area = d3.svg.area.radial()
-            .interpolate("cardinal-closed")
-            .angle(function(d) { return angle(d.time); })
-            .innerRadius(function(d) { return radius(d.y0); })
-            .outerRadius(function(d) { console.log(d); return radius(d.y0 + d.y); });
+    var area = d3.svg.area.radial()
+        .interpolate("cardinal-closed")
+        .angle(function(d) { return angle(d.time); })
+        .innerRadius(function(d) { return radius(d.y0); })
+        .outerRadius(function(d) { console.log(d); return radius(d.y0 + d.y); });
 
-        var svg = d3.select("div.map").append("svg")
-            .attr("class", "StackedRadial")
-            .attr("width", width+strokeWidth*2)
-            .attr("height", height+strokeWidth*2)
-            .append("g")
-            .attr("transform", "translate(" + (width/2+strokeWidth) + "," + (height/2+strokeWidth) + ")");
+    var svg = d3.select("div.map").append("svg")
+        .attr("class", "StackedRadial")
+        .attr("width", width+strokeWidth*2)
+        .attr("height", height+strokeWidth*2)
+        .append("g")
+        .attr("transform", "translate(" + (width/2+strokeWidth) + "," + (height/2+strokeWidth) + ")");
 
-        d3.csv("data/gg_ice.csv", type, function(error, data) {
-            
-            var layers = stack(nest.entries(data));
+    d3.csv("data/"+csvFile, type, function(error, data) {
 
-            // Extend the domain slightly to match the range of [0, 2π].
-            angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
-            radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+        var layers = stack(nest.entries(data));
 
-            var layers = svg.selectAll(".layer")
-                          .data(layers)
-                          .enter().append("path")
-                          .attr("class", "layer")
-                          .attr("d", function(d) { return area(d.values); })
-                          .style("fill", function(d, i) { return color(i); });
+        // Extend the domain slightly to match the range of [0, 2π].
+        angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
+        radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
-            svg.selectAll(".axis")
-                .data(d3.range(angle.domain()[1]))
-                .enter().append("g")
-                .attr("class", "axis")
-                .attr("fill", "white")
-                .attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
-                .call(d3.svg.axis()
-                    .scale(radius.copy().range([-innerRadius, -outerRadius]))
-                    .orient("left"))
-                .append("text")
-                .attr("y", -innerRadius + 6)
-                .attr("dy", "-16em")
-                .attr("text-anchor", "middle")
-                .text(function(d) { return formatDay(d); })
-                .call(wrap, 60);
+        var layers = svg.selectAll(".layer")
+                      .data(layers)
+                      .enter().append("path")
+                      .attr("class", "layer")
+                      .attr("d", function(d) { return area(d.values); })
+                      .style("fill", function(d, i) { return color(i); });
 
-
-
-            layers.on("mouseover", function(data,i){
-                console.log(data);
-                var m = d3.mouse(this);
-
-                svg.selectAll(".layer").transition()
-                              .duration(250)
-                              .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
-
-                d3.select('#tooptip')
-                    .style('left', m[0]+'px')
-                    .style('top', m[1]+'px')
-                    .select('#year')
-                    .text(data.key)
-                    .classed('hidden', false);
-            })
-            .on("mouseout", function(){
-                d3.select('#tooptip').classed('hidden', true);
-                svg.selectAll(".layer").transition()
-                              .duration(250)
-                              .attr("opacity", 1);
+        svg.selectAll(".axis")
+            .data(d3.range(angle.domain()[1]))
+            .enter().append("g")
+            .attr("class", "axis")
+            .attr("fill", "white")
+            .attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
+            .call(d3.svg.axis()
+                .scale(radius.copy().range([-innerRadius, -outerRadius]))
+                .orient("left"))
+            .append("text")
+            .attr("y", -innerRadius + 6)
+            .attr("dy", "-16em")
+            .attr("text-anchor", "middle")
+            .text(function(d) { return formatDay(d); })
+            .call(wrap, 60);
+        
+        var textCenter = svg.append("g")
+			.attr("class", "countryName")
+        
+        var countryName = textCenter.append("text")
+			.attr("text-anchor", "middle")
+			.style("font-size", "28px")
+			.attr("x", 0 + "px")
+			.attr("y", -35 + "px")
+			.attr("opacity", 0)
+            .text(qrread_data.country)
+            .call(restart);
+        
+        countryName.transition()
+                .duration(1000)
+                .attr("opacity",1);
+        
+        var stackedText1 = textCenter.append("text")
+			.attr("text-anchor", "middle")
+			.attr("font-size", "24px")
+			.attr("fill", "#ddd")
+			.attr("x", 0 + "px")
+			.attr("opacity", 0)
+            .attr("y", -10 + "px")
+            .text(function(){
+                return "3 years stacked streamgraph";
             });
-        }); // d3.csv
+        
+        var stackedText2 = textCenter.append("text")
+			.attr("text-anchor", "middle")
+			.attr("font-size", "24px")
+			.attr("fill", "#ddd")
+			.attr("x", 0 + "px")
+			.attr("opacity", 0)
+            .attr("y", 10 + "px")
+            .text(function(){
+                return "for gender gap scores.";
+            });
 
-        function type(d) {
-          d.time = +d.time;
-          d.value = +d.value;
-          return d;
-        }
+        stackedText1.transition()
+                .duration(1000)
+                .delay(500)
+                .attr("opacity",1);
+        
+        stackedText2.transition()
+                .duration(1000)
+                .delay(500)
+                .attr("opacity",1);
+        
+        layers.on("mouseover", function(data,i){
+            console.log(data);
+            var m = d3.mouse(this);
+
+            svg.selectAll(".layer").transition()
+                          .duration(250)
+                          .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
+
+            d3.select('#tooptip')
+                .style('left', m[0]+'px')
+                .style('top', m[1]+'px')
+                .select('#year')
+                .text(data.key)
+                .classed('hidden', false);
+        })
+        .on("mouseout", function(){
+            d3.select('#tooptip').classed('hidden', true);
+            svg.selectAll(".layer").transition()
+                          .duration(250)
+                          .attr("opacity", 1);
+        });
+    }); // d3.csv
+
+    function type(d) {
+      d.time = +d.time;
+      d.value = +d.value;
+      return d;
+    }
 } // 
 
 /*///////////////// Stacked Radial 第二部分动画 /////////////////////*/
@@ -431,7 +489,7 @@ d3.select("#nextBtn").on("click",function(){
 			.attr("opacity", 1);
 		
 		d3.select(".maintitle").remove();
-		d3.select(".refLine").remove();
+		d3.select(".refText").remove();
 		console.log("### Click 2nd add explains index:" + (nextindex-1));
 		middleTextTop.text(explains[0]).call(wrap, 350);
 	}else if(nextindex >= 2 && nextindex<explains.length){
@@ -465,6 +523,20 @@ function explainTimer(){
 	console.log("#### Start normal timer ####");
 }
 
+// cha:{file:"gg_cha.csv",country:"China"}
+function findCSV(){
+    for(var i in csvFiles){
+        if(csvFiles[i].country === qrread_data.country){
+           // console.log("### Current country csv is: " + csvFiles[i].file);
+            return csvFiles[i].file;
+        }
+    }
+}
+
+function restart(){
+    $('div.restartBtn').show();
+}
+
 function nextExpText(){
     console.log('Reset! Animation Index:' + aniIndex+ explains[aniIndex]);
     if(nextindex === 1){ // Init middelText from 2nd click
@@ -483,7 +555,7 @@ function nextExpText(){
 			.attr("opacity", 1);
 		
 		d3.select(".maintitle").remove();
-		d3.select(".refLine").remove();
+		d3.select(".refText").remove();
 		console.log("### Click 2nd add explains index:" + (nextindex-1));
 		
         middleTextTop
@@ -566,7 +638,7 @@ function wrap(text, width) {
                             if(width<50){
                                 return ++lineNumber * lineHeight + "em";
                             }else{
-                                return (++lineNumber * lineHeight -19)+ "em";
+                                return (++lineNumber * lineHeight - 18)+ "em";
                             }
                         })
                         .text(word);
