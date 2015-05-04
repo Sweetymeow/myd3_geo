@@ -20,26 +20,14 @@ var pathDelay = 600,
 // D3: Global SVG Sunbrust
 var globalsvg;
 
-var explains = [
-    [" The labor force participation rate  is the percentage of working-age persons  in an economy who: Are employed  and Are unemployed but looking for a job.  Typically 'working-age persons'  is defined as people between the ages of 16-64."], ["explaination part II. "],
-	["explaination part 3. "],
-	["explaination part 4. "],
-	["explaination part 5. "],
-	["explaination part 6. "],
-	["explaination part 7. "],
-	["explaination part 8. "],
-	["explaination part 9. "],
-	["explaination part 10. "],
-	["explaination part 11. "],
-	["explaination part 12. "],
-	["explaination part 13. "],
-	["explaination part 14. "],
+var explains = [["The labor force participation rate  is the percentage of working-age persons  in an economy who: Are employed  and Are unemployed but looking for a job.  Typically 'working-age persons'  is defined as people between the ages of 16-64."], ["explaination part II. "],	["explaination part 3. "],	["explaination part 4. "]
 ];
+//["explaination part 5. "],	["explaination part 6. "],	["explaination part 7. "],	["explaination part 8. "],	["explaination part 9. "],	["explaination part 10. "],	["explaination part 11. "],	["explaination part 12. "], ["explaination part 13. "],	["explaination part 14. "],
 
 $('.guideImg').hide();
 //////function for QR //////
 $(function(){
-    /*//////////// Start Button ////////////*/
+    /************** Start Button **************/
     $('#startBtn').on('click', function(){
         //alert("click next button");
         if(!playintro){
@@ -55,7 +43,8 @@ $(function(){
 				$('span#divId').timer({
 					duration: aniTimers.eachSec + 's', // 不知道为什么时间加倍
 					callback: function(){
-						console.log('Reset! Animation Index:' + aniIndex+ explains[aniIndex]);
+//						console.log('Reset! Animation Index:' + aniIndex+ explains[aniIndex]);
+                        nextExpText();
 						$('span#divId').timer('reset');
 						aniIndex++;
 					},
@@ -66,18 +55,21 @@ $(function(){
     });
 
     $('div#reader').html5_qrcode(function(data){
-		alert("Get QRInfo");
 			// 在reader标签实现读取QR数据
 			$('div#read').html(data);
             if(data!= "" && !playintro){
-                qrread_data = data; // 全局变量
+                qrread_data = JSON.parse(data); // 全局变量
+                $(window).scrollTop($('div.map').offset().top); //scroll to div with container
+                $('html, body').animate({
+                    scrollTop: $("div.map").offset().top
+                }, 1000);
                 dataTitle(); // 触发d3动画
-				//$('span#divId').timer(); // 启动计时器
                 playintro = true;
-				nextindex++;
-                console.log("Play introduction" + data);
+				nextindex++; 
+                console.log("QR Data: " + data);
+                console.log("Get QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
             }
-			$('span#divId').timer({
+			$('span#divId').timer({   // 启动计时器
 				duration: aniTimers.start + 's',
 				callback: function() {
 					explainTimer();
@@ -85,7 +77,8 @@ $(function(){
 					$('span#divId').timer({
 						duration: aniTimers.eachSec + 's', // 不知道为什么时间加倍
 						callback: function(){
-							console.log('Reset! Animation Index:' + aniIndex+ explains[aniIndex]);
+                            // show explains for each section
+                            nextExpText();
 							$('span#divId').timer('reset');
 							aniIndex++;
 						},
@@ -101,7 +94,7 @@ $(function(){
 	);// html5_qrcode 获得QR信息
 });
 
-// d3 方法 
+//******************* Partition/Arc 第一部分的parition动画 *******************// 
 function dataTitle(){    
 //    svg.attr("class", "sunburstAni")
     var svg = d3.select("div.map").append("svg")
@@ -225,7 +218,7 @@ function dataTitle(){
         title.data(partition.value(value).nodes)
             .transition().duration(1500)
                 .attr("transform",function(d,i){
-				console.log(d);
+				//console.log(d);
                 //第一个元素（最中间的），只平移不旋转
                 if( i == 0 )
                     return "translate(" + arc.centroid(d) + ")";
@@ -276,7 +269,145 @@ function dataTitle(){
 	  };
 	}
 
-}// dataTitle();
+}// dataTitle(); 第一部分的parition动画
+
+/*///////////////// Stacked Radial 第二部分动画 /////////////////////*/
+function stackedRadial(){ 
+    $('svg.StackedRadial').css("top",0);
+    var textarray = ["Labour", "Wage", "Estimated","Legislators","Professional", "Literacy", "primary edu", ],
+        formatDay = function(d){ return textarray[d] },
+        titlearray = ["Labour force participation",
+                      "Wage equality for similar work (survey)",
+                      "Estimated earned income (PPP US$)",
+                      "Legislators senior officials & managers",
+                      "Professional and technical workers",
+                      "Literacy rate","Enrollment in primary education",
+                      "Enrollment in secondary education",
+                      "Enrollment in tertiary education",
+                      "Sex ratio at birth (female/male)",
+                      "Healthy life expectancy",
+                      "Women in parliament",
+                      "Women in ministerial positions",
+                      "Years with female head of state(last 50)"]
+        csvFiles = {  "Chile": "gg_che.csv",
+                      "Colombia": "gg_col.csv",
+                      "France": "gg_fra.csv",
+                      "Iceland": "gg_ice.csv",
+                      "India": "gg_ind.csv",
+                      "Japan": "gg_jap.csv",
+                      "New Zealand": "gg_new.csv",
+                      "Philippines": "gg_phi.csv",
+                      "South Africa": "gg_sa.csv",
+                      "Uganda": "gg_uga.csv",
+                      "United Kingdom": "gg_uk.csv",
+                      "United States": "gg_us.csv"
+                    };
+    
+        var outerRadius = height/2 -40,
+            innerRadius = 120;
+
+        var margin = {top: 20, right: 20, bottom: 30, left: 50};
+
+        var angle = d3.time.scale()
+            .range([Math.PI/2, 2 * Math.PI+Math.PI/2]);
+
+        var radius = d3.scale.linear()
+            .range([innerRadius, outerRadius]);
+
+        var color = d3.scale.ordinal()
+                .domain([0,2])
+                .range([ "#F50057", "#FF80AB", "#FF4081"]);
+
+        var stack = d3.layout.stack()
+            .offset("zero")
+            .values(function(d) { return d.values; })
+            .x(function(d) { return d.time; })
+            .y(function(d) { return d.value; });
+
+        var nest = d3.nest()
+            .key(function(d) { return d.key; });
+
+        var line = d3.svg.line.radial()
+            .interpolate("cardinal-closed")
+            .angle(function(d) { return angle(d.time); })
+            .radius(function(d) { return radius(d.y0 + d.y); });
+
+        var area = d3.svg.area.radial()
+            .interpolate("cardinal-closed")
+            .angle(function(d) { return angle(d.time); })
+            .innerRadius(function(d) { return radius(d.y0); })
+            .outerRadius(function(d) { console.log(d); return radius(d.y0 + d.y); });
+
+        var svg = d3.select("div.map").append("svg")
+            .attr("class", "StackedRadial")
+            .attr("width", width+strokeWidth*2)
+            .attr("height", height+strokeWidth*2)
+            .append("g")
+            .attr("transform", "translate(" + (width/2+strokeWidth) + "," + (height/2+strokeWidth) + ")");
+
+        d3.csv("data/gg_ice.csv", type, function(error, data) {
+            
+            var layers = stack(nest.entries(data));
+
+            // Extend the domain slightly to match the range of [0, 2π].
+            angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
+            radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+
+            var layers = svg.selectAll(".layer")
+                          .data(layers)
+                          .enter().append("path")
+                          .attr("class", "layer")
+                          .attr("d", function(d) { return area(d.values); })
+                          .style("fill", function(d, i) { return color(i); });
+
+            svg.selectAll(".axis")
+                .data(d3.range(angle.domain()[1]))
+                .enter().append("g")
+                .attr("class", "axis")
+                .attr("fill", "white")
+                .attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
+                .call(d3.svg.axis()
+                    .scale(radius.copy().range([-innerRadius, -outerRadius]))
+                    .orient("left"))
+                .append("text")
+                .attr("y", -innerRadius + 6)
+                .attr("dy", "-16em")
+                .attr("text-anchor", "middle")
+                .text(function(d) { return formatDay(d); });
+
+
+
+            layers.on("mouseover", function(data,i){
+                console.log(data);
+                var m = d3.mouse(this);
+
+                svg.selectAll(".layer").transition()
+                              .duration(250)
+                              .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
+
+                d3.select('#tooptip')
+                    .style('left', m[0]+'px')
+                    .style('top', m[1]+'px')
+                    .select('#year')
+                    .text(data.key)
+                    .classed('hidden', false);
+            })
+            .on("mouseout", function(){
+                d3.select('#tooptip').classed('hidden', true);
+                svg.selectAll(".layer").transition()
+                              .duration(250)
+                              .attr("opacity", 1);
+            });
+        }); // d3.csv
+
+        function type(d) {
+          d.time = +d.time;
+          d.value = +d.value;
+          return d;
+        }
+} // 
+
+/*///////////////// Stacked Radial 第二部分动画 /////////////////////*/
 
 /*///////////////// Next Button /////////////////////*/
 
@@ -300,25 +431,93 @@ d3.select("#nextBtn").on("click",function(){
 		d3.select(".refLine").remove();
 		console.log("### Click 2nd add explains index:" + (nextindex-1));
 		middleTextTop.text(explains[0]).call(wrap, 350);
-	}else if(nextindex >= 2){
+	}else if(nextindex >= 2 && nextindex<explains.length){
 		/*///////////////// Start from 3rd click ///////////////// */
 		d3.select("text.explainTop").text("");
 		console.log("### Add explains["+ (nextindex-1) +"] to top" + explains[nextindex-1]);
 		d3.select("text.explainTop").text(explains[nextindex-1]).call(wrap, 350);
-	}
+	}else if(nextindex >= explains.length){
+        console.log("!! Click stacked radical button !!");
+        d3.select("div.map form").remove();
+        d3.select("div.map svg").remove();
+        stackedRadial();
+    }
 	nextindex++;
 
 });//****  Click next button  ****//
 
+/*///////////////// Section 3 Button /////////////////////*/
 
+d3.select("#stackBtn").on("click",function(){
+    // Init middelText from 2nd click
+	console.log("!! Click stacked radical button !!");
+    d3.select("div.map form").remove();
+    d3.select("div.map svg").remove();
+    stackedRadial();
+
+});//****  Click next button  ****//
+
+/*///////////////// Supported Functions /////////////////////*/
 function explainTimer(){
 	console.log("#### Start normal timer ####");
+}
+
+function nextExpText(){
+    console.log('Reset! Animation Index:' + aniIndex+ explains[aniIndex]);
+    if(nextindex === 1){ // Init middelText from 2nd click
+		console.log("click next button: " + nextindex + " times");
+		/*Create wrapper for center text*/
+		globalsvg = d3.select("svg g");
+		var textCenter = globalsvg.append("g")
+			.attr("class", "explainWrap");
+
+		/*Starting text middle top*/
+		var middleTextTop = textCenter.append("text")
+			.attr("class", "explainTop")
+			.attr("text-anchor", "middle")
+			.attr("x", 0 + "px")
+			.attr("y", -18*14/2 + "px")
+			.attr("opacity", 1);
+		
+		d3.select(".maintitle").remove();
+		d3.select(".refLine").remove();
+		console.log("### Click 2nd add explains index:" + (nextindex-1));
+		
+        middleTextTop
+            .text(explains[0]).call(wrap, 350).style("opacity", 0);
+        middleTextTop
+            .transition()
+            .duration(1000)
+            .style("opacity", 1);
+        
+	}else if(nextindex >= 2  && nextindex<explains.length ){
+		/*///////////////// Start from 3rd click ///////////////// */
+		d3.select("text.explainTop").text("");
+		console.log("### Add explains["+ (nextindex-1) +"] to top" + explains[nextindex-1]);
+		var explainText = d3.select("text.explainTop")
+            .text(explains[nextindex-1])
+            .call(wrap, 350)
+            .style("opacity", 0);
+        explainText
+            .transition()
+            .duration(1000)
+            .style("opacity", 1);
+	}else if(nextindex === explains.length){
+        console.log("!! Click stacked radical button !!");
+        d3.select("div.map form").remove();
+        d3.select("div.map svg").remove();
+        stackedRadial();
+    }else{
+        $('span#divId').timer('remove');
+        console.log("!! Remove Timer !!");
+    }
+	nextindex++;
 }
 
 // 文字换行函数
 function wrap(text, width) { 
 	text.each(function(d) {
-		console.log(d);
+		//econsole.log(d);
 		var text = d3.select(this),
 			words = text.text().split(/\s+\s/).reverse(),
 			word,
@@ -370,7 +569,7 @@ function wrap(text, width) {
 }// 文字换行
 
 d3.select(self.frameElement).style("height", height + "px");
-// dataTitle 函数： 绘制第一部分d3图像
+// 这个是做什么用的？
 
 /** Toggle guide image **/
 $('#guide').on("click touchstart", function(){
@@ -384,4 +583,3 @@ $('a#guideBtn').on("click touchstart", function(){
 $('#clear').on("click touchstart", function(){
     localStorage.clear();
 });
-
