@@ -103,10 +103,10 @@ div.map{
     margin: auto;
 }
 svg{
-    -webkit-margin-before: 2em;
+/*    -webkit-margin-before: 2em;*/
     border: 1px solid #DEDEDE;
     pointer-events: none;
-    top: -120px;
+/*    top: -120px;*/
     position: relative;
 }
 div.map form {
@@ -114,6 +114,21 @@ div.map form {
   left: 10px;
   top: 10px;
 }
+
+.axis line { 
+    stroke: #ddd;
+}
+.axis path {  
+    fill: none; 
+    stroke: #eee;
+}
+.axis + .axis g text { 
+    display: none; 
+}
+text{ 
+    font-size: 1em; 
+}
+
 
 /** QR Reader - camDebug/Debug Only **/
 div#camDebug{

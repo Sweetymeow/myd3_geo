@@ -20,11 +20,12 @@ var pathDelay = 600,
 // D3: Global SVG Sunbrust
 var globalsvg;
 
-var explains = [["The labor force participation rate  is the percentage of working-age persons  in an economy who: Are employed  and Are unemployed but looking for a job.  Typically 'working-age persons'  is defined as people between the ages of 16-64."], ["explaination part II. "],	["explaination part 3. "],	["explaination part 4. "]
+var explains = [["The project is visualize data to present gender-based gaps in access to resources and opportunities in countries rather than the actual levels of the available resources and opportunities in those countries."],["Through the Global Gender Gap Report 2006-2014, the data quantifies the magnitude of gender-based disparities and tracks their progress over time."], ["While no single measure can capture the complete situation, the Global Gender Gap presented in this project seeks to measure one important aspect of gender equality: the relative gaps between women and men across four key areas: health, education, economy and politics."],	["The third distinguishing feature of the project is that it ranks countries according to their proximity to gender equality rather than to women’s empowerment. "],	["explaination part 4. "]
 ];
 //["explaination part 5. "],	["explaination part 6. "],	["explaination part 7. "],	["explaination part 8. "],	["explaination part 9. "],	["explaination part 10. "],	["explaination part 11. "],	["explaination part 12. "], ["explaination part 13. "],	["explaination part 14. "],
 
-$('.guideImg').hide();
+//$('.guideImg').hide();
+$('div.control').hide();
 //////function for QR //////
 $(function(){
     /************** Start Button **************/
@@ -125,7 +126,7 @@ function dataTitle(){
         .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
 	// Get json infor of Gender Gap Score
-    d3.json("../jsons/Gengaptitle.json", function(error, root) {
+    d3.json("data/Gengaptitle.json", function(error, root) {
 		//console.log(root);
 		root.children.forEach(function(items,i){
 			items.color = i;
@@ -275,20 +276,21 @@ function dataTitle(){
 function stackedRadial(){ 
     $('svg.StackedRadial').css("top",0);
     var textarray = ["Labour", "Wage", "Estimated","Legislators","Professional", "Literacy", "primary edu", ],
-        formatDay = function(d){ return textarray[d] },
-        titlearray = ["Labour force participation",
-                      "Wage equality for similar work (survey)",
-                      "Estimated earned income (PPP US$)",
-                      "Legislators senior officials & managers",
-                      "Professional and technical workers",
-                      "Literacy rate","Enrollment in primary education",
-                      "Enrollment in secondary education",
-                      "Enrollment in tertiary education",
-                      "Sex ratio at birth (female/male)",
-                      "Healthy life expectancy",
+        //formatDay = function(d){ return textarray[d] },
+        formatDay = function(d){ return titlearray[d] },
+        titlearray = ["Labour force  participation",
+                      "Wage equality for  similar work (survey)",
+                      "Estimated earned  income (PPP US$)",
+                      "Legislators senior  officials & managers",
+                      "Professional and  technical workers",
+                      "Literacy rate","Enrollment in  primary education",
+                      "Enrollment in  secondary education",
+                      "Enrollment in  tertiary education",
+                      "Sex ratio at  birth (female/male)",
+                      "Healthy life  expectancy",
                       "Women in parliament",
-                      "Women in ministerial positions",
-                      "Years with female head of state(last 50)"]
+                      "Women in ministerial  positions",
+                      "Years with female  head of state(last 50)"]
         csvFiles = {  "Chile": "gg_che.csv",
                       "Colombia": "gg_col.csv",
                       "France": "gg_fra.csv",
@@ -373,7 +375,8 @@ function stackedRadial(){
                 .attr("y", -innerRadius + 6)
                 .attr("dy", "-16em")
                 .attr("text-anchor", "middle")
-                .text(function(d) { return formatDay(d); });
+                .text(function(d) { return formatDay(d); })
+                .call(wrap, 60);
 
 
 
@@ -559,7 +562,14 @@ function wrap(text, width) {
 							if(d.depth === 0) return 100;
 							else return 0;
 						}).attr("y", y)
-						.attr("dy", ++lineNumber * lineHeight + "em").text(word);
+						.attr("dy", function(){
+                            if(width<50){
+                                return ++lineNumber * lineHeight + "em";
+                            }else{
+                                return (++lineNumber * lineHeight -19)+ "em";
+                            }
+                        })
+                        .text(word);
 
 				}
 			} // While
@@ -574,9 +584,11 @@ d3.select(self.frameElement).style("height", height + "px");
 /** Toggle guide image **/
 $('#guide').on("click touchstart", function(){
     $('div.guideImg').fadeToggle(1000);
+    $('div.control').show();
 });
 $('a#guideBtn').on("click touchstart", function(){
     $("div.guideImg").fadeOut(1000);
+        $('div.control').show();
 });
 
 /** Clear button in fixed-action-btn group **/
