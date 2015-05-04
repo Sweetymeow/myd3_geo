@@ -1,14 +1,13 @@
-{
-  "Chile": "gg_che.csv",
-  "Colombia": "gg_col.csv",
-  "France": "gg_fra.csv",
-  "Iceland": "gg_ice.csv",
-  "India": "gg_ind.csv",
-  "Japan": "gg_jap.csv",
-  "New Zealand": "gg_new.csv",
-  "Philippines": "gg_phi.csv",
-  "South Africa": "gg_sa.csv",
-  "Uganda": "gg_uga.csv",
-  "United Kingdom": "gg_uk.csv",
-  "United States": "gg_us.csv"
-}
+[{"x":"cha","file":"gg_cha.csv","country":"China"},
+{"x":"chi","file":"gg_che.csv","country":"Chile"},
+{"x":"col","file":"gg_col.csv","country":"Colombia"},
+{"x":"fra","file":"gg_fra.csv","country":"France"},
+{"x":"ice","file":"gg_ice.csv","country":"Iceland"},
+{"x":"ind","file":"gg_ind.csv","country":"India"},
+{"x":"jap","file":"gg_jap.csv","country":"Japan"},
+{"x":"new","file":"gg_new.csv","country":"New Zealand"},
+{"x":"phi","file":"gg_phi.csv","country":"Philippines"},
+{"x":"sou","file":"gg_sa.csv","country":"South Africa"},
+{"x":"uga","file":"gg_uga.csv","country":"Uganda"},
+{"x":"uk","file":"gg_uk.csv","country":"United Kingdom"},
+{"x":"us","file":"gg_us.csv","country":"United States"}]
