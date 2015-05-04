@@ -6,6 +6,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+/*
     background-image:
     radial-gradient(rgb(73, 123, 144), rgba(73, 123, 144, .2) 2px, transparent 40px),
     radial-gradient(rgb(205, 223, 225), rgba(205, 223, 225, .15) 1px, transparent 30px),
@@ -13,6 +14,7 @@ html, body {
     radial-gradient(rgba(255,198,200,.4), rgba(255,255,255,.1) 2px, transparent 30px);
     background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+*/
 }
 
 /** Header Navigation 导航标志**/
@@ -104,7 +106,7 @@ div.map{
 }
 svg{
 /*    -webkit-margin-before: 2em;*/
-    border: 1px solid #DEDEDE;
+/*    border: 1px solid #DEDEDE;*/
     pointer-events: none;
 /*    top: -120px;*/
     position: relative;

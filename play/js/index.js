@@ -3,8 +3,8 @@ var qrread_data,
     nextindex = 0,
 	strokeWidth = 3;
 
-var width = 780,
-    height = 780,
+var width = 800,
+    height = 800,
     radius = Math.min(width, height) / 2,
     //color = d3.scale.category20();
 	color = d3.scale.linear()
@@ -29,7 +29,7 @@ var explains = [["The project is visualize data  to present gender-based gaps  i
 
 //$('.guideImg').hide();
 $('div.control').hide();
-$('div.restartBtn').hide();
+$('div#restartBtn').hide();
 //////function for QR //////
 $(function(){
     /************** Start Button **************/
@@ -397,7 +397,7 @@ function stackedRadial(){
 			.attr("text-anchor", "middle")
 			.style("font-size", "28px")
 			.attr("x", 0 + "px")
-			.attr("y", -35 + "px")
+			.attr("y", -16 + "px")
 			.attr("opacity", 0)
             .text(qrread_data.country)
             .call(restart);
@@ -412,7 +412,7 @@ function stackedRadial(){
 			.attr("fill", "#ddd")
 			.attr("x", 0 + "px")
 			.attr("opacity", 0)
-            .attr("y", -10 + "px")
+            .attr("y", 20 + "px")
             .text(function(){
                 return "3 years stacked streamgraph";
             });
@@ -423,7 +423,7 @@ function stackedRadial(){
 			.attr("fill", "#ddd")
 			.attr("x", 0 + "px")
 			.attr("opacity", 0)
-            .attr("y", 10 + "px")
+            .attr("y", 36 + "px")
             .text(function(){
                 return "for gender gap scores.";
             });
@@ -534,7 +534,7 @@ function findCSV(){
 }
 
 function restart(){
-    $('div.restartBtn').show();
+    $('div#restartBtn').show();
 }
 
 function nextExpText(){
