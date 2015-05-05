@@ -139,7 +139,7 @@ function dataTitle(){
         .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
 	// Get json infor of Gender Gap Score
-    d3.json("data/Gengaptitle.json", function(error, root) {
+    d3.json("data/GenGapTitle.json", function(error, root) {
 		//console.log(root);
 		root.children.forEach(function(items,i){
 			items.color = i;
