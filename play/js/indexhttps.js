@@ -32,6 +32,17 @@ $('.guideImg').hide();
 $('div#restartBtn').hide();
 //////function for QR //////
 $(function(){
+    $('#jqmeter-horizontal').jQMeter({
+        goal:'$10,000',
+        raised:'$3000',
+        width:'270px',
+        height:'20px',
+        bgColor:'#dadada',
+        barColor:'#f09246',
+        animationSpeed:1000,
+        displayTotal:false
+    }); // Progress bar - jQMeter plug-in
+    
     /************** Start Button **************/
     $('#startBtn').on('click', function(){
         //alert("click next button");
