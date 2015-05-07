@@ -6,7 +6,6 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-/*
     background-image:
     radial-gradient(rgb(73, 123, 144), rgba(73, 123, 144, .2) 2px, transparent 40px),
     radial-gradient(rgb(205, 223, 225), rgba(205, 223, 225, .15) 1px, transparent 30px),
@@ -14,7 +13,6 @@ html, body {
     radial-gradient(rgba(255,198,200,.4), rgba(255,255,255,.1) 2px, transparent 30px);
     background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
-*/
 }
 
 /** Header Navigation 导航标志**/
@@ -82,7 +80,7 @@ div.guideImg{
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url(../img/PlayGG_guide.png);
+    background-image: url(../img/floatingGuide.png);
     background-repeat: no-repeat;
     background-origin: border-box;
     background-attachment:fixed;
@@ -105,10 +103,10 @@ div.map{
     margin: auto;
 }
 svg{
-/*    -webkit-margin-before: 2em;*/
-/*    border: 1px solid #DEDEDE;*/
+    -webkit-margin-before: 2em;
+    border: 1px solid #DEDEDE;
     pointer-events: none;
-/*    top: -120px;*/
+    top: -120px;
     position: relative;
 }
 div.map form {
@@ -116,21 +114,24 @@ div.map form {
   left: 10px;
   top: 10px;
 }
-
+/** SVG: Stacked Radical  **/
+/** SVG: Stacked Radical Axis **/
 .axis line { 
-    stroke: #ddd;
+	stroke: #ddd;
 }
 .axis path {  
-    fill: none; 
-    stroke: #eee;
+	fill: none; 
+	stroke: #ddd;
 }
 .axis + .axis g text { 
-    display: none; 
+	display: none; 
+/*	only show a group of axis number*/
+} 
+svg.StackedRadial g.axis text{ 
+	font-size: 1.2em; 
+	opacity: 0.7;
+	text-shadow: 1dx 1dx solid #000;
 }
-text{ 
-    font-size: 1em; 
-}
-
 
 /** QR Reader - camDebug/Debug Only **/
 div#camDebug{
@@ -150,11 +151,4 @@ tspan{
 }
 text.explainTop tspan{
 	font-size: 20px;
-}
-
-/* Progress Bar */
-div.progress-bar{
-    position: absolute;
-    left: 200px;
-    top: 50px;
 }

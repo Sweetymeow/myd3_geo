@@ -151,10 +151,3 @@ tspan{
 text.explainTop tspan{
 	font-size: 20px;
 }
-
-/* Progress Bar */
-div.progress-bar{
-    position: absolute;
-    left: 200px;
-    top: 50px;
-}

@@ -1,0 +1,164 @@
+<!-- http://bl.ocks.org/dwtkns/4686432 -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>About Play with Gender Gap</title>
+        <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://d3js.org/queue.v1.min.js"></script>
+        <script src="http://d3js.org/topojson.v0.min.js"></script>
+        <script src="js/parse-1.4.2.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.touch.js"></script>
+        <script type="text/javascript" src="../js/jquery.swipe.js"></script>
+		<!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="../js/materialize.min.js"></script>    
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/js/materialize.min.js"></script>--> 
+        <!-- Compiled and minified CSS -->
+		<link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Play:400,700' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" href="img/icon.png" />
+        <style>
+        @import url(http://fonts.googleapis.com/css?family=Exo+2:400,200,300,400italic,500,600,600italic,700,800,900);
+    html, body {
+        font-family: 'Exo 2', 'Quicksand', sans-serif;
+    /*    background-color: #593d6a;*/
+        background-color: hsl(198, 49%, 16%);
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-image:
+        radial-gradient(rgb(73, 123, 144), rgba(73, 123, 144, .2) 2px, transparent 40px),
+        radial-gradient(rgb(205, 223, 225), rgba(205, 223, 225, .15) 1px, transparent 30px),
+        radial-gradient(rgb(76, 187, 200), rgba(76, 187, 200,.1) 2px, transparent 40px),
+        radial-gradient(rgba(255,198,200,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+        background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px; 
+        background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    }
+    /** Header Navigation 导航标志**/
+    header.title{
+        margin: 10px 0; /* top&bottom: 30px left&right: 0px */ 
+        transition: all .5s ease-out;
+    }
+    header.title img{
+        margin: 10px 0 10px 14px;
+    }
+    header.title a h4{ /* main title */
+        margin: 10px 0;
+        text-shadow: 1px 1px hsl(340, 71%, 58%);
+    }
+    header.title h5{ /* main title */
+        font-size: 1.4em;
+        margin: 16px 0;
+        padding: 0 30px;
+        text-shadow: 1px 1px hsl(340, 71%, 58%);
+    }
+    header.title span.subtitle{
+        display: block;/**/
+        font-size: 0.6em;
+        font-weight: 200;
+        color: hsl(340, 80%, 66%);
+        text-shadow: 1px 1px #fff;
+    }
+    /* instructor toggle button fixed-action-btn */
+    .fixed-action-btn{
+        width: 56px;
+    }
+    .fixed-action-btn .btn-large i{
+        font-size: 56px;
+    }
+    .btn-floating.btn-large{
+        width: 56px;
+        height: 56px;
+    }
+    .btn-floating.btn-large i{
+        line-height: 56px;
+    }
+    .fixed-action-btn ul{
+        width: 56px;
+        left: 3px;
+    }
+    div.guideImg{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(../img/floatingGuide.png);
+        background-repeat: no-repeat;
+        background-origin: border-box;
+        background-attachment:fixed;
+        background-position:center; 
+        background-size: cover;
+    }
+
+    </style>
+    </head>
+<body>
+<header class="row title">
+    <div class="col l1">
+       <a href="../beauty/beauty_touch3.html">
+        <img src="img/global_icon.png" alt="global icon">
+        </a>
+    </div>
+    <div class="col l8">
+       <a href="index.html">
+            <h4 class="white-text">Play with Global Gender Gap
+                <span class="subtitle">Explaination for each bar of <em>Data Bucket</em></span>
+            </h4>
+        </a>
+    </div><!--col l10-->
+    <div class="col l3">
+        <h5><a class="white-text" id="aboutauthor" href="play_about.html">About</a></h5>
+    </div>
+</header><!--title row-->
+<div class="mapcontainer">
+    <div class="map" id="svgmap"></div><!-- map -->
+</div><!--mapcontainer-->
+<div class="buttonGroup container">
+       <div class="card pink lighten-4">
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="img/ThesisExhibition.png">
+            </div>
+            <div class="card-content">
+                <span class="card-title activator white-text">About Me:<i class="mdi-navigation-more-vert right"></i></span>
+                <p></p>
+                <p><a class="pink-text" href="http://www.wendy-profolio.com">Portfolio Website</a></p>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">About Me: <i class="mdi-navigation-close right"></i></span>
+                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+       </div><!--.card #country-->
+        <div class="card pink lighten-4">
+            <div class="card-content">
+                <span class="card-title activator white-text">About <strong class="">Data Resource</strong>:</span>
+                <p class="pink-text text-lighten-1">Through the Global Gender Gap Report 2006-2014, the World Economic Forum quantifies the magnitude of gender-based disparities and tracks their progress over time. While no single measure can capture the complete situation, the Global Gender Gap Index presented in this Report seeks to measure one important aspect of gender equality: the relative gaps between women and men across four key areas: health, education, economy and politics.</p>
+            </div>
+            <div class="card-action">
+                <a class="purple-text" href="http://reports.weforum.org/global-gender-gap-report-2014/">Global Gender Gap Repost</a>
+            </div>
+       </div><!--.card #country-->
+</div><!--buttonGroup-->
+    
+<!--  Fixed Action Button -->
+<div class="fixed-action-btn" style="bottom: 10px; left: 24px;">
+    <a class="btn-floating btn-large white" id="guide">
+      <i class="large mdi-action-help pink-text"></i>
+    </a>
+<!--
+    <ul>
+      <li><a class="btn-floating red" id="clear"><i class="large mdi-action-delete"></i></a></li>
+      <li><a class="btn-floating yellow darken-1" id="guide"><i class="large mdi-action-info"></i></a></li>
+    </ul>
+-->
+ </div><!--   fixed-action-btn  -->
+<!-- <div class="guideImg"></div>-->
+<script>
+$('#guide').on("click", function(){
+    $("div.guideImg").fadeToggle(1000);
+});
+</script>
+</body>
+</html>
