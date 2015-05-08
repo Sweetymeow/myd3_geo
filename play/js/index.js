@@ -194,7 +194,8 @@ function stackedRadial(){
         .interpolate("cardinal-closed")
         .angle(function(d) { return angle(d.time); })
         .innerRadius(function(d) { return radius(d.y0); })
-        .outerRadius(function(d) { return radius(d.y0); });
+       // .outerRadius(function(d) { return radius(d.y0); });
+        .outerRadius(function(d) { return radius(d.y0 + d.y); });
 
     var svg = d3.select("div.map").append("svg")
         .attr("class", "StackedRadial")
