@@ -153,8 +153,15 @@ text.explainTop tspan{
 }
 
 /* Progress Bar */
-div.progress-bar{
-    position: absolute;
-    left: 200px;
-    top: 50px;
+div.progressBar{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 450px;
+    border-radius: 1em;
+    margin: 0.4em auto;
+}
+div.progressBar #line-bar{
+    width: 400px;
+    margin: 0;
 }

@@ -9,7 +9,7 @@
 <!--    <script src="http://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>-->
     <script src="js/html5-qrcode.min.js"></script>
     <script src="js/html5-qrcode.js"></script>
-    <script src="js/jqmeter.min.js"></script>
+    <script src="js/progressbar.min.js"></script>
     <script src="js/parse-1.4.2.min.js"></script>
     <script src="js/jquery.qrcode.min.js"></script>
     <script src="js/timer.jquery.js"></script>
@@ -40,7 +40,6 @@
 </header><!--title row-->
 <div class="content">
     <div class="card" id="d3Sunburst">
-        <div class="progressBar" id="jqmeter-horizontal"></div>
         <div class="map">
 <!--
             <form action="#">
@@ -57,6 +56,11 @@
         </div><!--d3 svg map-->
     </div><!-- div#d3Sunburst-->
     <div class="container card" id="operate">
+        <div class="progressBar row">
+            <div class="col s5 offset-s3" id="line-bar"></div>
+            <div class="col s1 white-text">reload</div>
+        </div>
+       
         <div class="card-content" id="introduction">
            <p class="pink-text">Timer: <span id="divId"></span></p>
             <p id="centext"> Female-to-male ratio (0.00 = INEQUALITY 1.00 = EQUALITY)</p>

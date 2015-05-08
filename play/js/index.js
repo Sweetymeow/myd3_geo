@@ -1,10 +1,11 @@
 var qrread_data,
     playintro = false,
     nextindex = 0,
-	strokeWidth = 3;
+	strokeWidth = 3,
+    barHeight = 30;
 
-var width = window.innerHeight,
-    height = window.innerHeight,
+var width = window.innerHeight - barHeight,
+    height = window.innerHeight - barHeight,    
     radius = Math.min(width, height) / 2,
 	color = d3.scale.linear()
 			.domain([0,1,2,3])
@@ -13,10 +14,12 @@ var width = window.innerHeight,
 var aniTimers = {start: 32, eachSec: 5},
 	aniIndex = 0;
 
+var svgImgs = new Array();
+
 var pathDelay = 400,
 	textDelay = 500,
-	pathDura = 500;
-
+	pathDura = 500,
+    reloadSec = 5;
 // D3: Global SVG Sunbrust
 var globalsvg;
 
@@ -87,26 +90,35 @@ $(function(){
             }else if(data === "stop"){
                  $('div#reader').html5_qrcode_stop();
             }else if(data!= ""){
+                var sameCountry = false;
                 qrread_data = JSON.parse(data); // 全局变量
-                $(window).scrollTop($('div.map').offset().top);
-                //scroll to div with container
-                $('html, body').animate({
-                    scrollTop: $("div.map").offset().top
-                }, 1000);
-                if(qrread_data){ stackedRadial();  }
-                playintro = true;
-				nextindex++; 
-                console.log("QR Data: " + data);
-                console.log("Get QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
+                for(var i in svgImgs){
+                    if(svgImgs[i] === qrread_data.country)
+                        sameCountry = true;
+                }
+                if(!svgImgs.length){
+                    console.log("There are countrys: " + sameCountry);
+                    
+                    reloadTimer();
+                    
+                    stackedRadial(); 
                 
-                $('span#divId').timer({   // 启动计时器
-                    duration: aniTimers.start + 's',
-                    callback: function() {
-                        console.log("Reload!");
-                        window.location.replace(location.href);
-                        $('span#divId').timer('remove');
-                    }
-                }); // span#divID Timer
+                    $(window).scrollTop($('div.map').offset().top);
+                    //scroll to div with container
+                    $('html, body').animate({
+                        scrollTop: $("div.map").offset().top
+                    }, 1000);
+                    
+                    playintro = true;
+                    nextindex++; 
+                    console.log("QR Data: " + data);
+                    console.log("Get QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
+                    
+                    svgImgs.push(qrread_data.country);
+                }else if(!sameCountry){
+                    
+                }
+                
             }
         
 		}, function(error){
@@ -149,7 +161,7 @@ function stackedRadial(){
     console.log(csvFiles);
     console.log("##### csvFile is: " + csvFile);
     
-    var outerRadius = height/2 - 50,
+    var outerRadius = height/2 - 40 - barHeight,
         innerRadius = 120;
 
     var margin = {top: 20, right: 20, bottom: 30, left: 20};
@@ -182,14 +194,23 @@ function stackedRadial(){
         .interpolate("cardinal-closed")
         .angle(function(d) { return angle(d.time); })
         .innerRadius(function(d) { return radius(d.y0); })
-        .outerRadius(function(d) { return radius(d.y0 + d.y); });
+        .outerRadius(function(d) { return radius(d.y0); });
 
     var svg = d3.select("div.map").append("svg")
         .attr("class", "StackedRadial")
         .attr("width", width)
-        .attr("height", height)
+        .attr("height", height + barHeight)
         .append("g")
         .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+    
+    function lineToStacked(t){
+        var stackedArea = d3.svg.area.radial()
+            .interpolate("cardinal-closed")
+            .angle(function(d) { return angle(d.time); })
+            .innerRadius(function(d) { return radius(d.y0); })
+            .outerRadius(function(d) { return radius(d.y0 + d.y); });
+        return stackedArea;
+    }
 
     d3.csv("data/"+csvFile, type, function(error, data) {
         console.log(data);
@@ -213,24 +234,52 @@ function stackedRadial(){
             .delay(function(d,i){
                 return i*1000;
             })
-            .attr("d", function(d) { return area(d.values); });
+            .attr("d", function(d) { console.log(d); return area(d.values); });
             
 
-        svg.selectAll(".axis")
+        var axistext = svg.selectAll(".axis")
             .data(d3.range(angle.domain()[1]))
             .enter().append("g")
             .attr("class", "axis")
             .attr("fill", "white")
-            .attr("transform", function(d) { return "rotate(" + angle(d) * 180 / Math.PI + ")"; })
+            .attr("transform", function(d) { 
+                console.log(d);
+                return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
+            })
             .call(d3.svg.axis()
                 .scale(radius.copy().range([-innerRadius, -outerRadius]))
-                .orient("left"))
-            .append("text")
+                .orient("left")
+                 );
+            
+        axistext.append("text")
             .attr("y", -innerRadius + 6)
             .attr("dy", "-16em")
             .attr("text-anchor", "middle")
             .text(function(d) { return formatDay(d); })
             .call(wrap, 60);
+        
+//        axistext.transition()
+//            .duration(1500)
+//            .attr("transform",function(d,i){
+//            console.log(d);
+//            //第一个元素（最中间的），只平移不旋转
+//            if( i == 0 )
+//                return "translate(" + arc.centroid(d) + ")";
+//
+//            //其他的元素，既平移也旋转
+//            var r = 0;
+//            if( -(d.x+d.dx/2)/Math.PI*180 > -1*180 )  // 0 - 180 度以内的
+//                r = 180 * (-(d.x + d.dx / 2 - Math.PI / 2) / Math.PI);
+//            else if(-(d.x+d.dx/2) == - 1/2)
+//                r = 0;
+//            else  // 180 - 360 度以内的d
+//                r = - 180 * ((d.x + d.dx / 2 + Math.PI / 2) / Math.PI);
+//            //既平移也旋转
+//            //console.log(arc.centroid(d));
+//            return  "translate(" + arc.centroid(d) + ")" +
+//                    "rotate(" + r + ")";
+//            })
+//            .attr("opacity", 0.9);
         
         var textCenter = svg.append("g")
 			.attr("class", "countryName")
@@ -445,26 +494,26 @@ function dataTitle(){
 
         title.data(partition.value(value).nodes)
             .transition().duration(1500)
-                .attr("transform",function(d,i){
-				//console.log(d);
-                //第一个元素（最中间的），只平移不旋转
-                if( i == 0 )
-                    return "translate(" + arc.centroid(d) + ")";
+            .attr("transform",function(d,i){
+            //console.log(d);
+            //第一个元素（最中间的），只平移不旋转
+            if( i == 0 )
+                return "translate(" + arc.centroid(d) + ")";
 
-                //其他的元素，既平移也旋转
-                var r = 0;
-                if( -(d.x+d.dx/2)/Math.PI*180 > -1*180 )  // 0 - 180 度以内的
-                    r = 180 * (-(d.x + d.dx / 2 - Math.PI / 2) / Math.PI);
-                else if(-(d.x+d.dx/2) == - 1/2)
-                    r = 0;
-                else  // 180 - 360 度以内的d
-                    r = - 180 * ((d.x + d.dx / 2 + Math.PI / 2) / Math.PI);
-                //既平移也旋转
-                //console.log(arc.centroid(d));
-                return  "translate(" + arc.centroid(d) + ")" +
-                        "rotate(" + r + ")";
-                })
-                .attr("opacity", 0.9);
+            //其他的元素，既平移也旋转
+            var r = 0;
+            if( -(d.x+d.dx/2)/Math.PI*180 > -1*180 )  // 0 - 180 度以内的
+                r = 180 * (-(d.x + d.dx / 2 - Math.PI / 2) / Math.PI);
+            else if(-(d.x+d.dx/2) == - 1/2)
+                r = 0;
+            else  // 180 - 360 度以内的d
+                r = - 180 * ((d.x + d.dx / 2 + Math.PI / 2) / Math.PI);
+            //既平移也旋转
+            //console.log(arc.centroid(d));
+            return  "translate(" + arc.centroid(d) + ")" +
+                    "rotate(" + r + ")";
+            })
+            .attr("opacity", 0.9);
       });
     }); // d3.json
 	
@@ -564,6 +613,35 @@ function findCSV(){
 
 function restart(){
     $('div#restartBtn').show();
+}
+
+function reloadTimer(){
+    var progressBar = new ProgressBar.Line('#line-bar',{
+        color: '#FCB03C',
+        strokeWidth: 4,
+        trailWidth: 4,
+        duration: 200,
+    });
+    $('div.progressBar').css("left", (window.innerWidth-450)/2);
+    
+    var sec0 = new Date().getSeconds(),
+        sec = 0;
+    console.log("Sec 0: " + sec0);
+    
+    setInterval(function() {
+        var second = new Date().getSeconds();
+        var curSec = (second-sec0)>=0?(second-sec0):(60-sec0+second);
+        
+        progressBar.animate(curSec/60, function(){
+            progressBar.setText(curSec);
+        });
+        
+        if(curSec === 59 && sec < reloadSec){
+            sec++;
+        }else if(sec === reloadSec){
+            window.location.replace(location.href);
+        }
+    }, 1000); // 60s进度条
 }
 
 function nextExpText(){
@@ -667,7 +745,7 @@ function wrap(text, width) {
                             if(width<50){
                                 return ++lineNumber * lineHeight + "em";
                             }else{
-                                return (++lineNumber * lineHeight - 18)+ "em";
+                                return (++lineNumber * lineHeight - 17)+ "em";
                             }
                         })
                         .text(word);
