@@ -96,14 +96,13 @@ $(function(){
                     if(svgImgs[i] === qrread_data.country)
                         sameCountry = true;
                 }
-                if(!svgImgs.length){
-                    console.log("There are countrys: " + sameCountry);
-                    
-                    reloadTimer();
-                    
-                    stackedRadial(); 
                 
-                    $(window).scrollTop($('div.map').offset().top);
+                if(!svgImgs.length){
+                    console.log("There are First countrys: " + qrread_data.country);
+                    svgImgs.push(qrread_data);
+                    reloadTimer();       
+                    stackedRadial(1); 
+                $(window).scrollTop($('div.map').offset().top);
                     //scroll to div with container
                     $('html, body').animate({
                         scrollTop: $("div.map").offset().top
@@ -115,8 +114,8 @@ $(function(){
                     console.log("Get QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
                     
                     svgImgs.push(qrread_data.country);
-                }else if(!sameCountry){
-                    
+                }else if(!sameCountry && svgImgs.length){
+                    d3.select
                 }
                 
             }
@@ -130,7 +129,7 @@ $(function(){
 });
 
 /*///////////////// Stacked Radial 第二部分动画 /////////////////////*/
-function stackedRadial(){ 
+function stackedRadial(index){ 
     $('svg.StackedRadial').css("top",0);
     var textarray = ["Labour", "Wage", "Estimated","Legislators","Professional", "Literacy", "primary edu", ],
         //formatDay = function(d){ return textarray[d] },
@@ -194,8 +193,16 @@ function stackedRadial(){
         .interpolate("cardinal-closed")
         .angle(function(d) { return angle(d.time); })
         .innerRadius(function(d) { return radius(d.y0); })
-       // .outerRadius(function(d) { return radius(d.y0); });
+        //.outerRadius(function(d) { return radius(d.y0); });
         .outerRadius(function(d) { return radius(d.y0 + d.y); });
+    
+    function fillArea(t){
+        return d3.svg.area.radial()
+        .interpolate("cardinal-closed")
+        .angle(function(d) { return angle(d.time); })
+        .innerRadius(function(d) { return radius(d.y0); })
+        .outerRadius(function(d) { return radius(d.y0 + d.y); });
+    }
 
     var svg = d3.select("div.map").append("svg")
         .attr("class", "StackedRadial")
@@ -203,15 +210,6 @@ function stackedRadial(){
         .attr("height", height + barHeight)
         .append("g")
         .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
-    
-    function lineToStacked(t){
-        var stackedArea = d3.svg.area.radial()
-            .interpolate("cardinal-closed")
-            .angle(function(d) { return angle(d.time); })
-            .innerRadius(function(d) { return radius(d.y0); })
-            .outerRadius(function(d) { return radius(d.y0 + d.y); });
-        return stackedArea;
-    }
 
     d3.csv("data/"+csvFile, type, function(error, data) {
         console.log(data);
@@ -223,20 +221,40 @@ function stackedRadial(){
         angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
         radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
 
-        var layers = svg.selectAll(".layer")
-                      .data(layers)
-                      .enter().append("path")
-                      .attr("class", "layer")
-                      .attr("d", function(d) { return area(0); })
-                      .style("fill", function(d, i) { return color(i); });
+        var countries = svg.append("g")
+            .attr("class", "country" + index);
         
-        layers.transition()
-            .duration(3000)
-            .delay(function(d,i){
-                return i*1000;
+        var layers = countries.selectAll(".layer")
+            .data(layers)
+            .enter();
+        
+        layers.append("path")
+            .attr("class", "layer")
+            .attr("d", function(d) { return area(0); })
+            .style("fill", function(d, i) { return color(i); })
+            .style("opacity", 0.0);
+        
+        layers.append("text")
+            .attr("class", "layerYear")
+            .attr("x", function(d,i){
+                return -innerRadius - i*(outerRadius-innerRadius)/3-25;
             })
-            .attr("d", function(d) { console.log(d); return area(d.values); });
-            
+            .attr("dy", "-1em")
+            .attr("text-anchor", "middle")
+            .style("opacity", 0);
+
+        svg.selectAll(".layer").transition()
+            .delay(function(d,i){ return i*1000; })
+            .duration(2000)
+            //.attrTween("d", shapeTween(fillArea, 1));
+            .attr("d", function(d) { return area(d.values); })
+            .style("opacity", 1.0);                    
+        
+        svg.selectAll(".layerYear").transition()
+            .delay(function(d,i){ return i*1000; })
+            .duration(2500)
+            .text(function(d) { return d.key; })
+            .style("opacity", 1.0);
 
         var axistext = svg.selectAll(".axis")
             .data(d3.range(angle.domain()[1]))
@@ -244,13 +262,12 @@ function stackedRadial(){
             .attr("class", "axis")
             .attr("fill", "white")
             .attr("transform", function(d) { 
-                console.log(d);
                 return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
             })
             .call(d3.svg.axis()
                 .scale(radius.copy().range([-innerRadius, -outerRadius]))
                 .orient("left")
-                 );
+            );
             
         axistext.append("text")
             .attr("y", -innerRadius + 6)
@@ -330,7 +347,8 @@ function stackedRadial(){
                 .delay(500)
                 .attr("opacity",1);
         
-        layers.on("mouseover", function(data,i){
+        svg.selectAll(".layer")
+            .on("mouseover", function(data,i){
             console.log(data);
             var m = d3.mouse(this);
 
@@ -359,6 +377,16 @@ function stackedRadial(){
       return d;
     }
 } // 
+
+function shapeTween(shape, direction) {
+  return function(d, i, a) {
+    return function(t) {
+        console.log(d);
+        // Shape is function line_to_stacked(t) / function area_to_stacked(t) 
+      return shape(direction ? t : 1.0 - t)(d.values);
+    };
+  };
+}
 
 /*///////////////// Stacked Radial 第二部分动画 /////////////////////*/
 

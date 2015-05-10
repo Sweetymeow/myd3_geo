@@ -176,6 +176,7 @@ function shapeTween(shape, direction) {
   return function(d, i, a) {
     return function(t) {
         console.log(d);
+        console.log("### T is: " + t);
         // Shape is function line_to_stacked(t) / function area_to_stacked(t) 
       return shape(direction ? t : 1.0 - t)(d.values);
     };
