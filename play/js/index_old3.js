@@ -63,6 +63,7 @@ $(function(){
     });
 
     $('div#reader').html5_qrcode(function(data){
+            console.log(data);
 			// 在reader标签实现读取QR数据
 			$('div#read').html(data);
         
@@ -92,15 +93,14 @@ $(function(){
             }else if(data!= ""){
                 var sameCountry = false; // 用于判断第一个以外的QR Code
                 qrread_data = JSON.parse(data); // 全局变量
-                console.log(qrread_data);
                 for(var i in svgImgs){
-                    if(svgImgs[i].country === qrread_data.country){
+                    if(svgImgs[i] === qrread_data.country){
                         sameCountry = true;
                         console.log("###THIS is same country in QR Code###");
                     }
                 }
                 
-                if(!svgImgs.length && !sameCountry ){ // 第一个QR code
+                if(!svgImgs.length){ // 第一个QR code
                     console.log("###There are First countrys: " + qrread_data.country);
                     svgImgs.push(qrread_data);
                     reloadTimer();       
@@ -116,34 +116,22 @@ $(function(){
                     nextindex++; 
                     console.log("QR Data: " + data);
                     console.log("$$ First QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
-                }else if(!sameCountry && svgImgs.length < 3){ // 不重复的QR code
-                    var svgCharts = d3.selectAll("svg.StackedRadial g");
+                    
+                    svgImgs.push(qrread_data.country);
+                }else if(!sameCountry && svgImgs.length){ // 不重复的QR code
+                    var svgCharts = d3.selectAll(".StackedRadial");
                     svgCharts.each(function(){
                         d3.select(this)
-                            .attr("opacity", .7);
+                            .attr("opacity", .5);
                     });
                     
                     svgImgs.push(qrread_data);
-                    console.log(svgImgs);
                     reloadTimer();       
-                    stackedRadial(svgImgs.length); 
+                    stackedRadial(svgImgs.length-1); 
                     
                     nextindex++; 
                     console.log("QR Data: " + data);
                     console.log("$$$ Other QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
-                }else if(!sameCountry && svgImgs.length >= 3){
-                    var expTexts = [
-                        "You can't have more than", 
-                        "3 country in one round!", 
-                        "Please wait for auto refresh", 
-                        "after 5s."
-                    ];
-                    d3.selectAll("g.centerText text")
-                        .remove();
-                    
-                    $('div.map').append('<p class="stopReminder"> You can not have more than 3 country in one round! Please wait for auto refresh after 5s.</p>')
-                        .css({'left': width/2-240 + "px", 'top': height/2 + "px"});
-                    
                 }
                 
             }
@@ -185,6 +173,7 @@ function stackedRadial(index){
                     uk:{file:"gg_uk.csv",country:"United Kingdom"}, us:{file:"gg_us.csv",country:"United States"} 
                     };
     var csvFile = findCSV();
+    console.log(csvFiles);
     console.log("##### csvFile is: " + csvFile);
     
     var outerRadius = height/2 - 40 - barHeight,
@@ -199,8 +188,8 @@ function stackedRadial(index){
         .range([innerRadius, outerRadius]);
 
     var color = d3.scale.ordinal()
-            .domain([0,1,2,3,4,5,6,7,8,9,10,11])
-            .range(["#FF80AB", "#FF4081", "#F50057", "#BBDEFB", "#42A5F5", "#1976D2", "#eeff41", "#c6ff00", "#aeea00", "#ffe0b2", "#ffa726", "#e65100"]); // Pink, blue, lime       
+            .domain([0,2])
+            .range([ "#F50057", "#FF80AB", "#FF4081"]);
 
     var stack = d3.layout.stack()
         .offset("zero")
@@ -230,28 +219,20 @@ function stackedRadial(index){
         .innerRadius(function(d) { return radius(d.y0); })
         .outerRadius(function(d) { return radius(d.y0 + d.y); });
     }
-    
-    if(index === 1){
-        var svg = d3.select("div.map").append("svg")
-            .attr("class", "StackedRadial")
-            .attr("width", width)
-            .attr("height", height + barHeight)
-            .append("g")
-            .attr("class","country" + index)
-            .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
-    }else{
-        var svg = d3.select("svg.StackedRadial")
-            .append("g")
-            .attr("class","country" + index)
-            .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
-    }
-    
+
+    var svg = d3.select("div.map").append("svg")
+        .attr("class", "StackedRadial")
+        .attr("id", "coundtry" + index)
+        .attr("width", width)
+        .attr("height", height + barHeight)
+        .append("g")
+        .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
 
     d3.csv("data/"+csvFile, type, function(error, data) {
-//      console.log(data);
+        console.log(data);
 
         var layers = stack(nest.entries(data));
-//        console.log(layers);
+        console.log(layers);
         
         // Extend the domain slightly to match the range of [0, 2π].
         angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
@@ -267,9 +248,7 @@ function stackedRadial(index){
         layers.append("path")
             .attr("class", "layer")
             .attr("d", function(d) { return area(0); })
-            .style("fill", function(d, i) { 
-                return color(i + (index-1)*3); 
-            })
+            .style("fill", function(d, i) { return color(i); })
             .style("opacity", 0.0);
         
         layers.append("text")
@@ -286,9 +265,7 @@ function stackedRadial(index){
             .duration(2000)
             //.attrTween("d", shapeTween(fillArea, 1));
             .attr("d", function(d) { return area(d.values); })
-            .style("opacity", function(){
-                return 1-index/10;
-            });                    
+            .style("opacity", 1.0);                    
         
         svg.selectAll(".layerYear").transition()
             .delay(function(d,i){ return i*1000; })
@@ -338,22 +315,11 @@ function stackedRadial(index){
 //                    "rotate(" + r + ")";
 //            })
 //            .attr("opacity", 0.9);
-        if(index > 1){
-            d3.selectAll("g.centerText text.countryName")
-                .each(function(d,i){
-                    console.log("### CenterText is: " + d + "### Index is: " + i);
-                    d3.select(this)
-                        .attr("y", -16 - (index-i)*12 + "px")
-                        .style("font-size", "20px");
-                });
-            
-        } // resize center text size
         
         var textCenter = svg.append("g")
-			.attr("class", "centerText");
+			.attr("class", "countryName")
         
         var countryName = textCenter.append("text")
-            .attr("class", "countryName")
 			.attr("text-anchor", "middle")
 			.style("font-size", "28px")
 			.attr("x", 0 + "px")
@@ -366,34 +332,40 @@ function stackedRadial(index){
                 .duration(1000)
                 .attr("opacity",1);
         
-        if(index === 1){
-            var expTexts = ["3 years stacked streamgraph", "for gender gap scores."];
-
-            var stackedText = textCenter.selectAll("text.expt")
-                .data(expTexts)
-                .enter()
-                .append("text")
-                .attr("text-anchor", "middle")
-                .attr("font-size", "24px")
-                .attr("fill", "#ddd")
-                .attr("x", 0 + "px")
-                .attr("opacity", 0)
-                .attr("y", function(d,i){
-                    return 20 + i*16 + "px";
-                })
-                .text(function(d){
-                    return d;
-                });
-
-            stackedText.transition()
-                    .duration(1000)
-                    .delay(500)
-                    .attr("opacity",1);
-        }
+        var stackedText1 = textCenter.append("text")
+			.attr("text-anchor", "middle")
+			.attr("font-size", "24px")
+			.attr("fill", "#ddd")
+			.attr("x", 0 + "px")
+			.attr("opacity", 0)
+            .attr("y", 20 + "px")
+            .text(function(){
+                return "3 years stacked streamgraph";
+            });
         
-        // 这一部分不起作用，是不是因为找不到class?
-        svg.selectAll("path.layer")
-        .on("mouseover", function(data,i){
+        var stackedText2 = textCenter.append("text")
+			.attr("text-anchor", "middle")
+			.attr("font-size", "24px")
+			.attr("fill", "#ddd")
+			.attr("x", 0 + "px")
+			.attr("opacity", 0)
+            .attr("y", 36 + "px")
+            .text(function(){
+                return "for gender gap scores.";
+            });
+
+        stackedText1.transition()
+                .duration(1000)
+                .delay(500)
+                .attr("opacity",1);
+        
+        stackedText2.transition()
+                .duration(1000)
+                .delay(500)
+                .attr("opacity",1);
+        
+        svg.selectAll(".layer")
+            .on("mouseover", function(data,i){
             console.log(data);
             var m = d3.mouse(this);
 
@@ -679,7 +651,7 @@ function explainTimer(){
 function findCSV(){
     for(var i in csvFiles){
         if(csvFiles[i].country === qrread_data.country){
-            //console.log("### Current country csv is: " + csvFiles[i].file);
+           // console.log("### Current country csv is: " + csvFiles[i].file);
             return csvFiles[i].file;
         }
     }

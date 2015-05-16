@@ -40,25 +40,12 @@
 </header><!--title row-->
 <div class="content">
     <div class="card" id="d3Sunburst">
-        <div class="map">
-<!--
-            <form action="#">
-                <p>
-                  <input class="with-gap pink" name="mode" type="radio" id="test1" value="size"/>
-                  <label for="test1">Size</label>
-                </p>
-                <p>
-                  <input class="with-gap" name="mode" type="radio" id="test2" value="count" checked/>
-                  <label for="test2">Count</label>
-                </p>
-            </form>
--->
-        </div><!--d3 svg map-->
+        <div class="map"></div><!--d3 svg map-->
     </div><!-- div#d3Sunburst-->
     <div class="container card" id="operate">
         <div class="progressBar row">
             <div class="col s5 offset-s3" id="line-bar"></div>
-            <div class="col s1 white-text">reload</div>
+            <div class="col s1 white-text" id="reloadTimer">reload</div>
         </div>
        
         <div class="card-content" id="introduction">
