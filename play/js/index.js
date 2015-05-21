@@ -19,7 +19,7 @@ var svgImgs = new Array();
 var pathDelay = 400,
 	textDelay = 500,
 	pathDura = 500,
-    reloadSec = 5;
+    reloadSec = 2;
 // D3: Global SVG Sunbrust
 var globalsvg;
 
@@ -125,13 +125,13 @@ $(function(){
                     
                     svgImgs.push(qrread_data);
                     console.log(svgImgs);
-                    reloadTimer();       
+                    //reloadTimer();       
                     stackedRadial(svgImgs.length); 
                     
                     nextindex++; 
                     console.log("QR Data: " + data);
                     console.log("$$$ Other QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
-                }else if(!sameCountry && svgImgs.length >= 3){
+                }else if(!sameCountry && svgImgs.length === 3){
                     var expTexts = [
                         "You can't have more than", 
                         "3 country in one round!", 
@@ -141,8 +141,12 @@ $(function(){
                     d3.selectAll("g.centerText text")
                         .remove();
                     
-                    $('div.map').append('<p class="stopReminder"> You can not have more than 3 country in one round! Please wait for auto refresh after 5s.</p>')
-                        .css({'left': width/2-240 + "px", 'top': height/2 + "px"});
+                    $('div.map').append('<p class="stopReminder"> You can not have more than 3 country in one round! Please wait for auto refresh after 5s.</p>');
+                    $('p.stopReminder').css({'left': (window.innerWidth)/2 + "px", 'top': height/2 + "px"});
+                    
+                    self.setInterval(function(){
+                        window.location.replace(location.href);
+                    },5000); // Reload page
                     
                 }
                 
@@ -819,7 +823,7 @@ function wrap(text, width) {
                             if(width<50){
                                 return ++lineNumber * lineHeight + "em";
                             }else{
-                                return (++lineNumber * lineHeight - 17)+ "em";
+                                return (++lineNumber * lineHeight - 19)+ "em";
                             }
                         })
                         .text(word);
