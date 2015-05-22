@@ -101,7 +101,7 @@ div.content #d3Sunburst{
 }
 div.map{
     max-width: 1000px;
-    max-height: 1200px;
+    max-height: 900px;
     margin: auto;
 }
 svg{
@@ -128,7 +128,7 @@ div.map form {
     display: none; 
 }
 text{ 
-    font-size: 1em; 
+    font-size: 1.1em; 
 }
 
 
@@ -149,7 +149,7 @@ tspan{
     fill: white;
 }
 text.explainTop tspan{
-	font-size: 20px;
+	font-size: 22px;
 }
 
 /* Progress Bar */
@@ -181,10 +181,12 @@ div.map p.stopReminder{
 
 div.sideExp{
 	position: fixed;
-	top: 300px;
-	margin: 30px;
-	width: 170;
-	color: #fff;
+	top: 100px;
+	left: 40px;
+	width: 200;
 	text-align: right;
+	font-size: 1.2em;
 }
+div.sideExp .card-panel{
+	margin: 0;
 }

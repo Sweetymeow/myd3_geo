@@ -19,7 +19,7 @@ var svgImgs = new Array();
 var pathDelay = 400,
 	textDelay = 500,
 	pathDura = 500,
-    reloadSec = 6;
+    reloadSec = 2;
 // D3: Global SVG Sunbrust
 var globalsvg;
 var noReminder = true;
@@ -66,9 +66,13 @@ $(function(){
     $('div#reader').html5_qrcode(function(data){
 		// 在reader标签实现读取QR数据
 		$('div#read').html(data);
-		$('div.sideExp').text("Now, you can pick up another bucket.");
-
-
+		$('p.sideExp').text("Now, you can pick up another bucket.");
+		if(svgImgs.length < 2){
+			$('p.sideExp').text("Now, you can pick up another bucket. (Auto-reload each 2 min)");
+		}else if(svgImgs.length == 2){
+			$('p.sideExp').text("You can't compare more than 3 country, but drop next one to restart new round");
+		}
+		
 		if(data === "reload"){
 			window.location.replace(location.href);
 		}else if(data === "Moreinfo"){
@@ -136,6 +140,7 @@ $(function(){
 				stackedRadial(svgImgs.length); 
 
 				nextindex++; 
+			
 				console.log("QR Data: " + data);
 				console.log("$$$ Other QR Country: " + qrread_data.country + "; and year: " + qrread_data.year);
 			}else if(!sameCountry && svgImgs.length === 3 && noReminder){
@@ -223,7 +228,7 @@ function stackedRadial(index){
 
     var area = d3.svg.area.radial()
         .interpolate("cardinal-closed")
-        .angle(function(d) { return angle(d.time); })
+        .angle(function(d) { console.log(angle(d.time)); return Math.PI-angle(d.time); })
         .innerRadius(function(d) { return radius(d.y0); })
         //.outerRadius(function(d) { return radius(d.y0); });
         .outerRadius(function(d) { return radius(d.y0 + d.y); });
@@ -260,7 +265,8 @@ function stackedRadial(index){
         
         // Extend the domain slightly to match the range of [0, 2π].
         angle.domain([0, d3.max(data, function(d) { return d.time + 1; })]);
-        radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+        //radius.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
+        radius.domain([0, d3.max(data, function(d) { return 5; })]);
 
         var countries = svg.append("g")
             .attr("class", "country" + index);
@@ -307,7 +313,7 @@ function stackedRadial(index){
             .attr("class", "axis")
             .attr("fill", "white")
             .attr("transform", function(d) {
-				return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
+				return "rotate(" +(180  - angle(d) * 180 / Math.PI) + ")"; 
             })
             .call(d3.svg.axis()
                 .scale(radius.copy().range([-innerRadius, -outerRadius]))
@@ -315,16 +321,23 @@ function stackedRadial(index){
             );
             
         axistext.append("text")
+            .attr("class", "subsec")
             .attr("y", -innerRadius + 6)
             .attr("dy", "-16em")
             .attr("text-anchor", "middle")
-			.attr("transform", function(i) {
-					console.log(i);
-					//return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
-					return "rotate(" + 0 + ")"; 
-			})
             .text(function(d) { return formatDay(d); })
             .call(wrap, 60);
+		
+		axistext.selectAll("text.subsec")
+			.each(function(){
+			d3.select(this).attr("transform", function(i) {
+				//return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
+				if(i <= 7)
+					return "rotate(" + 0 + " 0,-400)"; 
+				else if(i > 7)
+					return "rotate(" + (0 - 180) + " 0,-400)";
+			});
+		});
         
 //        axistext.transition()
 //            .duration(1500)
@@ -832,7 +845,7 @@ function wrap(text, width) {
                             if(width<50){
                                 return ++lineNumber * lineHeight + "em";
                             }else{
-                                return (++lineNumber * lineHeight - 19)+ "em";
+                                return (++lineNumber * lineHeight - 17)+ "em";
                             }
                         })
                         .text(word);
