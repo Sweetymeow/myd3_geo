@@ -101,7 +101,8 @@ div.content #d3Sunburst{
 }
 div.map{
     max-width: 1000px;
-    max-height: 900px;
+    max-height: 960px;
+    max-height: 960px;
     margin: auto;
 }
 svg{
@@ -189,4 +190,7 @@ div.sideExp{
 }
 div.sideExp .card-panel{
 	margin: 0;
+}
+p.sideExp, span.sideExp{
+    font-size: 20px;
 }

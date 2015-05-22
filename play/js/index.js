@@ -32,8 +32,9 @@ var explains = [["The project is visualize data  to present gender-based gaps  i
 ];
 
 $('.guideImg').hide();
+$('div.progressBar').hide();
 $('div#operate').hide();
-$('div.sideExp').css({'left': window.innerWidth/2 - 300, 'width': 600 +'px'});
+$('div.sideExp').css({'left': window.innerWidth/2 - 300, 'width': 600 +'px', 'top': 200 + 'px', 'text-align': 'center'});
 //$('div.control').hide();
 $('div#restartBtn').hide();
 //////function for QR //////
@@ -69,11 +70,14 @@ $(function(){
 		// 在reader标签实现读取QR数据
 		$('div#read').html(data);
 		$('p.sideExp').text("Now, you can pick up another bucket.");
-		if(svgImgs.length < 2){
-			$('p.sideExp').text("Now, you can pick up another bucket. (Auto-reload each 2 min)");
-		}else if(svgImgs.length == 2){
-			$('p.sideExp').text("You can't compare more than 3 country, but drop next one to restart new round");
+		if(svgImgs.length < 3){
+			$('p.sideExp').text("Now, you can pick up another bucket.");
+			$('span.sideExp').text("(Auto-reload each 2 minutes)");
+		}else if(svgImgs.length >= 3){
+			$('p.sideExp').text("You can't compare more than 3 countries, but drop next one to restart new round");
 		}
+        $('div.sideExp').css({'left': 50 , 'width': 300, 'top': 500, 'text-align': 'right', 'opacity': 0.8});
+        $('div.progressBar').show();
 		
 		if(data === "reload"){
 			window.location.replace(location.href);
@@ -863,13 +867,12 @@ d3.select(self.frameElement).style("height", height + "px");
 // 这个是做什么用的？
 
 /** Toggle guide image **/
-//$('#guide').on("click touchstart", function(){
-//    $('div.guideImg').fadeToggle(1000);
-//    $('div.control').show();
-//});
+$('#guideInfo').on("click touchstart", function(){
+    $('div.guideImg').fadeToggle(1000);
+    $('div.control').show();
+});
 $('#guide').on("click touchstart", function(){
     $('div#operate').fadeToggle(500);
-    $('div.control').show();
 });
 $('a#guideBtn').on("click touchstart", function(){
     $("div.guideImg").fadeOut(1000);
