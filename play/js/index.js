@@ -32,6 +32,8 @@ var explains = [["The project is visualize data  to present gender-based gaps  i
 ];
 
 $('.guideImg').hide();
+$('div#operate').hide();
+$('div.sideExp').css({'left': window.innerWidth/2 - 300, 'width': 600 +'px'});
 //$('div.control').hide();
 $('div#restartBtn').hide();
 //////function for QR //////
@@ -861,8 +863,12 @@ d3.select(self.frameElement).style("height", height + "px");
 // 这个是做什么用的？
 
 /** Toggle guide image **/
+//$('#guide').on("click touchstart", function(){
+//    $('div.guideImg').fadeToggle(1000);
+//    $('div.control').show();
+//});
 $('#guide').on("click touchstart", function(){
-    $('div.guideImg').fadeToggle(1000);
+    $('div#operate').fadeToggle(500);
     $('div.control').show();
 });
 $('a#guideBtn').on("click touchstart", function(){
