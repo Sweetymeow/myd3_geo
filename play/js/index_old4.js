@@ -306,23 +306,18 @@ function stackedRadial(index){
             .enter().append("g")
             .attr("class", "axis")
             .attr("fill", "white")
-            .attr("transform", function(d) {
-				return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
+            .attr("transform", function(d) { 
+                return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
             })
             .call(d3.svg.axis()
                 .scale(radius.copy().range([-innerRadius, -outerRadius]))
                 .orient("left")
-            );
+            ); // 
             
         axistext.append("text")
             .attr("y", -innerRadius + 6)
             .attr("dy", "-16em")
             .attr("text-anchor", "middle")
-			.attr("transform", function(i) {
-					console.log(i);
-					//return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
-					return "rotate(" + 0 + ")"; 
-			})
             .text(function(d) { return formatDay(d); })
             .call(wrap, 60);
         

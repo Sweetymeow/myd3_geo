@@ -172,9 +172,19 @@ div.map p.stopReminder{
     position: absolute;
     left: 200px;
     top: 340px;
-    width: 240px;
+    width: 200px;
     color: #fff;
     font-size: 20px;
     line-height: 20px;
     margin: 0;
+}
+
+div.sideExp{
+	position: fixed;
+	top: 300px;
+	margin: 30px;
+	width: 170;
+	color: #fff;
+	text-align: right;
+}
 }
