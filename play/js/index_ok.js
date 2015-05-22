@@ -23,7 +23,6 @@ var pathDelay = 400,
 // D3: Global SVG Sunbrust
 var globalsvg;
 var noReminder = true;
-var highlightColor = "#b2ff59";
 
 var explains = [["The project is visualize data  to present gender-based gaps  in access to resources and opportunities  in countries rather than the  actual levels of the available resources  and opportunities in those  countries."],
                 ["Through the Global Gender Gap  rank and scores in 2006, 2010 and 2014,  the data quantifies the magnitude  of gender-based disparities and  tracks their progress over time."], 
@@ -72,7 +71,7 @@ $(function(){
 		$('div#read').html(data);
 		$('p.sideExp').text("Now, you can pick up another bucket.");
 		if(svgImgs.length < 3){
-			$('p.sideExp').text("Now, you can pick up another bucket. Green layer represent the year which you choose of this country");
+			$('p.sideExp').text("Now, you can pick up another bucket.");
 			$('span.sideExp').text("(Auto-reload each 2 minutes)");
 		}else if(svgImgs.length >= 3){
 			$('p.sideExp').text("You can't compare more than 3 countries, but drop next one to restart new round");
@@ -235,7 +234,7 @@ function stackedRadial(index){
 
     var area = d3.svg.area.radial()
         .interpolate("cardinal-closed")
-        .angle(function(d) { return Math.PI-angle(d.time); })
+        .angle(function(d) { console.log(angle(d.time)); return Math.PI-angle(d.time); })
         .innerRadius(function(d) { return radius(d.y0); })
         //.outerRadius(function(d) { return radius(d.y0); });
         .outerRadius(function(d) { return radius(d.y0 + d.y); });
@@ -254,12 +253,12 @@ function stackedRadial(index){
             .attr("width", width)
             .attr("height", height + barHeight)
             .append("g")
-            .attr("id","country" + index)
+            .attr("class","country" + index)
             .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
     }else{
         var svg = d3.select("svg.StackedRadial")
             .append("g")
-            .attr("id","country" + index)
+            .attr("class","country" + index)
             .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
     }
     
@@ -276,7 +275,7 @@ function stackedRadial(index){
         radius.domain([0, d3.max(data, function(d) { return 5; })]);
 
         var countries = svg.append("g")
-            .attr("class","dataChart");
+            .attr("class", "country" + index);
         
         var layers = countries.selectAll(".layer")
             .data(layers)
@@ -284,9 +283,6 @@ function stackedRadial(index){
         
         layers.append("path")
             .attr("class", "layer")
-            .attr("id", function(d){
-                return "y" + d.key;
-            })
             .attr("d", function(d) { return area(0); })
             .style("fill", function(d, i) { 
                 return color(i + (index-1)*3); 
@@ -305,6 +301,7 @@ function stackedRadial(index){
         svg.selectAll(".layer").transition()
             .delay(function(d,i){ return i*1000; })
             .duration(2000)
+            //.attrTween("d", shapeTween(fillArea, 1));
             .attr("d", function(d) { return area(d.values); })
             .style("opacity", function(){
                 return 1-index/10;
@@ -340,13 +337,36 @@ function stackedRadial(index){
 		axistext.selectAll("text.subsec")
 			.each(function(){
 			d3.select(this).attr("transform", function(i) {
+				//return "rotate(" + angle(d) * 180 / Math.PI + ")"; 
 				if(i <= 7)
 					return "rotate(" + 0 + " 0,-400)"; 
 				else if(i > 7)
 					return "rotate(" + (0 - 180) + " 0,-400)";
 			});
-		}); 
+		});
         
+//        axistext.transition()
+//            .duration(1500)
+//            .attr("transform",function(d,i){
+//            console.log(d);
+//            //第一个元素（最中间的），只平移不旋转
+//            if( i == 0 )
+//                return "translate(" + arc.centroid(d) + ")";
+//
+//            //其他的元素，既平移也旋转
+//            var r = 0;
+//            if( -(d.x+d.dx/2)/Math.PI*180 > -1*180 )  // 0 - 180 度以内的
+//                r = 180 * (-(d.x + d.dx / 2 - Math.PI / 2) / Math.PI);
+//            else if(-(d.x+d.dx/2) == - 1/2)
+//                r = 0;
+//            else  // 180 - 360 度以内的d
+//                r = - 180 * ((d.x + d.dx / 2 + Math.PI / 2) / Math.PI);
+//            //既平移也旋转
+//            //console.log(arc.centroid(d));
+//            return  "translate(" + arc.centroid(d) + ")" +
+//                    "rotate(" + r + ")";
+//            })
+//            .attr("opacity", 0.9);
         if(index > 1){
             d3.selectAll("g.centerText text.countryName")
                 .each(function(d,i){
@@ -357,7 +377,8 @@ function stackedRadial(index){
                         .style("fill", function(){
 							return color((i+1)*3-1);
 						});
-                }); // move country name 
+                });
+            
         } // resize center text size
         
         var textCenter = svg.append("g")
@@ -402,35 +423,29 @@ function stackedRadial(index){
                     .attr("opacity",1);
         }
         
-        svg.selectAll("g.dataChart path#y"+qrread_data.year)
-            .style("fill", function(d) { 
-                console.log(d);
-                return highlightColor;
-        });
-        
         // 这一部分不起作用，是不是因为找不到class?
-//        svg.selectAll("g.dataChart path.layer")
-//        .on("mouseover", function(data,i){
-//            console.log(data);
-//            var m = d3.mouse(this);
-//
-//            svg.selectAll(".layer").transition()
-//                          .duration(250)
-//                          .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
-//
-//            d3.select('#tooptip')
-//                .style('left', m[0]+'px')
-//                .style('top', m[1]+'px')
-//                .select('#year')
-//                .text(data.key)
-//                .classed('hidden', false);
-//        })
-//        .on("mouseout", function(){
-//            d3.select('#tooptip').classed('hidden', true);
-//            svg.selectAll(".layer").transition()
-//                          .duration(250)
-//                          .attr("opacity", 1);
-//        });
+        svg.selectAll("path.layer")
+        .on("mouseover", function(data,i){
+            console.log(data);
+            var m = d3.mouse(this);
+
+            svg.selectAll(".layer").transition()
+                          .duration(250)
+                          .attr("opacity", function(d, j) { return j != i ? 0.2 : 1;  });
+
+            d3.select('#tooptip')
+                .style('left', m[0]+'px')
+                .style('top', m[1]+'px')
+                .select('#year')
+                .text(data.key)
+                .classed('hidden', false);
+        })
+        .on("mouseout", function(){
+            d3.select('#tooptip').classed('hidden', true);
+            svg.selectAll(".layer").transition()
+                          .duration(250)
+                          .attr("opacity", 1);
+        });
     }); // d3.csv
 
     function type(d) {
