@@ -402,11 +402,11 @@ function stackedRadial(index){
                     .attr("opacity",1);
         }
         
-        svg.selectAll("g.dataChart path#y"+qrread_data.year)
-            .style("fill", function(d) { 
-                console.log(d);
-                return highlightColor;
-        });
+//        svg.selectAll("g.dataChart path#y"+qrread_data.year)
+//            .style("fill", function(d) { 
+//                console.log(d);
+//                return highlightColor;
+//        });
         
         // 这一部分不起作用，是不是因为找不到class?
 //        svg.selectAll("g.dataChart path.layer")
